@@ -1,0 +1,42 @@
+---
+
+config:
+    layout: elk
+---
+
+flowchart TD
+    subgraph logging
+        WallboxLog
+        LogScan
+        TransactionLog
+        MVLine
+    end
+    subgraph transactions
+        Transaction
+        Customer
+        TagAssignment
+        PriceAssignment
+    end
+    subgraph bills
+        CustomerBill
+        TransactionBill
+    end
+    WallboxLog 
+    --list--> LogScan 
+    --list--> TransactionLog 
+    <--"tagID + start date"--> Transaction
+
+    TransactionLog --list-->MVLine
+
+
+    Transaction <--tagID + start date--> TagAssignment
+    Customer <--customer id--> CustomerBill
+    Customer --"customer id\n(+\ndate)"--> TagAssignment
+    
+    Customer --"customer id + date \n(specific)"--> CustomerBill
+
+    Customer <--"customer id\n(+\ndate)"--> PriceAssignment
+    CustomerBill --> TransactionBill
+    PriceAssignment <--customer id--> CustomerBill
+    Transaction <--transactionID--> TransactionBill
+    Transaction --"TagAssignment.Customer(tagID, start date)"--> Customer 

@@ -1,0 +1,40 @@
+From whole file
+
+device line : 
+\# Device,.*
+=> split(',')[1] => wb id
+
+start/stop line: 
+txstart.*
+
+completed ta- blocks:
+txstart.*\n(mv.*\n)*txstop.*
+
+ta-block with no stop: 
+tx.+\n(mv.+\n)*mv.+\z
+
+ta-block with no start:
+(?m)^# Generated[^\r\n]*\r?\n((?:mv:[^\r\n]*\r?\n)*txstop2:[^\r\n]*$)
+
+blocks of mvs:
+(mv.*)(\nmv.*)*
+
+From block
+
+timestamp:
+(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})
+First match: earliest, last match: latest
+Groups:
+0=>year
+1=>day
+2=>month
+3=>hours
+etc
+
+power level:
+\d+\.\d+
+
+
+tag ids:
+kWh ([[:alnum:]]+)
+(Group 1)

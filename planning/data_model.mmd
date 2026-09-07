@@ -1,0 +1,121 @@
+---
+title: Datenbank
+config:
+    layout: elk
+---
+
+erDiagram
+    direction LR
+    
+    WALLBOX_LOG ||--o{ LOG_SCAN: "consits of"
+    LOG_SCAN ||--o{ MV : "contains"
+    LOG_SCAN ||--o{ TA_LOG: ""
+
+    TA_LOG ||--|| TRANSACTION: "converts to if complete"
+    %% TRANSACTION ||--|| TAG_ASSIGNMENT: ""
+    TAG_ASSIGNMENT ||--o| TAG:"assigns"
+
+    CUSTOMER ||--o{ USER: "distribute tags"
+    CUSTOMER ||--O{ CUSTOMER_PRICE: "pays per kWh"
+
+    TAG_ASSIGNMENT ||--|| CUSTOMER:"Zuordnung durch Betreiber"
+    TAG_ASSIGNMENT ||--o| USER: "Zuordnung durch Kunden"
+
+    PERSONAL_DATA ||--|| CUSTOMER : "defines"
+    COMPANY_DATA ||--|| CUSTOMER : "defines"
+
+    PERSONAL_DATA ||--|| USER : "defines"
+    VEHICLE_DATA ||--|| USER : "defines"
+   
+
+    WALLBOX_LOG{
+        String wallbox_id PK
+        String(20)? name 
+
+    }
+    LOG_SCAN{
+        int id PK "AUTO INC"
+        String wallbox_id FK
+        int generationDate
+    }
+
+    MV{
+        int scan_id PK, FK "=> LOG_SCAN"
+        int timestamp PK
+        int powerlevel
+    }
+
+    TA_LOG{
+        int ransaction_id PK "AI"
+        String tagID
+        int scan_id FK "=> LOG_SCAN"
+        int? startDate
+        int? stopDate
+
+        bool gotMatched
+
+    }
+
+    TRANSACTION{
+        String tagID PK
+        String wb_id FK
+        int start_date "=> used to match tag assignment"
+        int stop_date 
+        int power_usage
+    }
+    
+    TAG_ASSIGNMENT{
+        String tagID PK,FK
+        int date_from PK
+        int? date_to "null => until today"
+        int customer_id FK
+        int? user_id FK
+    }
+
+    
+    CUSTOMER{
+        String id PK  "uuid"
+        String companyName
+
+        String prename
+        String surname
+        etc pp
+    }
+
+    CUSTOMER_PRICE{
+        String customer_id
+        int price "centicents"
+        int date_from
+        int? date_to
+    }
+
+    USER{
+        String id PK
+        String K_id FK
+        String prename
+        String surname
+
+        String vehicle
+        String licencePlate
+    }
+    TAG {
+        String tagID PK
+    }
+
+    COMPANY_DATA{
+        String customer_id PK, FK
+        String company_name
+        String street 
+        etc pp
+    }
+    PERSONAL_DATA{
+        int id PK "AI"
+        String? customer_id FK
+        String? user_id FK
+    }
+    VEHICLE_DATA{
+        int id PK, FK
+        String user_id FK
+    }
+
+%% classDef default fill:#f9f,stroke-width:4px

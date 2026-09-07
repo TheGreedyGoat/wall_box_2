@@ -1,0 +1,33 @@
+flowchart
+    direction LR
+    subgraph parse log files
+    direction TB
+        readLog@{shape : docs, label: "files.csv"}
+        transactionlogs[/transaction logs/]
+        tryTA{complete\nor mergable}
+        deviceID[/device ID/]
+        genDate[/generation date/]
+        logScan[/Log Scan/]
+        combine
+        displayTA(display new \n transactions)
+        subgraph results
+            wbLog[/Wallbox Log/]
+            transactions[/Transactions/]
+        end
+
+        readLog --Parse--> transactionlogs
+        readLog --Parse--> deviceID
+        readLog --Parse--> genDate
+
+        transactionlogs --create & insert--> logScan
+        transactionlogs --> tryTA --extract---> transactions
+        logScan --> combine
+        deviceID --> combine
+        genDate --> combine
+
+        combine --create/ find & insert--> wbLog
+        results --> displayTA
+
+        style results fill: #4e928f
+    end
+    

@@ -1,0 +1,191 @@
+---
+config:
+    layout: elk
+    securityLevel: 'loose'
+---
+classDiagram
+    direction TB
+    %% class Wallbox{
+    %%     String id;
+    %%     String name;
+    %% }
+
+    namespace HelperClasses{
+        class Interval<<extDuration>>{
+
+        }
+        namespace Einheiten{
+            class Unit{
+            <<abstract>>
+                get value : int
+                String symbol
+
+            }
+            class Euro{
+                int centicents
+                ...
+            }
+            class KiloWattHour{
+                int wattHours
+                ...
+            }
+        }
+    
+    }
+    namespace log{
+        class Log{
+            String wallbox_id
+            LogScan [] scans
+        }
+
+        class LogScan{
+            String wb_id
+            DateTime generationDate
+            int logID
+            TransactionLog[] transactionLogs
+        }
+
+        class TransactionLog{
+            int id;
+            String tagID;
+            int wb_id
+            
+            DateTime? start;
+            DateTime? stop;
+
+            Interim[] interims
+
+            toTransaction() Transaction?
+            tryMerge(LogEntry other) LogEntry?
+        }
+
+        class Interim{
+            int taLogID PK FK
+            DateTime timestamp PK
+            int powerlevel
+        }
+        note for Log  "Enthält alle bisherigen Logscans einer Wallbox"
+        note for LogScan  "Entspricht einer einzelnen eingelesenen Log-Datei"
+        note for TransactionLog  "Log einer einzelnen Transaktion\nhasStart  bzw hasEnd"
+    }
+    
+    class Transaction{
+        String id
+        String tagID;
+        Wallbox wb;
+        DateTime start;
+        DateTime end;
+
+        KiloWattHours powerUsage;
+
+        getTagAssignment() TagAssignment?
+    }
+
+    class TagAssignment{
+        String tagID
+        String? tagName
+        DateTime from
+        DateTime? to
+        int customerID
+        int? userID
+
+        getCustomer(String tagID, DateTime timestamp) Customer?
+    }
+    class PriceAssignment{
+        int customerID
+        Euro unitPrice
+        DateTime from
+        DateTime? to
+    }
+    class Customer{
+        int id
+        CompanyData? company;
+        PersonalData? personal
+
+        getPriceAtTime (DateTime date) Euro
+        getTransactions(DateTime from, DateTime to) Transaction[]
+    }
+
+    class User{
+        PersonalData? personal
+        VehicleData? vehicle
+    }
+
+    
+
+    namespace Stammdaten{
+
+    class CompanyData{
+        String id
+        String companyName
+        String street
+        String postcode
+        String city
+        ...
+    }
+
+    class PersonalData{
+        String prename
+        String surname
+        String street
+        String postcode
+        String city
+        String phone
+        ...
+    }
+
+    class VehicleData{
+        int id
+        String type
+        String color
+        String licencePlate
+        ...
+    }
+    }
+    
+    namespace bills{
+        class CustomerBill{
+            String customerID
+            DateTime from
+            DateTime to
+
+            TransactionBill[] transactionBills
+
+            getSumBeforeTax() Euro
+        }
+        class TransactionBill{
+            String transactionID
+            Euro price
+        }
+    }
+
+    Log *-- LogScan
+    LogScan *-- TransactionLog
+    TransactionLog --> Transaction
+    TransactionLog o-- Interim
+
+    Transaction -- TagAssignment
+
+    TagAssignment o-- Customer
+    TagAssignment o.. User
+    
+    Customer o.. User
+
+    Unit --|> KiloWattHour
+    Unit --|> Euro
+    User *.. PersonalData
+    User *.. VehicleData
+    
+    Customer "1"*.."n" PersonalData
+    Customer "1"*.."n" CompanyData
+    Customer "1" *-- "n"PriceAssignment
+
+    note for Customer "erhält Tags & Rechnungen"
+    note for User "Für Optionale genauere Zuordnung von Tags\n (ausgehend vom Kunden)"
+
+    note for TagAssignment "wem ist tag x zum Zeitpunkt y zugeordnet?"
+    note for PriceAssignment "welchen Preis hat ein Kunde zu Zeitpunkt x?"
+
+    CustomerBill "0,n"<--"1" Customer : pays
+    CustomerBill "0,1"*--"1,n" TransactionBill : made up by
+

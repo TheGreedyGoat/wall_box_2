@@ -1,0 +1,37 @@
+flowchart
+direction LR
+subgraph Bills By Customer
+    direction TB
+    subgraph input/choice
+        Customer[/Customer/]
+        from[/date from/]
+        to[/date to/]
+    end
+    filter[\Filter/]
+    transactions[/open\nTransactions/]
+    prices[/Price Assignments/]
+    transactionBill[/Transaction\nPrices/]
+
+    filter1[\price from\n <=\n TA-start\n <=\n price to/]
+    CustomerBill
+
+
+    Customer --"aktueller Preis"--> prices
+    Customer --match id--> tags[/Tag Assignments/]
+    tags --match tag ID--> filter
+    from --after or all before too--> filter
+    to --default: now--> filter
+
+    filter --> transactions
+
+    prices & transactions --> filter1
+    
+    filter1 --> transactionBill
+
+    transactionBill --put together,\nsort by uder or tagID--> CustomerBill
+
+    
+    style from stroke-dasharray: 3 10 
+    style to stroke-dasharray: 3 10 
+    linkStyle 2,3 stroke-dasharray: 2 10 
+end
