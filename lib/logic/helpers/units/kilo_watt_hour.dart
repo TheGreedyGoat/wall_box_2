@@ -27,7 +27,9 @@ class KiloWattHour extends Unit {
       '${kWh.toStringAsFixed(precision)} $symbol';
 }
 
+/// JSPN Converter for [KiloWattHour]
 class KiloWattHourConverter implements UnitConverter<KiloWattHour> {
+  /// JSPN Converter for [KiloWattHour]
   const KiloWattHourConverter();
   @override
   KiloWattHour fromJson(int value) => KiloWattHour(wattHours: value);

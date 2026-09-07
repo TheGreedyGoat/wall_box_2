@@ -5,11 +5,6 @@ config:
 ---
 classDiagram
     direction TB
-    %% class Wallbox{
-    %%     String id;
-    %%     String name;
-    %% }
-
     namespace HelperClasses{
         class Interval<<extDuration>>{
 
@@ -54,6 +49,8 @@ classDiagram
             DateTime? stop;
 
             Interim[] interims
+            KiloWattHour? startPowerLevel;
+            KiloWattHour? stopPowerLevel;
 
             toTransaction() Transaction?
             tryMerge(LogEntry other) LogEntry?

@@ -8,12 +8,14 @@ environment:
 
 dependencies:
   build_runner: ^2.15.1
+  file_picker: ^12.2.0
   flutter:
     sdk: flutter
   freezed: ^3.2.5
   freezed_annotation: ^3.1.0
   json_annotation: ^4.12.0
   json_serializable: ^6.14.1
+  uuid: ^4.6.0
 
 dev_dependencies:
   flutter_test:

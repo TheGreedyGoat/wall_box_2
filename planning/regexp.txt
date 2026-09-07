@@ -1,8 +1,8 @@
 From whole file
 
 device line : 
-\# Device,.*
-=> split(',')[1] => wb id
+\# Device, *(.*)
+=> id = Group 1
 
 start/stop line: 
 txstart.*
@@ -15,6 +15,8 @@ tx.+\n(mv.+\n)*mv.+\z
 
 ta-block with no start:
 (?m)^# Generated[^\r\n]*\r?\n((?:mv:[^\r\n]*\r?\n)*txstop2:[^\r\n]*$)
+=> Group 1
+
 
 blocks of mvs:
 (mv.*)(\nmv.*)*
