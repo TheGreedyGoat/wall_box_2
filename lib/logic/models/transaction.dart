@@ -19,7 +19,7 @@ class Transaction with _$Transaction {
 
   @override
   /// The Wallbox Device ID
-  final String wallboxID;
+  final String deviceID;
 
   @override
   /// The start time of the transaction
@@ -40,7 +40,7 @@ class Transaction with _$Transaction {
   const Transaction({
     required this.id,
     required this.tagID,
-    required this.wallboxID,
+    required this.deviceID,
     required this.start,
     required this.stop,
     @KiloWattHourConverter() @JsonKey(name: 'usage') required this.usage,

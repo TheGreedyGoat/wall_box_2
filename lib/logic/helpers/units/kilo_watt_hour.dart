@@ -4,7 +4,7 @@ import 'package:wall_box_2/logic/helpers/units/unit.dart';
 part 'kilo_watt_hour.g.dart';
 
 @JsonSerializable(converters: [KiloWattHourConverter()])
-/// Describes
+/// Describes an amount of Power. Stores it's values in [wattHours]
 class KiloWattHour extends Unit {
   /// The value in wattHours
   final int wattHours;
@@ -13,7 +13,7 @@ class KiloWattHour extends Unit {
   @override
   String get symbol => 'kWh';
 
-  /// Describes
+  /// Describes an amount of Power. Stores it's values in [wattHours]
   const KiloWattHour({required this.wattHours});
 
   /// converts [wattHours] to kWh
@@ -25,9 +25,21 @@ class KiloWattHour extends Unit {
   @override
   String toStringAsFixed(int precision) =>
       '${kWh.toStringAsFixed(precision)} $symbol';
+
+  ///
+  KiloWattHour operator +(KiloWattHour other) {
+    return KiloWattHour(wattHours: wattHours + other.wattHours);
+  }
+
+  ///
+  KiloWattHour operator -(KiloWattHour other) {
+    return KiloWattHour(wattHours: wattHours - other.wattHours);
+  }
 }
 
+/// JSPN Converter for [KiloWattHour]
 class KiloWattHourConverter implements UnitConverter<KiloWattHour> {
+  /// JSPN Converter for [KiloWattHour]
   const KiloWattHourConverter();
   @override
   KiloWattHour fromJson(int value) => KiloWattHour(wattHours: value);

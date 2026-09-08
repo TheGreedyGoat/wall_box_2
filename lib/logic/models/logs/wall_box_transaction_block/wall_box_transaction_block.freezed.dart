@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'transaction.dart';
+part of 'wall_box_transaction_block.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -11,41 +11,38 @@ part of 'transaction.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
-/// @nodoc
-mixin _$Transaction {
 
- String get id; String get tagID; String get deviceID; DateTime get start; DateTime get stop; KiloWattHour get usage;
-/// Create a copy of Transaction
+/// @nodoc
+mixin _$WallBoxTransactionBlock {
+
+ MainLine? get start; List<MVLine> get mvLines; set mvLines(List<MVLine> value); MainLine? get stop; String get deviceID;
+/// Create a copy of WallBoxTransactionBlock
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$TransactionCopyWith<Transaction> get copyWith => _$TransactionCopyWithImpl<Transaction>(this as Transaction, _$identity);
+$WallBoxTransactionBlockCopyWith<WallBoxTransactionBlock> get copyWith => _$WallBoxTransactionBlockCopyWithImpl<WallBoxTransactionBlock>(this as WallBoxTransactionBlock, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Transaction&&(identical(other.id, id) || other.id == id)&&(identical(other.tagID, tagID) || other.tagID == tagID)&&(identical(other.deviceID, deviceID) || other.deviceID == deviceID)&&(identical(other.start, start) || other.start == start)&&(identical(other.stop, stop) || other.stop == stop)&&(identical(other.usage, usage) || other.usage == usage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WallBoxTransactionBlock&&(identical(other.start, start) || other.start == start)&&const DeepCollectionEquality().equals(other.mvLines, mvLines)&&(identical(other.stop, stop) || other.stop == stop)&&(identical(other.deviceID, deviceID) || other.deviceID == deviceID));
 }
 
-
+@JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,tagID,deviceID,start,stop,usage);
+int get hashCode => Object.hash(runtimeType,start,const DeepCollectionEquality().hash(mvLines),stop,deviceID);
 
-@override
-String toString() {
-  return 'Transaction(id: $id, tagID: $tagID, wallboxID: $deviceID, start: $start, stop: $stop, usage: $usage)';
-}
 
 
 }
 
 /// @nodoc
-abstract mixin class $TransactionCopyWith<$Res>  {
-  factory $TransactionCopyWith(Transaction value, $Res Function(Transaction) _then) = _$TransactionCopyWithImpl;
+abstract mixin class $WallBoxTransactionBlockCopyWith<$Res>  {
+  factory $WallBoxTransactionBlockCopyWith(WallBoxTransactionBlock value, $Res Function(WallBoxTransactionBlock) _then) = _$WallBoxTransactionBlockCopyWithImpl;
 @useResult
 $Res call({
- String id, String tagID, String wallboxID, DateTime start, DateTime stop,@KiloWattHourConverter()@JsonKey(name: 'usage') KiloWattHour usage
+ MainLine? start, List<MVLine> mvLines, MainLine? stop, String deviceID
 });
 
 
@@ -53,32 +50,30 @@ $Res call({
 
 }
 /// @nodoc
-class _$TransactionCopyWithImpl<$Res>
-    implements $TransactionCopyWith<$Res> {
-  _$TransactionCopyWithImpl(this._self, this._then);
+class _$WallBoxTransactionBlockCopyWithImpl<$Res>
+    implements $WallBoxTransactionBlockCopyWith<$Res> {
+  _$WallBoxTransactionBlockCopyWithImpl(this._self, this._then);
 
-  final Transaction _self;
-  final $Res Function(Transaction) _then;
+  final WallBoxTransactionBlock _self;
+  final $Res Function(WallBoxTransactionBlock) _then;
 
-/// Create a copy of Transaction
+/// Create a copy of WallBoxTransactionBlock
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? tagID = null,Object? wallboxID = null,Object? start = null,Object? stop = null,Object? usage = null,}) {
-  return _then(Transaction(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,tagID: null == tagID ? _self.tagID : tagID // ignore: cast_nullable_to_non_nullable
-as String,deviceID: null == wallboxID ? _self.deviceID : wallboxID // ignore: cast_nullable_to_non_nullable
-as String,start: null == start ? _self.start : start // ignore: cast_nullable_to_non_nullable
-as DateTime,stop: null == stop ? _self.stop : stop // ignore: cast_nullable_to_non_nullable
-as DateTime,usage: null == usage ? _self.usage : usage // ignore: cast_nullable_to_non_nullable
-as KiloWattHour,
+@pragma('vm:prefer-inline') @override $Res call({Object? start = freezed,Object? mvLines = null,Object? stop = freezed,Object? deviceID = null,}) {
+  return _then(WallBoxTransactionBlock(
+start: freezed == start ? _self.start : start // ignore: cast_nullable_to_non_nullable
+as MainLine?,mvLines: null == mvLines ? _self.mvLines : mvLines // ignore: cast_nullable_to_non_nullable
+as List<MVLine>,stop: freezed == stop ? _self.stop : stop // ignore: cast_nullable_to_non_nullable
+as MainLine?,deviceID: null == deviceID ? _self.deviceID : deviceID // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 
 }
 
 
-/// Adds pattern-matching-related methods to [Transaction].
-extension TransactionPatterns on Transaction {
+/// Adds pattern-matching-related methods to [WallBoxTransactionBlock].
+extension WallBoxTransactionBlockPatterns on WallBoxTransactionBlock {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
