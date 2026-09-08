@@ -126,33 +126,61 @@ classDiagram
     
 
     namespace Stammdaten{
+        class MasterData::: inProgress{
+            <<abstract>>
+            String id
 
-    class CompanyData :::inProgress{
-        String id
-        String companyName
-        String street
-        String postcode
-        String city
-        ...
-    }
+            validate() String?
+        }
+        namespace HauptStammdaten{
 
-    class PersonalData :::inProgress{
-        String prename
-        String surname
-        String street
-        String postcode
-        String city
-        String phone
-        ...
-    }
+            class CompanyData :::inProgress{
+                String? companyName
+                Adress? adress
+                Contact? contact
+            }
 
-    class VehicleData{
-        int id
-        String type
-        String color
-        String licencePlate
-        ...
-    }
+            class PersonalData :::done{
+                String? prename
+                String? surname
+                Adress? adress
+                Contact? contact 
+            }
+
+            class VehicleData{
+                String? type
+                String? color
+                String? licencePlate
+                ...
+            }
+        }
+        namespace StammdatenBausteine{    
+            class Adress::: done{
+                String? street
+                String? number
+                String? postcode
+                String? city
+                String? country
+            }
+
+            class Contact::: done{
+                Phone? phone
+                Phone? mobile
+
+                Email email
+            }
+
+            class Phone ::: done{
+                String? pre
+                String? number
+            }
+
+            class Email ::: done{
+                String? firstPart
+                String? secondPart
+                String? domain
+            }
+        }
     }
     
     namespace bills{
@@ -207,9 +235,21 @@ classDiagram
     CustomerBill "0,n"<--"1" Customer : pays
     CustomerBill "0,1"*--"1,n" TransactionBill : made up by
 
+
+    PersonalData o-- Adress
+    PersonalData o-- Contact
+
+    Contact o-- Phone
+    Contact o-- Email
+
+    CompanyData o-- Adress
+    CompanyData o-- Contact
+
+
+
     classDef default fill:#A00,stroke:#333,stroke-width:4px;
     classDef inProgress fill:#A50,stroke:#333,stroke-width:4px;
     classDef done fill:#0A0,stroke:#333,stroke-width:4px, color: black;
       
-      
+
       
