@@ -1,12 +1,12 @@
-import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:wall_box_2/logic/parser/wall_box_log.dart';
-import 'package:wall_box_2/logic/parser/wall_box_parser.dart';
+import 'package:wall_box_2/logic/models/logs/wall_box_log.dart';
+import 'package:wall_box_2/logic/services/parser/wall_box_parser.dart';
 import 'package:wall_box_2/ui/dummy/ta_block_display.dart';
 
+/// Test Widget
 class UploadAndParse extends StatefulWidget {
+  /// Test Widget
   const UploadAndParse({super.key});
 
   @override
@@ -50,9 +50,8 @@ class _UploadAndParseState extends State<UploadAndParse> {
   }
 
   void processFile(List<PlatformFile> files) async {
-    final logs = await WallBoxParser.processFilePickerResult(
+    final logs = await WallBoxParser.instance.processFilePickerResult(
       files,
-      (fileName) async {},
       (content, fileName) async {
         return false;
       },

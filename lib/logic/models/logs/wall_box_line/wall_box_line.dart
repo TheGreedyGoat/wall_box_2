@@ -2,7 +2,7 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:wall_box_2/logic/helpers/units/kilo_watt_hour.dart';
-import 'package:wall_box_2/logic/parser/wall_box_log.dart';
+import 'package:wall_box_2/logic/models/logs/wall_box_log.dart';
 part 'wall_box_line.freezed.dart';
 part 'wall_box_line.g.dart';
 
@@ -60,8 +60,6 @@ abstract class WallboxLine {
     ).stringMatch(source);
     final DateTime? timeStamp = DateTime.tryParse(timeStampMatch.toString());
 
-    // assert(timeStamp != null, 'Line $source does not contain a date');
-
     if (timeStamp == null) {
       return null;
     }
@@ -103,14 +101,25 @@ abstract class WallboxLine {
   String toString() =>
       'Type: $type, TimeStamp: $timeStamp, Usage: $powerLevelWh';
 
+  /// Declared by implementing classes
   bool equals(Object other);
 
+  /// returns true, if both lines have the same type, timestamp and powerLevel
   static bool equality(WallboxLine a, WallboxLine b) {
     return a.type == b.type &&
         a.powerLevelWh == b.powerLevelWh &&
         a.timeStamp == b.timeStamp;
   }
 }
+
+// 88b           d88              88
+// 888b         d888              ""
+// 88`8b       d8'88
+// 88 `8b     d8' 88  ,adPPYYba,  88  8b,dPPYba,
+// 88  `8b   d8'  88  ""     `Y8  88  88P'   `"8a
+// 88   `8b d8'   88  ,adPPPPP88  88  88       88
+// 88    `888'    88  88,    ,88  88  88       88
+// 88     `8'     88  `"8bbdP"Y8  88  88       88
 
 @freezed
 @JsonSerializable(converters: [KiloWattHourConverter()])
@@ -183,6 +192,15 @@ class MainLine extends WallboxLine with _$MainLine {
       isStart == other.isStart &&
       tagID == other.tagID;
 }
+
+// 88b           d88  8b           d8
+// 888b         d888  `8b         d8'
+// 88`8b       d8'88   `8b       d8'
+// 88 `8b     d8' 88    `8b     d8'
+// 88  `8b   d8'  88     `8b   d8'
+// 88   `8b d8'   88      `8b d8'
+// 88    `888'    88       `888'
+// 88     `8'     88        `8'
 
 /// Represents an 'mv'- line: Log lines in between a start and stop that show an interim status.
 ///

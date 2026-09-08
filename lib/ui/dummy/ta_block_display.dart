@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:wall_box_2/logic/parser/wall_box_log.dart';
-import 'package:wall_box_2/logic/parser/wall_box_transaction_block/wall_box_transaction_block.dart';
+import 'package:wall_box_2/logic/models/logs/wall_box_transaction_block/wall_box_transaction_block.dart';
 
+/// Test Widget. Displays a transaction block ina condensed way
 class TaBlockDisplay extends StatefulWidget {
+  /// The Transaction block to display
   final WallBoxTransactionBlock block;
+
+  /// Test Widget. Displays a transaction block ina condensed way
   const TaBlockDisplay({super.key, required this.block});
 
   @override

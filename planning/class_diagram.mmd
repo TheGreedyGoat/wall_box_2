@@ -1,4 +1,5 @@
 ---
+
 config:
     layout: elk
     securityLevel: 'loose'
@@ -6,72 +7,86 @@ config:
 classDiagram
     direction TB
     namespace HelperClasses{
-        class Interval<<extDuration>>{
+        class Interval :::done{
 
         }
         namespace Einheiten{
-            class Unit{
+            class Unit :::done{
             <<abstract>>
                 get value : int
                 String symbol
 
             }
-            class Euro{
+            class Euro :::done{
                 int centicents
                 ...
             }
-            class KiloWattHour{
+            class KiloWattHour :::done{
                 int wattHours
                 ...
             }
         }
     
     }
-    namespace log{
-        class Log{
-            String wallbox_id
-            LogScan [] scans
-        }
+    namespace log {
 
-        class LogScan{
-            String wb_id
-            DateTime generationDate
+        class WallBoxLog ::: done{
+            String head;
+
+            String get deviceID
+            DateTime get generationDate
+
             int logID
             TransactionLog[] transactionLogs
+
+            static fromSource() Future<WallBoxLog?>
         }
 
-        class TransactionLog{
-            int id;
-            String tagID;
-            int wb_id
+        class WallBoxTransactionBlock ::: done{
+            String id;
+            String deviceID
             
-            DateTime? start;
-            DateTime? stop;
+            String? get tagID;
+            List~MVLine~ mvLines;
 
-            Interim[] interims
-            KiloWattHour? startPowerLevel;
-            KiloWattHour? stopPowerLevel;
+            MainLine? start
+            MainLine? stop
 
-            toTransaction() Transaction?
-            tryMerge(LogEntry other) LogEntry?
+            toTransaction() Transaction? TODO
         }
 
-        class Interim{
-            int taLogID PK FK
-            DateTime timestamp PK
-            int powerlevel
+        class WallBoxLine ::: done {
+         <<abstract>>
+            DateTime timeStamp
+            KiloWattHour powerLevelWh
+
+            LineType get type
+
+            tryParse(String source) WallBoxLine?
         }
-        note for Log  "Enthält alle bisherigen Logscans einer Wallbox"
-        note for LogScan  "Entspricht einer einzelnen eingelesenen Log-Datei"
-        note for TransactionLog  "Log einer einzelnen Transaktion\nhasStart  bzw hasEnd"
+
+        class MainLine ::: done {
+            String tagID
+            bool isStart
+
+        }
+
+        class MVLine ::: done 
+
+
+        note for WallBoxLog  "Entspricht einer einzelnen eingelesenen Log-Datei"
+        note for WallBoxTransactionBlock  "Log einer einzelnen Transaktion\nhasStart  bzw hasEnd"
     }
+        
     
     class Transaction{
         String id
         String tagID;
-        Wallbox wb;
+        String deviceID;
         DateTime start;
         DateTime end;
+
+        Interval get interval
 
         KiloWattHours powerUsage;
 
@@ -155,11 +170,17 @@ classDiagram
             Euro price
         }
     }
+    
 
-    Log *-- LogScan
-    LogScan *-- TransactionLog
-    TransactionLog --> Transaction
-    TransactionLog o-- Interim
+    WallBoxLine --|> MainLine : can be
+    WallBoxLine --|> MVLine : can be
+
+    WallBoxTransactionBlock "1"*--"n" MVLine: mvs
+    WallBoxLog *-- WallBoxTransactionBlock : made of
+    WallBoxTransactionBlock "1"*--"0..1" MainLine : start
+    WallBoxTransactionBlock "1"*--"0..1" MainLine : stop
+
+    WallBoxTransactionBlock --> Transaction: converts to
 
     Transaction -- TagAssignment
 
@@ -186,3 +207,9 @@ classDiagram
     CustomerBill "0,n"<--"1" Customer : pays
     CustomerBill "0,1"*--"1,n" TransactionBill : made up by
 
+    classDef default fill:#A00,stroke:#333,stroke-width:4px;
+    classDef inProgress fill:#AA0,stroke:#333,stroke-width:4px;
+    classDef done fill:#0A0,stroke:#333,stroke-width:4px, color: black;
+      
+      
+      

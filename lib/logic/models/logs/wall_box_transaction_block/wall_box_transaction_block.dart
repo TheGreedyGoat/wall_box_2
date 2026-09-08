@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:wall_box_2/logic/helpers/units/kilo_watt_hour.dart';
-import 'package:wall_box_2/logic/models/wall_box_transaction.dart';
-import 'package:wall_box_2/logic/parser/wall_box_line/wall_box_line.dart';
+import 'package:wall_box_2/logic/models/transaction.dart';
+import 'package:wall_box_2/logic/models/logs/wall_box_line/wall_box_line.dart';
 import 'package:wall_box_2/logic/services/global.dart';
 
 part 'wall_box_transaction_block.freezed.dart';
@@ -34,6 +34,8 @@ class WallBoxTransactionBlock with _$WallBoxTransactionBlock {
   @override
   final MainLine? stop;
 
+  @override
+  /// the id of the wallbox
   final String deviceID;
   @override
   String toString() {
@@ -43,8 +45,13 @@ class WallBoxTransactionBlock with _$WallBoxTransactionBlock {
   /// returns true, if this has a start and an end set
   bool get isCompleted => start != null && stop != null;
 
+  /// the tag ID in this block. Should only be null, if the log file only contained mv lines, wich should be rare (but possible)
   String? get tagID => start?.tagID ?? stop?.tagID;
 
+  /// returns the total power usage as the difference between the start and stop power levels.
+  ///
+  /// If start or stop is missing, they will be substituted by the accoiding first/ last mv line
+  ///
   KiloWattHour get powerUsage {
     return (stop?.powerLevelWh ?? mvLines.last.powerLevelWh) -
         (start?.powerLevelWh ?? mvLines.first.powerLevelWh);
@@ -53,13 +60,13 @@ class WallBoxTransactionBlock with _$WallBoxTransactionBlock {
   /// if this is incomplete, we try to find the matching 'other end' of the block to merge with.
   ///
   /// If it is complete or we successfully merged, we create a new WallBoxTransaction
-  WallBoxTransaction? get tryGetTransaction {
+  Transaction? get tryGetTransaction {
     WallBoxTransactionBlock block = _checkForMerge();
     return block.isCompleted
-        ? WallBoxTransaction(
+        ? Transaction(
             id: getNewId(),
             tagID: start!.tagID,
-            wallboxID: deviceID,
+            deviceID: deviceID,
             start: start!.timeStamp,
             stop: stop!.timeStamp,
             usage: block.powerUsage,
@@ -121,9 +128,6 @@ class WallBoxTransactionBlock with _$WallBoxTransactionBlock {
     return this;
   }
 
-  @override
-  String get repoKey => DateTime.now().millisecondsSinceEpoch.toString();
-
   ///
   factory WallBoxTransactionBlock.fromJson(Map<String, Object?> json) =>
       _$WallBoxTransactionBlockFromJson(json);
@@ -131,6 +135,7 @@ class WallBoxTransactionBlock with _$WallBoxTransactionBlock {
   ///
   Map<String, Object?> toJson() => _$WallBoxTransactionBlockToJson(this);
 
+  /// checks if all WB lines are equal
   bool equals(Object other) =>
       other is WallBoxTransactionBlock &&
       _equalLines(start, other.start) &&

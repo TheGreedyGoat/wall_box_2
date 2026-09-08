@@ -1,34 +1,62 @@
-import 'package:wall_box_2/logic/models/wall_box_transaction.dart';
-import 'package:wall_box_2/logic/parser/wall_box_line/wall_box_line.dart';
-import 'package:wall_box_2/logic/parser/wall_box_transaction_block/wall_box_transaction_block.dart';
+import 'package:wall_box_2/logic/models/transaction.dart';
+import 'package:wall_box_2/logic/models/logs/wall_box_line/wall_box_line.dart';
+import 'package:wall_box_2/logic/models/logs/wall_box_transaction_block/wall_box_transaction_block.dart';
 
-enum LineType { start, stop, mv }
+/// identifies the 3 possible line types within a log file
+enum LineType {
+  /// The type every transaction starts with
+  start,
 
-Map<LineType, List<LineType>> successors = {
-  LineType.start: [LineType.mv],
-  LineType.stop: [LineType.start],
-  LineType.mv: [LineType.mv, LineType.stop],
-};
+  /// The type every transaction ends with
+  stop,
 
+  /// Interim status lines
+  mv,
+}
+
+/// Provides regular expressions for relevant type of data within a log file
 enum DataType {
+  /// head of the file, the Wall Box' id
   deviceID(r'\# Device, *(.*)'),
+
+  /// head of File, the moment the file was generated
+  ///
+  /// (Yes, needs an extra regexp, because the logs use 2 different date formats. GNARF...)
   generationDate(
     r'\# Generated, *(\d{2})\.(\d{2})\.(\d{4}) (\d{2}):(\d{2}):(\d{2})',
   ),
+
+  /// The date format used within the log lines themslves
   date(r'\d{4}(\-\d{2}){2} \d{2}(:\d{2}){2}'),
+
+  /// power usage
   power(r'\d+\.\d{2,3}'),
+
+  /// tag id
   tagID(r'[0-9A-Z]{5,}');
 
+  /// the source String for the RegExp
   final String regExSource;
+
+  /// the full Regecp
+  RegExp get regexp => RegExp(regExSource);
   const DataType(this.regExSource);
 }
 
+/// RegExp to find the tag of a start-line
 RegExp startExp = RegExp(r'txstart');
+
+/// RegExp to find the tag of a stop-line
 RegExp stopExp = RegExp(r'txstop');
+
+/// RegExp to find the tag of a mv-line
 RegExp mvExp = RegExp(r'mv');
 
+/// Represents one whole file
 class WallBoxLog {
   WallBoxLog._(this.blocks, this.head);
+
+  /// When did this log get generated?
   DateTime get generationDate {
     final match = RegExp(
       DataType.generationDate.regExSource,
@@ -54,12 +82,18 @@ class WallBoxLog {
     return DateTime(year, month, day, hour, min, sec);
   }
 
+  /// Wich wallbox does this originate from?
   String? get deviceID {
     return RegExp(
       DataType.deviceID.regExSource,
     ).allMatches(head).firstOrNull?.group(1);
   }
 
+  /// tries parsing [WallBoxLine]s from [source]
+  ///
+  /// use [onLineError] to specify if the parsing process should be continued (and the error transaction just skipped)
+  /// when a line error occurs
+  ///
   static Future<WallBoxLog?> fromSource(
     String source,
     Future<bool> Function(String) onLineError,
@@ -114,21 +148,28 @@ class WallBoxLog {
     return WallBoxLog._(blocks.toList(growable: false), head);
   }
 
+  /// The transaction blocks parsed from the log
   late final List<WallBoxTransactionBlock> blocks;
+
+  /// The first two lines of the log file.
+  ///
+  /// Contains the device ID and generation date
   late final String head;
 
-  String get fileName => 'transactions_${deviceID}_$generationDate';
-
   @override
-  String toString() => blocks.fold(
-    '',
-    (previousValue, element) => '${previousValue}${element.toString()}\n',
+  String toString() => head;
+
+  /// Reassambles the full string as it was written in the log file.
+  String get raw => blocks.fold(
+    '$head\n',
+    (previousValue, element) => '$previousValue${element.toString()}\n',
   );
 
+  /// converts all possible transactionblocks into actual Transaction instances
   void createTransactions() {
-    List<WallBoxTransaction> result = List.empty(growable: true);
+    List<Transaction> result = List.empty(growable: true);
     for (final block in blocks) {
-      WallBoxTransaction? fromBlock = block.tryGetTransaction;
+      Transaction? fromBlock = block.tryGetTransaction;
       if (fromBlock != null && fromBlock.usage.value != 0) {
         result.add(fromBlock);
       }
