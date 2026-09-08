@@ -2,8 +2,9 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:wall_box_2/logic/models/logs/log_file.dart';
-import 'package:wall_box_2/logic/models/logs/transaction_log.dart';
+import 'package:wall_box_2/logic/parser/wall_box_log.dart';
+import 'package:wall_box_2/logic/parser/wall_box_parser.dart';
+import 'package:wall_box_2/ui/dummy/ta_block_display.dart';
 
 class UploadAndParse extends StatefulWidget {
   const UploadAndParse({super.key});
@@ -13,7 +14,7 @@ class UploadAndParse extends StatefulWidget {
 }
 
 class _UploadAndParseState extends State<UploadAndParse> {
-  LogFile? file;
+  WallBoxLog? log;
 
   @override
   Widget build(BuildContext context) {
@@ -32,51 +33,13 @@ class _UploadAndParseState extends State<UploadAndParse> {
           },
           child: Text('Hochladen'),
         ),
-        if (file != null)
+        if (log != null)
           Expanded(
             child: ListView(
               children: [
-                ...file!.transactions.map(
-                  (ta) => Card(
-                    child: Column(
-                      children: [
-                        ListTile(
-                          leading: Text('Start'),
-                          title: Text(
-                            ta.startLine?.timeStamp.toString() ?? 'ERROR',
-                          ),
-                          subtitle: Text(
-                            ta.startLine?.powerLevel.toString() ?? 'ERROR',
-                          ),
-                          trailing: Text(ta.tagId),
-                        ),
-                        ...ta.mvLines.map(
-                          (mv) => Padding(
-                            padding: const EdgeInsetsGeometry.only(left: 16.0),
-
-                            child: ListTile(
-                              leading: Text('MV'),
-                              title: Text(
-                                mv.timeStamp.toString(),
-                              ),
-                              subtitle: Text(
-                                mv.powerLevel.toString(),
-                              ),
-                            ),
-                          ),
-                        ),
-                        ListTile(
-                          leading: Text('Stop'),
-                          title: Text(
-                            ta.stopLine?.timeStamp.toString() ?? 'ERROR',
-                          ),
-                          subtitle: Text(
-                            ta.stopLine?.powerLevel.toString() ?? 'ERROR',
-                          ),
-                          trailing: Text(ta.tagId),
-                        ),
-                      ],
-                    ),
+                ...log!.blocks.map(
+                  (ta) => TaBlockDisplay(
+                    block: ta,
                   ),
                 ),
               ],
@@ -87,11 +50,15 @@ class _UploadAndParseState extends State<UploadAndParse> {
   }
 
   void processFile(List<PlatformFile> files) async {
-    if (files.isEmpty) return;
-    String? content = await File(files[0].path ?? '').readAsString();
-
+    final logs = await WallBoxParser.processFilePickerResult(
+      files,
+      (fileName) async {},
+      (content, fileName) async {
+        return false;
+      },
+    );
     setState(() {
-      file = LogFile.parse(content);
+      log = logs.firstOrNull;
     });
   }
 }

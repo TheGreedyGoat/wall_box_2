@@ -25,6 +25,14 @@ class KiloWattHour extends Unit {
   @override
   String toStringAsFixed(int precision) =>
       '${kWh.toStringAsFixed(precision)} $symbol';
+
+  KiloWattHour operator +(KiloWattHour other) {
+    return KiloWattHour(wattHours: wattHours + other.wattHours);
+  }
+
+  KiloWattHour operator -(KiloWattHour other) {
+    return KiloWattHour(wattHours: wattHours - other.wattHours);
+  }
 }
 
 /// JSPN Converter for [KiloWattHour]

@@ -1,9 +1,10 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:flutter/material.dart';
-import 'package:wall_box_2/logic/services/parser_service.dart';
 import 'package:wall_box_2/ui/dummy/upload_and_parse.dart';
 
 void main() {
-  runApp(MainApp());
+  runApp(const MainApp());
 }
 
 class MainApp extends StatelessWidget {
@@ -11,11 +12,9 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: Scaffold(
-        body: Center(
-          child: UploadAndParse(),
-        ),
+        body: UploadAndParse(),
       ),
     );
   }

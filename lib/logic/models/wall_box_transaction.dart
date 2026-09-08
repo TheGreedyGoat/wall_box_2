@@ -2,13 +2,13 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:wall_box_2/logic/helpers/interval.dart';
 import 'package:wall_box_2/logic/helpers/units/kilo_watt_hour.dart';
 
-part 'transaction.freezed.dart';
-part 'transaction.g.dart';
+part 'wall_box_transaction.freezed.dart';
+part 'wall_box_transaction.g.dart';
 
 @freezed
 @JsonSerializable(converters: [KiloWattHourConverter()])
 /// Describes one transaction at a wallbox
-class Transaction with _$Transaction {
+class WallBoxTransaction with _$WallBoxTransaction {
   @override
   /// unique key for this transaction
   final String id;
@@ -37,7 +37,7 @@ class Transaction with _$Transaction {
   Interval get interval => Interval(from: start, to: stop);
 
   /// Describes one transaction at a wallbox
-  const Transaction({
+  const WallBoxTransaction({
     required this.id,
     required this.tagID,
     required this.wallboxID,
