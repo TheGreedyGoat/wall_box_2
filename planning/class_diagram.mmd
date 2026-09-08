@@ -109,7 +109,7 @@ classDiagram
         DateTime from
         DateTime? to
     }
-    class Customer{
+    class Customer ::: inProgress{
         int id
         CompanyData? company;
         PersonalData? personal
@@ -127,7 +127,7 @@ classDiagram
 
     namespace Stammdaten{
 
-    class CompanyData{
+    class CompanyData :::inProgress{
         String id
         String companyName
         String street
@@ -136,7 +136,7 @@ classDiagram
         ...
     }
 
-    class PersonalData{
+    class PersonalData :::inProgress{
         String prename
         String surname
         String street
@@ -208,7 +208,7 @@ classDiagram
     CustomerBill "0,1"*--"1,n" TransactionBill : made up by
 
     classDef default fill:#A00,stroke:#333,stroke-width:4px;
-    classDef inProgress fill:#AA0,stroke:#333,stroke-width:4px;
+    classDef inProgress fill:#A50,stroke:#333,stroke-width:4px;
     classDef done fill:#0A0,stroke:#333,stroke-width:4px, color: black;
       
       
