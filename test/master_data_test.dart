@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:wall_box_2/logic/helpers/data_error.dart';
 import 'package:wall_box_2/logic/models/customer.dart';
 import 'package:wall_box_2/logic/models/master_data/address.dart';
 import 'package:wall_box_2/logic/models/master_data/company_data.dart';
@@ -29,13 +30,18 @@ void main() {
 
   group('Address', () {
     test('accepts a complete address', () {
-      expect(validAddress.validate(), isNull);
+      expect(validAddress.validate(), isEmpty);
     });
 
     test('reports every required field that is missing', () {
       expect(
         Address(id: 'address-1').validate(),
-        'Streetname not set\nhouse number not set\nPostcode not set\ncity not set',
+        [
+          DataError.noStreet,
+          DataError.noHouseNumber,
+          DataError.noPostcode,
+          DataError.noCity,
+        ],
       );
     });
   });
@@ -48,7 +54,7 @@ void main() {
       expect(email!.local, 'person');
       expect(email.subdomain, 'example');
       expect(email.topLevelDomain, 'com');
-      expect(email.validate(), isNull);
+      expect(email.validate(), isEmpty);
       expect(email.toString(), 'person@example.com');
     });
 
@@ -60,7 +66,7 @@ void main() {
           subdomain: 'example',
           topLevelDomain: 'com',
         ).validate(),
-        'email has to start with a letter',
+        [DataError.invalidEmailLocal],
       );
     });
   });
@@ -72,34 +78,34 @@ void main() {
       expect(phone, isNotNull);
       expect(phone!.nationalCode, '+49');
       expect(phone.number, '30 1234567');
-      expect(phone.validate(), isNull);
+      expect(phone.validate(), isEmpty);
     });
 
     test('rejects input without a separated number', () {
       expect(Phone.tryParse('+49'), isNull);
       expect(
         Phone(nationalCode: '+49', number: 'abc').validate(),
-        'number contains not only numbers',
+        [DataError.invalidPhoneNumber],
       );
     });
   });
 
   group('ContactData', () {
     test('accepts a phone contact with optional email', () {
-      expect(validContact.validate(), isNull);
+      expect(validContact.validate(), isEmpty);
     });
 
     test('requires at least one phone number', () {
       expect(
         ContactData(id: 'contact-1', email: validEmail).validate(),
-        'Neither phone nor mobile set',
+        [DataError.noPhoneOrMobile],
       );
     });
 
     test('includes nested validation errors', () {
       expect(
         ContactData(id: 'contact-1', phone: Phone()).validate(),
-        'National Code missing\nNumber is missing',
+        [DataError.noNationalCode, DataError.noPhoneNumber],
       );
     });
   });
@@ -113,14 +119,14 @@ void main() {
           address: validAddress,
           contact: validContact,
         ).validate(),
-        isNull,
+        isEmpty,
       );
     });
 
     test('reports missing company data and nested errors', () {
       expect(
         CompanyData(id: 'company-1').validate(),
-        'no company name provided\nadress missing\ncontact missing',
+        [DataError.noCompanyName, DataError.noAddress, DataError.noContact],
       );
     });
   });
@@ -135,14 +141,19 @@ void main() {
           contact: validContact,
           address: validAddress,
         ).validate(),
-        isNull,
+        isEmpty,
       );
     });
 
     test('reports all missing required fields', () {
       expect(
         PersonalData(id: 'person-1').validate(),
-        'prename missing\nsurname missing\ncontact missing\naddress missing',
+        [
+          DataError.noPrename,
+          DataError.noSurname,
+          DataError.noAddress,
+          DataError.noContact,
+        ],
       );
     });
   });
@@ -159,14 +170,14 @@ void main() {
             contact: validContact,
           ),
         ).validate(),
-        isNull,
+        isEmpty,
       );
     });
 
     test('requires company or personal data', () {
       expect(
         Customer(id: 'customer-1').validate(),
-        'Neither company nor personal data set',
+        [DataError.noCompanyOrPersonal],
       );
     });
 
@@ -176,7 +187,12 @@ void main() {
           id: 'customer-1',
           personal: PersonalData(id: 'person-1'),
         ).validate(),
-        'prename missing\nsurname missing\ncontact missing\naddress missing',
+        [
+          DataError.noPrename,
+          DataError.noSurname,
+          DataError.noAddress,
+          DataError.noContact,
+        ],
       );
     });
   });

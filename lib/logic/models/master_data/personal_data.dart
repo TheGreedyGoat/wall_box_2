@@ -11,14 +11,24 @@ part 'personal_data.g.dart';
 @JsonSerializable(
   converters: [ContactDataJsonConverter(), AddressJsonConverter()],
 )
-/// contains data about a natural person
+/// contains data about a natural person.
+/// All fields are required.
+///
 class PersonalData extends MasterData with _$PersonalData {
+  @override
   final String id;
+  @override
   final String? prename;
+  @override
   final String? surname;
+  @override
   final ContactData? contact;
+  @override
   final Address? address;
 
+  /// contains data about a natural person.
+  /// All fields are required.
+  ///
   PersonalData({
     required this.id,
     this.prename,
@@ -26,11 +36,6 @@ class PersonalData extends MasterData with _$PersonalData {
     @ContactDataJsonConverter() @JsonKey(name: 'contact') this.contact,
     @AddressJsonConverter() @JsonKey(name: 'address') this.address,
   });
-
-  String nonNull(String? Function(PersonalData data) getValue) =>
-      getValue(this) ?? '';
-
-  Map<String, dynamic> toJson() => _$PersonalDataToJson(this);
 
   @override
   List<DataError?> get validationList => [

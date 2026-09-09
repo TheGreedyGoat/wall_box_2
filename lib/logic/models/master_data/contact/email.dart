@@ -7,19 +7,28 @@ part 'email.freezed.dart';
 part 'email.g.dart';
 
 /// represents an email adress
+///
+/// [local]@[subdomain].[topLevelDomain]
 @freezed
 @JsonSerializable(converters: [EmailJsonConverter()])
 class Email extends MasterData with _$Email {
+  @override
   final String? local;
+  @override
   final String? subdomain;
+  @override
   final String? topLevelDomain;
 
+  /// represents an email adress
+  ///
+  /// [local]@[subdomain].[topLevelDomain]
   Email({
     this.local,
     this.subdomain,
     this.topLevelDomain,
   });
 
+  /// tries parsing an email address String. returns null if unsuccessful
   static Email? tryParse(String source) {
     final match = Regexpressions.email.allMatches(source).firstOrNull;
     try {
@@ -50,7 +59,9 @@ class Email extends MasterData with _$Email {
   ];
 }
 
+/// JSON Converter for Email
 class EmailJsonConverter extends JsonConverter<Email?, String?> {
+  /// JSON Converter for Email
   const EmailJsonConverter();
   @override
   Email? fromJson(String? json) => Email.tryParse(json ?? '');

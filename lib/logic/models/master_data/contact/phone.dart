@@ -7,13 +7,17 @@ part 'phone.g.dart';
 
 @freezed
 @JsonSerializable()
+/// represents a phone number, the national code is stored seperately
 class Phone extends MasterData with _$Phone {
+  @override
   final String? nationalCode;
+  @override
   final String? number;
 
   @override
   String toString() => '$nationalCode $number';
 
+  /// represents a phone number, the national code is stored seperately
   Phone({
     this.nationalCode,
     this.number,
@@ -47,7 +51,9 @@ class Phone extends MasterData with _$Phone {
   ];
 }
 
+/// JSON Converter for Phone
 class PhoneJsonConverter extends JsonConverter<Phone?, String?> {
+  /// JSON Converter for Phone
   const PhoneJsonConverter();
   @override
   Phone? fromJson(String? json) => Phone.tryParse(json ?? '');

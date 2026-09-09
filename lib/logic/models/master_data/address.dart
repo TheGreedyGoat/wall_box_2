@@ -5,18 +5,29 @@ import 'package:wall_box_2/logic/models/master_data/master_data.dart';
 part 'address.freezed.dart';
 part 'address.g.dart';
 
+/// Represents an address
 @freezed
 @JsonSerializable()
 class Address extends MasterData with _$Address {
+  @override
   final String id;
+  @override
   final String? street;
+  @override
   final String? number;
+  @override
   final String? postcode;
+  @override
   final String? city;
   // optional
+  @override
   final String? country;
+
+  /// optional additional notes for the address (eg. 1st floor etc)
+  @override
   final String? adressAdditions;
 
+  /// Represents an address
   Address({
     required this.id,
     this.street,
@@ -36,8 +47,10 @@ class Address extends MasterData with _$Address {
   ];
 }
 
+/// Converter for adresses
 class AddressJsonConverter
     extends JsonConverter<Address?, Map<String, dynamic>?> {
+  /// Converter for adresses
   const AddressJsonConverter();
 
   @override

@@ -24,3 +24,4 @@ analyzer:
     avoid_print: ignore
     overridden_fields: ignore
     unnecessary_this: ignore
+    unused_element: ignore

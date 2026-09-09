@@ -14,12 +14,18 @@ part 'contact_data.g.dart';
     EmailJsonConverter(),
   ],
 )
+/// contains contact data such as phone numbers and an email address
 class ContactData extends MasterData with _$ContactData {
+  @override
   final String id;
+  @override
   final Phone? phone;
+  @override
   final Phone? mobile;
+  @override
   final Email? email;
 
+  /// contains contact data such as phone numbers and an email address
   ContactData({
     required this.id,
     @PhoneJsonConverter() @JsonKey(name: 'phone') this.phone,
@@ -36,8 +42,10 @@ class ContactData extends MasterData with _$ContactData {
   ];
 }
 
+/// JSON Converter for ContactData
 class ContactDataJsonConverter
     extends JsonConverter<ContactData?, Map<String, dynamic>?> {
+  /// JSON Converter for ContactData
   const ContactDataJsonConverter();
 
   @override

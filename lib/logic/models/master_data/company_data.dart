@@ -11,12 +11,22 @@ part 'company_data.g.dart';
 @JsonSerializable(
   converters: [ContactDataJsonConverter(), AddressJsonConverter()],
 )
+/// represents data for a company
+///
+/// All fields are required for validation
 class CompanyData extends MasterData with _$CompanyData {
+  @override
   final String id;
+  @override
   final String? companyName;
+  @override
   final Address? address;
+  @override
   final ContactData? contact;
 
+  /// represents data for a company
+  ///
+  /// All fields are required for validation
   CompanyData({
     required this.id,
     this.companyName,

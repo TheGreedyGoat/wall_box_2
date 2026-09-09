@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 import 'package:wall_box_2/logic/models/customer.dart';
 import 'package:wall_box_2/logic/models/master_data/address.dart';
