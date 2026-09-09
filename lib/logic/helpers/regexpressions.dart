@@ -1,3 +1,4 @@
 abstract class Regexpressions {
-  static RegExp get email => RegExp(r'.+@.+\.[a-z]{2,}');
+  static RegExp get email =>
+      RegExp(r'([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9-]+)\.([a-zA-Z]{2,})');
 }

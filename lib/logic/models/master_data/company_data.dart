@@ -1,23 +1,35 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:wall_box_2/logic/helpers/data_error.dart';
 import 'package:wall_box_2/logic/models/master_data/address.dart';
-import 'package:wall_box_2/logic/models/master_data/contact_data.dart';
+import 'package:wall_box_2/logic/models/master_data/contact/contact_data.dart';
 import 'package:wall_box_2/logic/models/master_data/master_data.dart';
 
-class CompanyData extends MasterData {
-  final String? companyName;
-  final Address? adress;
-  final Contact? contact;
+part 'company_data.freezed.dart';
+part 'company_data.g.dart';
 
-  CompanyData({required super.id, this.companyName, this.adress, this.contact});
+@freezed
+@JsonSerializable(
+  converters: [ContactDataJsonConverter(), AddressJsonConverter()],
+)
+class CompanyData extends MasterData with _$CompanyData {
+  final String id;
+  final String? companyName;
+  final Address? address;
+  final ContactData? contact;
+
+  CompanyData({
+    required this.id,
+    this.companyName,
+    @AddressJsonConverter() @JsonKey(name: 'address') this.address,
+    @ContactDataJsonConverter() @JsonKey(name: 'contact') this.contact,
+  });
 
   @override
-  String? validate() {
-    return super.processValidationList([
-      (companyName ?? '').isEmpty ? 'no company name provided' : null,
-      adress == null ? 'adress missing' : null,
-      contact == null ? 'contact missing' : null,
-      adress?.validate(),
-      contact?.validate(),
-    ]);
-  }
+  List<DataError?> get validationList => [
+    (companyName ?? '').isEmpty ? DataError.noCompanyName : null,
+    address == null ? DataError.noAddress : null,
+    contact == null ? DataError.noContact : null,
+    if (address != null) ...address!.validate(),
+    if (contact != null) ...contact!.validate(),
+  ];
 }

@@ -109,7 +109,16 @@ classDiagram
         DateTime from
         DateTime? to
     }
-    class Customer ::: inProgress{
+
+    
+
+    namespace Stammdaten{
+        class MasterData::: done{
+            <<abstract>>
+
+            validate() String?
+        }
+    class Customer ::: done{
         int id
         CompanyData? company;
         PersonalData? personal
@@ -117,24 +126,9 @@ classDiagram
         getPriceAtTime (DateTime date) Euro
         getTransactions(DateTime from, DateTime to) Transaction[]
     }
-
-    class User{
-        PersonalData? personal
-        VehicleData? vehicle
-    }
-
-    
-
-    namespace Stammdaten{
-        class MasterData::: inProgress{
-            <<abstract>>
-            String id
-
-            validate() String?
-        }
         namespace HauptStammdaten{
 
-            class CompanyData :::inProgress{
+            class CompanyData :::done{
                 String? companyName
                 Adress? adress
                 Contact? contact
@@ -147,12 +141,6 @@ classDiagram
                 Contact? contact 
             }
 
-            class VehicleData{
-                String? type
-                String? color
-                String? licencePlate
-                ...
-            }
         }
         namespace StammdatenBausteine{    
             class Adress::: done{
@@ -186,10 +174,13 @@ classDiagram
     namespace bills{
         class CustomerBill{
             String customerID
+            String customerName
             DateTime from
             DateTime to
 
-            TransactionBill[] transactionBills
+            String address
+
+            List~TransactionBill~ transactionBills
 
             getSumBeforeTax() Euro
         }
@@ -197,6 +188,8 @@ classDiagram
             String transactionID
             Euro price
         }
+
+        note for CustomerBill "speichert Kundendaten etc. als Snapshot"
     }
     
 
@@ -213,21 +206,16 @@ classDiagram
     Transaction -- TagAssignment
 
     TagAssignment o-- Customer
-    TagAssignment o.. User
     
-    Customer o.. User
 
     Unit --|> KiloWattHour
     Unit --|> Euro
-    User *.. PersonalData
-    User *.. VehicleData
     
-    Customer "1"*.."n" PersonalData
-    Customer "1"*.."n" CompanyData
+    Customer "1"*.."0,n" CompanyData
+    Customer "1"*.."0,n" PersonalData
     Customer "1" *-- "n"PriceAssignment
 
     note for Customer "erhält Tags & Rechnungen"
-    note for User "Für Optionale genauere Zuordnung von Tags\n (ausgehend vom Kunden)"
 
     note for TagAssignment "wem ist tag x zum Zeitpunkt y zugeordnet?"
     note for PriceAssignment "welchen Preis hat ein Kunde zu Zeitpunkt x?"
@@ -250,6 +238,23 @@ classDiagram
     classDef default fill:#A00,stroke:#333,stroke-width:4px;
     classDef inProgress fill:#A50,stroke:#333,stroke-width:4px;
     classDef done fill:#0A0,stroke:#333,stroke-width:4px, color: black;
+    classDef future fill: #444,stroke:#333,stroke-width:4px, color: #AAA;
+
       
 
       
+namespace Stammdaten.customerApp{
+
+        class User ::: future{
+            PersonalData? personal
+            VehicleData? vehicle
+        }
+        
+        class VehicleData:::future{
+            String? type
+            String? color
+            String? licencePlate
+            ...
+        }
+        note for User "Für Optionale genauere Zuordnung von Tags\n (ausgehend vom Kunden), später"
+    }

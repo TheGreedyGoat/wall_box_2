@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'email.dart';
+part of 'personal_data.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -12,36 +12,40 @@ part of 'email.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
-mixin _$Email {
+mixin _$PersonalData {
 
- String get id; set id(String value); String? get firstPart; String? get secondPart; String? get domain;
-/// Create a copy of Email
+ String get id; String? get prename; String? get surname; ContactData? get contact; Address? get address;
+/// Create a copy of PersonalData
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$EmailCopyWith<Email> get copyWith => _$EmailCopyWithImpl<Email>(this as Email, _$identity);
+$PersonalDataCopyWith<PersonalData> get copyWith => _$PersonalDataCopyWithImpl<PersonalData>(this as PersonalData, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Email&&(identical(other.id, id) || other.id == id)&&(identical(other.firstPart, firstPart) || other.firstPart == firstPart)&&(identical(other.secondPart, secondPart) || other.secondPart == secondPart)&&(identical(other.domain, domain) || other.domain == domain));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PersonalData&&(identical(other.id, id) || other.id == id)&&(identical(other.prename, prename) || other.prename == prename)&&(identical(other.surname, surname) || other.surname == surname)&&(identical(other.contact, contact) || other.contact == contact)&&(identical(other.address, address) || other.address == address));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,firstPart,secondPart,domain);
+int get hashCode => Object.hash(runtimeType,id,prename,surname,contact,address);
 
+@override
+String toString() {
+  return 'PersonalData(id: $id, prename: $prename, surname: $surname, contact: $contact, address: $address)';
+}
 
 
 }
 
 /// @nodoc
-abstract mixin class $EmailCopyWith<$Res>  {
-  factory $EmailCopyWith(Email value, $Res Function(Email) _then) = _$EmailCopyWithImpl;
+abstract mixin class $PersonalDataCopyWith<$Res>  {
+  factory $PersonalDataCopyWith(PersonalData value, $Res Function(PersonalData) _then) = _$PersonalDataCopyWithImpl;
 @useResult
 $Res call({
- String id, String? firstPart, String? secondPart, String? domain
+ String id, String? prename, String? surname,@ContactDataJsonConverter()@JsonKey(name: 'contact') ContactData? contact,@AddressJsonConverter()@JsonKey(name: 'address') Address? address
 });
 
 
@@ -49,30 +53,31 @@ $Res call({
 
 }
 /// @nodoc
-class _$EmailCopyWithImpl<$Res>
-    implements $EmailCopyWith<$Res> {
-  _$EmailCopyWithImpl(this._self, this._then);
+class _$PersonalDataCopyWithImpl<$Res>
+    implements $PersonalDataCopyWith<$Res> {
+  _$PersonalDataCopyWithImpl(this._self, this._then);
 
-  final Email _self;
-  final $Res Function(Email) _then;
+  final PersonalData _self;
+  final $Res Function(PersonalData) _then;
 
-/// Create a copy of Email
+/// Create a copy of PersonalData
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? firstPart = freezed,Object? secondPart = freezed,Object? domain = freezed,}) {
-  return _then(Email(
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? prename = freezed,Object? surname = freezed,Object? contact = freezed,Object? address = freezed,}) {
+  return _then(PersonalData(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,firstPart: freezed == firstPart ? _self.firstPart : firstPart // ignore: cast_nullable_to_non_nullable
-as String?,secondPart: freezed == secondPart ? _self.secondPart : secondPart // ignore: cast_nullable_to_non_nullable
-as String?,domain: freezed == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
-as String?,
+as String,prename: freezed == prename ? _self.prename : prename // ignore: cast_nullable_to_non_nullable
+as String?,surname: freezed == surname ? _self.surname : surname // ignore: cast_nullable_to_non_nullable
+as String?,contact: freezed == contact ? _self.contact : contact // ignore: cast_nullable_to_non_nullable
+as ContactData?,address: freezed == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
+as Address?,
   ));
 }
 
 }
 
 
-/// Adds pattern-matching-related methods to [Email].
-extension EmailPatterns on Email {
+/// Adds pattern-matching-related methods to [PersonalData].
+extension PersonalDataPatterns on PersonalData {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:

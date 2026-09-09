@@ -1,6 +1,14 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:wall_box_2/logic/helpers/data_error.dart';
 import 'package:wall_box_2/logic/models/master_data/master_data.dart';
 
-class Address extends MasterData {
+part 'address.freezed.dart';
+part 'address.g.dart';
+
+@freezed
+@JsonSerializable()
+class Address extends MasterData with _$Address {
+  final String id;
   final String? street;
   final String? number;
   final String? postcode;
@@ -10,7 +18,7 @@ class Address extends MasterData {
   final String? adressAdditions;
 
   Address({
-    required super.id,
+    required this.id,
     this.street,
     this.postcode,
     this.number,
@@ -20,12 +28,22 @@ class Address extends MasterData {
   });
 
   @override
-  String? validate() {
-    return super.processValidationList([
-      (street ?? '').isEmpty ? 'Streetname not set' : null,
-      (number ?? '').isEmpty ? 'house number not set' : null,
-      (postcode ?? '').isEmpty ? 'Postcode not set' : null,
-      (city ?? '').isEmpty ? 'city not set' : null,
-    ]);
-  }
+  List<DataError?> get validationList => [
+    (street ?? '').isEmpty ? DataError.noStreet : null,
+    (number ?? '').isEmpty ? DataError.noHouseNumber : null,
+    (postcode ?? '').isEmpty ? DataError.noPostcode : null,
+    (city ?? '').isEmpty ? DataError.noCity : null,
+  ];
+}
+
+class AddressJsonConverter
+    extends JsonConverter<Address?, Map<String, dynamic>?> {
+  const AddressJsonConverter();
+
+  @override
+  Address? fromJson(Map<String, dynamic>? json) =>
+      json == null ? null : _$AddressFromJson(json);
+  @override
+  Map<String, dynamic>? toJson(Address? object) =>
+      object == null ? null : _$AddressToJson(object);
 }
