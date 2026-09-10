@@ -54,7 +54,13 @@ RegExp mvExp = RegExp(r'mv');
 
 /// Represents one whole file
 class WallBoxLog {
-  WallBoxLog._(this.blocks, this.head);
+  /// The transaction blocks parsed from the log
+  late final List<WallBoxTransactionBlock> blocks;
+
+  /// The first two lines of the log file.
+  ///
+  /// Contains the device ID and generation date
+  late final String head;
 
   /// When did this log get generated?
   DateTime get generationDate {
@@ -88,6 +94,8 @@ class WallBoxLog {
       DataType.deviceID.regExSource,
     ).allMatches(head).firstOrNull?.group(1);
   }
+
+  WallBoxLog._(this.blocks, this.head);
 
   /// tries parsing [WallBoxLine]s from [source]
   ///
@@ -147,14 +155,6 @@ class WallBoxLog {
     }
     return WallBoxLog._(blocks.toList(growable: false), head);
   }
-
-  /// The transaction blocks parsed from the log
-  late final List<WallBoxTransactionBlock> blocks;
-
-  /// The first two lines of the log file.
-  ///
-  /// Contains the device ID and generation date
-  late final String head;
 
   @override
   String toString() => head;

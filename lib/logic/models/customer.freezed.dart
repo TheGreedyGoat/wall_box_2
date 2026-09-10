@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'transaction.dart';
+part of 'customer.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -12,40 +12,40 @@ part of 'transaction.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
-mixin _$Transaction {
+mixin _$Customer {
 
- String get id; String get tagID; String get deviceID; DateTime get start; DateTime get stop; KiloWattHour get usage;
-/// Create a copy of Transaction
+ String get id; CompanyData? get company; PersonalData? get personal;
+/// Create a copy of Customer
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$TransactionCopyWith<Transaction> get copyWith => _$TransactionCopyWithImpl<Transaction>(this as Transaction, _$identity);
+$CustomerCopyWith<Customer> get copyWith => _$CustomerCopyWithImpl<Customer>(this as Customer, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Transaction&&(identical(other.id, id) || other.id == id)&&(identical(other.tagID, tagID) || other.tagID == tagID)&&(identical(other.deviceID, deviceID) || other.deviceID == deviceID)&&(identical(other.start, start) || other.start == start)&&(identical(other.stop, stop) || other.stop == stop)&&(identical(other.usage, usage) || other.usage == usage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Customer&&(identical(other.id, id) || other.id == id)&&(identical(other.company, company) || other.company == company)&&(identical(other.personal, personal) || other.personal == personal));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,tagID,deviceID,start,stop,usage);
+int get hashCode => Object.hash(runtimeType,id,company,personal);
 
 @override
 String toString() {
-  return 'Transaction(id: $id, tagID: $tagID, deviceID: $deviceID, start: $start, stop: $stop, usage: $usage)';
+  return 'Customer(id: $id, company: $company, personal: $personal)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $TransactionCopyWith<$Res>  {
-  factory $TransactionCopyWith(Transaction value, $Res Function(Transaction) _then) = _$TransactionCopyWithImpl;
+abstract mixin class $CustomerCopyWith<$Res>  {
+  factory $CustomerCopyWith(Customer value, $Res Function(Customer) _then) = _$CustomerCopyWithImpl;
 @useResult
 $Res call({
- String id, String tagID, String deviceID, DateTime start, DateTime stop,@KiloWattHourConverter()@JsonKey(name: 'usage') KiloWattHour usage
+ String id, CompanyData? company, PersonalData? personal
 });
 
 
@@ -53,32 +53,29 @@ $Res call({
 
 }
 /// @nodoc
-class _$TransactionCopyWithImpl<$Res>
-    implements $TransactionCopyWith<$Res> {
-  _$TransactionCopyWithImpl(this._self, this._then);
+class _$CustomerCopyWithImpl<$Res>
+    implements $CustomerCopyWith<$Res> {
+  _$CustomerCopyWithImpl(this._self, this._then);
 
-  final Transaction _self;
-  final $Res Function(Transaction) _then;
+  final Customer _self;
+  final $Res Function(Customer) _then;
 
-/// Create a copy of Transaction
+/// Create a copy of Customer
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? tagID = null,Object? deviceID = null,Object? start = null,Object? stop = null,Object? usage = null,}) {
-  return _then(Transaction(
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? company = freezed,Object? personal = freezed,}) {
+  return _then(Customer(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,tagID: null == tagID ? _self.tagID : tagID // ignore: cast_nullable_to_non_nullable
-as String,deviceID: null == deviceID ? _self.deviceID : deviceID // ignore: cast_nullable_to_non_nullable
-as String,start: null == start ? _self.start : start // ignore: cast_nullable_to_non_nullable
-as DateTime,stop: null == stop ? _self.stop : stop // ignore: cast_nullable_to_non_nullable
-as DateTime,usage: null == usage ? _self.usage : usage // ignore: cast_nullable_to_non_nullable
-as KiloWattHour,
+as String,company: freezed == company ? _self.company : company // ignore: cast_nullable_to_non_nullable
+as CompanyData?,personal: freezed == personal ? _self.personal : personal // ignore: cast_nullable_to_non_nullable
+as PersonalData?,
   ));
 }
 
 }
 
 
-/// Adds pattern-matching-related methods to [Transaction].
-extension TransactionPatterns on Transaction {
+/// Adds pattern-matching-related methods to [Customer].
+extension CustomerPatterns on Customer {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:

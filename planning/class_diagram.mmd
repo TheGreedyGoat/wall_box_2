@@ -28,6 +28,13 @@ classDiagram
         }
     
     }
+
+    namespace newLog{
+        class PartialTransaction{
+            
+        }
+    }
+    
     namespace log {
 
         class WallBoxLog ::: done{
@@ -109,7 +116,16 @@ classDiagram
         DateTime from
         DateTime? to
     }
-    class Customer ::: inProgress{
+
+    
+
+    namespace Stammdaten{
+        class MasterData::: done{
+            <<abstract>>
+
+            validate() String?
+        }
+    class Customer ::: done{
         int id
         CompanyData? company;
         PersonalData? personal
@@ -117,51 +133,61 @@ classDiagram
         getPriceAtTime (DateTime date) Euro
         getTransactions(DateTime from, DateTime to) Transaction[]
     }
+        namespace HauptStammdaten{
 
-    class User{
-        PersonalData? personal
-        VehicleData? vehicle
-    }
+            class CompanyData :::done{
+                String? companyName
+                Adress? adress
+                Contact? contact
+            }
 
-    
+            class PersonalData :::done{
+                String? prename
+                String? surname
+                Adress? adress
+                Contact? contact 
+            }
 
-    namespace Stammdaten{
+        }
+        namespace StammdatenBausteine{    
+            class Adress::: done{
+                String? street
+                String? number
+                String? postcode
+                String? city
+                String? country
+            }
 
-    class CompanyData :::inProgress{
-        String id
-        String companyName
-        String street
-        String postcode
-        String city
-        ...
-    }
+            class Contact::: done{
+                Phone? phone
+                Phone? mobile
 
-    class PersonalData :::inProgress{
-        String prename
-        String surname
-        String street
-        String postcode
-        String city
-        String phone
-        ...
-    }
+                Email email
+            }
 
-    class VehicleData{
-        int id
-        String type
-        String color
-        String licencePlate
-        ...
-    }
+            class Phone ::: done{
+                String? pre
+                String? number
+            }
+
+            class Email ::: done{
+                String? firstPart
+                String? secondPart
+                String? domain
+            }
+        }
     }
     
     namespace bills{
         class CustomerBill{
             String customerID
+            String customerName
             DateTime from
             DateTime to
 
-            TransactionBill[] transactionBills
+            String address
+
+            List~TransactionBill~ transactionBills
 
             getSumBeforeTax() Euro
         }
@@ -169,6 +195,8 @@ classDiagram
             String transactionID
             Euro price
         }
+
+        note for CustomerBill "speichert Kundendaten etc. als Snapshot"
     }
     
 
@@ -185,21 +213,16 @@ classDiagram
     Transaction -- TagAssignment
 
     TagAssignment o-- Customer
-    TagAssignment o.. User
     
-    Customer o.. User
 
     Unit --|> KiloWattHour
     Unit --|> Euro
-    User *.. PersonalData
-    User *.. VehicleData
     
-    Customer "1"*.."n" PersonalData
-    Customer "1"*.."n" CompanyData
+    Customer "1"*.."0,n" CompanyData
+    Customer "1"*.."0,n" PersonalData
     Customer "1" *-- "n"PriceAssignment
 
     note for Customer "erhält Tags & Rechnungen"
-    note for User "Für Optionale genauere Zuordnung von Tags\n (ausgehend vom Kunden)"
 
     note for TagAssignment "wem ist tag x zum Zeitpunkt y zugeordnet?"
     note for PriceAssignment "welchen Preis hat ein Kunde zu Zeitpunkt x?"
@@ -207,9 +230,38 @@ classDiagram
     CustomerBill "0,n"<--"1" Customer : pays
     CustomerBill "0,1"*--"1,n" TransactionBill : made up by
 
+
+    PersonalData o-- Adress
+    PersonalData o-- Contact
+
+    Contact o-- Phone
+    Contact o-- Email
+
+    CompanyData o-- Adress
+    CompanyData o-- Contact
+
+
+
     classDef default fill:#A00,stroke:#333,stroke-width:4px;
     classDef inProgress fill:#A50,stroke:#333,stroke-width:4px;
     classDef done fill:#0A0,stroke:#333,stroke-width:4px, color: black;
+    classDef future fill: #444,stroke:#333,stroke-width:4px, color: #AAA;
+
       
+
       
-      
+namespace Stammdaten.customerApp{
+
+        class User ::: future{
+            PersonalData? personal
+            VehicleData? vehicle
+        }
+        
+        class VehicleData:::future{
+            String? type
+            String? color
+            String? licencePlate
+            ...
+        }
+        note for User "Für Optionale genauere Zuordnung von Tags\n (ausgehend vom Kunden), später"
+    }

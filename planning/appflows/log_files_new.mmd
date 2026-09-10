@@ -1,0 +1,53 @@
+flowchart
+    direction LR
+    subgraph parse log files
+    direction TB
+        readLog@{shape : docs, label: "files.csv"}
+        transactionLogs(Transaction Logs)
+        completeCheck{complete?}
+
+        deviceID[/device ID/]
+        genDate[/generation date/]
+        find@{ shape: subproc, label: "Search for\nmissing parts" }
+
+        delete@{ shape: subproc, label: "Delete used parts" }
+        save@{ shape: subproc, label: "Save incomplete" }
+
+
+        combine@{ shape: subproc, label: "Combine Data"}
+        subgraph results
+            transactions[/Transactions/]
+            displayTA(display new \n transactions)
+        end
+        readLog 
+        --Parse--> transactionLogs
+        --> completeCheck
+
+        readLog 
+        --Parse--> deviceID & genDate 
+        --> combine 
+        --create--> transactions 
+
+        completeCheck --YES--> combine
+        completeCheck --NO--> find
+
+        find --SUCCESS--> delete --> combine
+        find --FAIL--> save
+
+
+
+
+        %% readLog --Parse--> transactionlogs
+
+        %% transactionlogs --create & insert--> logScan
+        %% transactionlogs --> tryTA --extract---> transactions
+        %% logScan --> combine
+        %% deviceID --> combine
+        %% genDate --> combine
+
+        %% combine --create/ find & insert--> transactions
+        %% results --> displayTA
+
+        style results fill: #4e928f
+    end
+    

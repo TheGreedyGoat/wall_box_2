@@ -64,7 +64,7 @@ class WallBoxTransactionBlock with _$WallBoxTransactionBlock {
     WallBoxTransactionBlock block = _checkForMerge();
     return block.isCompleted
         ? Transaction(
-            id: getNewId(),
+            id: generateId(),
             tagID: start!.tagID,
             deviceID: deviceID,
             start: start!.timeStamp,

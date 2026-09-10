@@ -1,11 +1,14 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.5.2 Chrome/142.0.7444.265 Electron/39.6.1 Safari/537.36" version="29.5.2">
   <diagram name="Seite-1" id="wiN4Sbtdmn1aUmGYYrmP">
-    <mxGraphModel dx="5903" dy="3529" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+    <mxGraphModel dx="3344" dy="1264" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="0ts4ocg5N4o25eMSjGBl-178" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;" value="" vertex="1">
+          <mxGeometry height="1010" width="810" x="-1060" y="380" as="geometry" />
+        </mxCell>
         <mxCell id="0ts4ocg5N4o25eMSjGBl-508" connectable="0" parent="1" style="group;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="" vertex="1">
-          <mxGeometry height="1140" width="1230" x="1290" y="70" as="geometry" />
+          <mxGeometry height="1140" width="1230" x="1300" y="30" as="geometry" />
         </mxCell>
         <mxCell id="0ts4ocg5N4o25eMSjGBl-509" parent="0ts4ocg5N4o25eMSjGBl-508" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="" vertex="1">
           <mxGeometry height="1140" width="1230" as="geometry" />
@@ -87,10 +90,10 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="0ts4ocg5N4o25eMSjGBl-526" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EEEEEE;strokeColor=#36393d;" value="" vertex="1">
-          <mxGeometry height="120" width="770" x="1310" y="290" as="geometry" />
+          <mxGeometry height="120" width="770" x="1320" y="250" as="geometry" />
         </mxCell>
         <mxCell id="0ts4ocg5N4o25eMSjGBl-527" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#eeeeee;strokeColor=#36393D;arcSize=4;container=1;expand=1;collapsible=0;" value="" vertex="1">
-          <mxGeometry height="500" width="770" x="1310" y="450" as="geometry">
+          <mxGeometry height="500" width="770" x="1320" y="410" as="geometry">
             <mxRectangle height="40" width="50" x="30" y="400" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
@@ -416,10 +419,10 @@
           <mxGeometry height="6" width="12" x="649.69" y="23.092524271844766" as="geometry" />
         </mxCell>
         <mxCell id="0ts4ocg5N4o25eMSjGBl-635" parent="1" style="strokeWidth=1;shadow=0;dashed=0;align=center;html=1;shape=mxgraph.mockup.forms.searchBox;strokeColor=#999999;mainText=;strokeColor2=#008cff;fontColor=#666666;fontSize=17;align=left;spacingLeft=3;whiteSpace=wrap;" value="Suchen" vertex="1">
-          <mxGeometry height="30" width="280" x="1340" y="320" as="geometry" />
+          <mxGeometry height="30" width="280" x="1350" y="280" as="geometry" />
         </mxCell>
         <mxCell id="0ts4ocg5N4o25eMSjGBl-636" connectable="0" parent="1" style="group" value="" vertex="1">
-          <mxGeometry height="183" width="100" x="1630" y="310" as="geometry" />
+          <mxGeometry height="183" width="100" x="1640" y="270" as="geometry" />
         </mxCell>
         <mxCell id="0ts4ocg5N4o25eMSjGBl-637" parent="0ts4ocg5N4o25eMSjGBl-636" style="html=1;shadow=0;dashed=0;shape=mxgraph.bootstrap.rrect;rSize=5;strokeColor=none;strokeWidth=1;fillColor=#6C767D;fontColor=#ffffff;whiteSpace=wrap;align=left;verticalAlign=middle;fontStyle=0;fontSize=14;spacingLeft=10;" value="Status" vertex="1">
           <mxGeometry height="30" width="82.35" y="10" as="geometry" />
@@ -472,7 +475,7 @@
           <mxGeometry height="10" width="100" y="130" as="geometry" />
         </mxCell>
         <mxCell id="0ts4ocg5N4o25eMSjGBl-653" connectable="0" parent="1" style="group" value="" vertex="1">
-          <mxGeometry height="58" width="180" x="1730" y="290" as="geometry" />
+          <mxGeometry height="58" width="180" x="1740" y="250" as="geometry" />
         </mxCell>
         <mxCell id="0ts4ocg5N4o25eMSjGBl-654" connectable="0" parent="0ts4ocg5N4o25eMSjGBl-653" style="group" value="" vertex="1">
           <mxGeometry height="58" width="100" x="80" as="geometry" />
@@ -493,7 +496,7 @@
           <mxGeometry height="33" width="70" y="25" as="geometry" />
         </mxCell>
         <mxCell id="0ts4ocg5N4o25eMSjGBl-660" connectable="0" parent="1" style="group" value="" vertex="1">
-          <mxGeometry height="58" width="180" x="1900" y="290" as="geometry" />
+          <mxGeometry height="58" width="180" x="1910" y="250" as="geometry" />
         </mxCell>
         <mxCell id="0ts4ocg5N4o25eMSjGBl-661" connectable="0" parent="0ts4ocg5N4o25eMSjGBl-660" style="group" value="" vertex="1">
           <mxGeometry height="58" width="100" x="80" as="geometry" />
@@ -514,12 +517,12 @@
           <mxGeometry height="33" width="70" y="25" as="geometry" />
         </mxCell>
         <mxCell id="0ts4ocg5N4o25eMSjGBl-667" parent="1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=3;fillColor=#EEEEEE;strokeColor=#373737;" value="" vertex="1">
-          <mxGeometry height="660" width="420" x="2090" y="290" as="geometry" />
+          <mxGeometry height="660" width="420" x="2100" y="250" as="geometry" />
         </mxCell>
         <mxCell id="0ts4ocg5N4o25eMSjGBl-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="" vertex="1">
           <mxGeometry height="1140" width="1230" y="70" as="geometry" />
         </mxCell>
-        <mxCell id="0ts4ocg5N4o25eMSjGBl-31" parent="1" style="dashed=0;shape=rect;fillColor=#d0cee2;strokeColor=#56517e;fontSize=11;fontStyle=1" value="" vertex="1">
+        <mxCell id="0ts4ocg5N4o25eMSjGBl-31" parent="1" style="dashed=0;shape=rect;fillColor=#d0cee2;strokeColor=#56517e;fontSize=11;" value="" vertex="1">
           <mxGeometry height="201.94285714285712" width="1230" y="70" as="geometry" />
         </mxCell>
         <mxCell id="0ts4ocg5N4o25eMSjGBl-32" parent="0ts4ocg5N4o25eMSjGBl-31" style="dashed=0;shape=rect;fillColor=#00A0B4;strokeColor=none;resizeWidth=1;" value="" vertex="1">
@@ -560,49 +563,11 @@
             <mxPoint x="-28" y="20" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="KHPwn3DxLR6oOPT0IZCp-8" parent="0ts4ocg5N4o25eMSjGBl-36" style="text;fontSize=11;fontColor=#FFFFFF;verticalAlign=middle;align=center;whiteSpace=wrap;html=1;fontStyle=0" value="TRANSAKTIONEN" vertex="1">
-          <mxGeometry height="48" relative="1" width="106" y="1" as="geometry">
-            <mxPoint x="50" y="-49" as="offset" />
-          </mxGeometry>
+        <mxCell id="0ts4ocg5N4o25eMSjGBl-883" parent="0ts4ocg5N4o25eMSjGBl-36" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=5;strokeColor=#000000;shadow=0;dashed=0;shape=mxgraph.ios7.icons.share;fontSize=12;fillColor=#7E7E7E;" value="" vertex="1">
+          <mxGeometry height="62" width="50" x="1070" y="58" as="geometry" />
         </mxCell>
-        <mxCell id="KHPwn3DxLR6oOPT0IZCp-9" parent="0ts4ocg5N4o25eMSjGBl-36" style="text;fontSize=13;fontColor=#FFFFFF;verticalAlign=middle;align=center;textOpacity=80;whiteSpace=wrap;html=1;fontStyle=1" value="LOGS" vertex="1">
-          <mxGeometry height="48" relative="1" width="108" y="1" as="geometry">
-            <mxPoint x="140" y="-49" as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="KHPwn3DxLR6oOPT0IZCp-10" parent="0ts4ocg5N4o25eMSjGBl-36" style="text;fontSize=13;fontColor=#FFFFFF;verticalAlign=middle;align=center;textOpacity=80;whiteSpace=wrap;html=1;" value="KUNDEN" vertex="1">
-          <mxGeometry height="48" relative="1" width="98" y="1" as="geometry">
-            <mxPoint x="228" y="-49" as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="KHPwn3DxLR6oOPT0IZCp-11" parent="0ts4ocg5N4o25eMSjGBl-36" style="text;fontSize=13;fontColor=#FFFFFF;verticalAlign=middle;align=center;textOpacity=80;whiteSpace=wrap;html=1;" value="RECHNUNGEN" vertex="1">
-          <mxGeometry height="48" relative="1" width="74" y="1" as="geometry">
-            <mxPoint x="368" y="-49" as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="KHPwn3DxLR6oOPT0IZCp-12" parent="0ts4ocg5N4o25eMSjGBl-36" style="text;fontSize=13;fontColor=#FFFFFF;verticalAlign=middle;align=center;textOpacity=80;whiteSpace=wrap;html=1;" value="MORE" vertex="1">
-          <mxGeometry height="48" relative="1" width="74" y="1" as="geometry">
-            <mxPoint x="478" y="-49" as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="KHPwn3DxLR6oOPT0IZCp-13" parent="KHPwn3DxLR6oOPT0IZCp-12" style="dashed=0;shape=mxgraph.gmdl.triangle;strokeColor=none;fillColor=#ffffff;opacity=70;" value="" vertex="1">
-          <mxGeometry height="5" relative="1" width="10" x="1" y="0.5" as="geometry">
-            <mxPoint x="-10" y="-3" as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="KHPwn3DxLR6oOPT0IZCp-14" parent="0ts4ocg5N4o25eMSjGBl-36" style="dashed=0;shape=rect;strokeColor=none;fillColor=#F1FB8F;" value="" vertex="1">
-          <mxGeometry height="4" relative="1" width="72" y="1" as="geometry">
-            <mxPoint x="160" y="-4" as="offset" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="KHPwn3DxLR6oOPT0IZCp-15" connectable="0" parent="0ts4ocg5N4o25eMSjGBl-36" style="group" value="" vertex="1">
-          <mxGeometry height="72" width="70.43" x="1070" y="78" as="geometry" />
-        </mxCell>
-        <mxCell id="0ts4ocg5N4o25eMSjGBl-883" parent="KHPwn3DxLR6oOPT0IZCp-15" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=5;strokeColor=#000000;shadow=0;dashed=0;shape=mxgraph.ios7.icons.share;fontSize=12;fillColor=#7E7E7E;" value="" vertex="1">
-          <mxGeometry height="48.52173913043478" width="39.12777777777778" x="15.651111111111113" as="geometry" />
-        </mxCell>
-        <mxCell id="0ts4ocg5N4o25eMSjGBl-884" parent="KHPwn3DxLR6oOPT0IZCp-15" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="neues Log" vertex="1">
-          <mxGeometry height="21.91304347826087" width="70.43" y="48.52173913043478" as="geometry" />
+        <mxCell id="0ts4ocg5N4o25eMSjGBl-884" parent="0ts4ocg5N4o25eMSjGBl-36" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="neues Log" vertex="1">
+          <mxGeometry height="30" width="90" x="1050" y="120" as="geometry" />
         </mxCell>
         <mxCell id="0ts4ocg5N4o25eMSjGBl-809" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="" vertex="1">
           <mxGeometry height="1140" width="1230" x="20" y="1370" as="geometry" />
@@ -613,7 +578,7 @@
         <mxCell id="0ts4ocg5N4o25eMSjGBl-813" parent="0ts4ocg5N4o25eMSjGBl-816" style="rounded=1;whiteSpace=wrap;html=1;arcSize=3;fillColor=#EEEEEE;strokeColor=#373737;" value="" vertex="1">
           <mxGeometry height="850" width="1170" as="geometry" />
         </mxCell>
-        <mxCell id="0ts4ocg5N4o25eMSjGBl-811" parent="0ts4ocg5N4o25eMSjGBl-816" style="text;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=top;rounded=0;fontColor=#4F796F;fontSize=14;fontStyle=0" value="# Device, ACE0398688&#xa;# Generated, 14.04.2026 14:19:39&#xa;mv: socket 1, 2026-01-24 06:30:59 2593.341 N&#xa;txstop2: id 0xffffffffffffffff, socket 1, 2026-01-24 14:43:49 2593.341kWh 050FE8E3210000 6 5 N&#xa;txstart2: id 0xffffffffffffffff, socket 1, 2026-01-24 07:40:58 2593.341kWh 050FE8E3210000 3 2 N&#xa;mv: socket 1, 2026-01-24 07:40:58 2593.341 N&#xa;mv: socket 1, 2026-01-24 07:41:00 2593.341 N&#xa;mv: socket 1, 2026-01-24 07:55:59 2596.066 N&#xa;mv: socket 1, 2026-01-24 08:10:59 2598.849 N&#xa;mv: socket 1, 2026-01-24 08:25:59 2601.633 N&#xa;mv: socket 1, 2026-01-24 08:40:59 2604.417 N&#xa;mv: socket 1, 2026-01-24 08:55:59 2607.201 N&#xa;mv: socket 1, 2026-01-24 09:10:59 2609.979 N&#xa;mv: socket 1, 2026-01-24 09:25:59 2612.761 N&#xa;mv: socket 1, 2026-01-24 09:41:00 2615.540 N&#xa;mv: socket 1, 2026-01-24 09:55:59 2618.314 N&#xa;mv: socket 1, 2026-01-24 10:10:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 10:25:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 10:40:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 10:55:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 11:10:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 11:25:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 11:40:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 11:55:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 12:10:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 12:25:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 12:40:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 12:55:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 13:10:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 13:25:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 13:40:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 13:55:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 14:10:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 14:25:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 14:40:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 14:43:49 2620.683 N&#xa;txstop2: id 0xffffffffffffffff, socket 1, 2026-01-24 14:43:49 2620.683kWh 050FE8E3210000 6 5 N&#xa;txstart2: id 0xffffffffffffffff, socket 1, 2026-01-26 08:03:34 2620.683kWh 050FE8E3210000 3 2 N&#xa;mv: socket 1, 2026-01-26 08:03:34 2620.683 N&#xa;mv: socket 1, 2026-01-26 08:03:36 2620.683 N&#xa;mv: socket 1, 2026-01-26 08:18:35 2623.240 N&#xa;mv: socket 1, 2026-01-26 08:33:36 2625.985 N&#xa;mv: socket 1, 2026-01-26 08:48:35 2628.725 N&#xa;mv: socket 1, 2026-01-26 09:03:35 2631.464 N&#xa;mv: socket 1, 2026-01-26 09:18:35 2634.195 N&#xa;mv: socket 1, 2026-01-26 09:33:35 2636.928 N&#xa;mv: socket 1, 2026-01-26 09:48:35 2639.661 N&#xa;mv: socket 1, 2026-01-26 10:03:35 2642.389 N&#xa;mv: socket 1, 2026-01-26 10:18:35 2645.124 N&#xa;" vertex="1">
+        <mxCell id="0ts4ocg5N4o25eMSjGBl-811" parent="0ts4ocg5N4o25eMSjGBl-816" style="text;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=top;rounded=0;fontColor=#4F796F;fontSize=14;fontStyle=0" value="# Device, ACE0398688&#xa;# Generated, 14.04.2026 14:19:39&#xa;mv: socket 1, 2026-01-24 06:30:59 2593.341 N&#xa;txstop2: id 0xffffffffffffffff, socket 1, 2026-01-24 14:43:49 2593.341kWh 050FE8E3210000 6 5 N&#xa;txstart2: id 0xffffffffffffffff, socket 1, 2026-01-24 07:40:58 2593.341kWh 050FE8E3210000 3 2 N&#xa;mv: socket 1, 2026-01-24 07:40:58 2593.341 N&#xa;mv: socket 1, 2026-01-24 07:41:00 2593.341 N&#xa;mv: socket 1, 2026-01-24 07:55:59 2596.066 N&#xa;mv: socket 1, 2026-01-24 08:10:59 2598.849 N&#xa;mv: socket 1, 2026-01-24 08:25:59 2601.633 N&#xa;mv: socket 1, 2026-01-24 08:40:59 2604.417 N&#xa;mv: socket 1, 2026-01-24 08:55:59 2607.201 N&#xa;mv: socket 1, 2026-01-24 09:10:59 2609.979 N&#xa;mv: socket 1, 2026-01-24 09:25:59 2612.761 N&#xa;mv: socket 1, 2026-01-24 09:41:00 2615.540 N&#xa;mv: socket 1, 2026-01-24 09:55:59 2618.314 N&#xa;mv: socket 1, 2026-01-24 10:10:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 10:25:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 10:40:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 10:55:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 11:10:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 11:25:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 11:40:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 11:55:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 12:10:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 12:25:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 12:40:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 12:55:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 13:10:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 13:25:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 13:40:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 13:55:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 14:10:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 14:25:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 14:40:59 2620.683 N&#xa;mv: socket 1, 2026-01-24 14:43:49 2620.683 N&#xa;txstop2: id 0xffffffffffffffff, socket 1, 2026-01-24 14:43:49 2620.683kWh 050FE8E3210000 6 5 N&#xa;txstart2: id 0xffffffffffffffff, socket 1, 2026-01-26 08:03:34 2620.683kWh 050FE8E3210000 3 2 N&#xa;mv: socket 1, 2026-01-26 08:03:34 2620.683 N&#xa;mv: socket 1, 2026-01-26 08:03:36 2620.683 N&#xa;mv: socket 1, 2026-01-26 08:18:35 2623.240 N&#xa;mv: socket 1, 2026-01-26 08:33:36 2625.985 N&#xa;mv: socket 1, 2026-01-26 08:48:35 2628.725 N&#xa;mv: socket 1, 2026-01-26 09:03:35 2631.464 N&#xa;mv: socket 1, 2026-01-26 09:18:35 2634.195 N&#xa;mv: socket 1, 2026-01-26 09:33:35 2636.928 N&#xa;mv: socket 1, 2026-01-26 09:48:35 2639.661 N&#xa;mv: socket 1, 2026-01-26 10:03:35 2642.389 N&#xa;mv: socket 1, 2026-01-26 10:18:35 2645.124 N&#xa;mv: socket 1, 2026-01-26 10:33:35 2647.859 N&#xa;mv: socket 1, 2026-01-26 10:48:35 2650.091 N&#xa;mv: socket 1, 2026-01-26 11:03:35 2650.091 N&#xa;mv: socket 1, 2026-01-26 11:18:35 2650.091 N&#xa;mv: socket 1, 2026-01-26 11:33:35 2650.091 N&#xa;mv: socket 1, 2026-01-26 11:48:35 2650.091 N&#xa;mv: socket 1, 2026-01-26 12:03:35 2650.091 N&#xa;mv: socket 1, 2026-01-26 12:18:35 2650.091 N&#xa;mv: socket 1, 2026-01-26 12:33:35 2650.091 N&#xa;mv: socket 1, 2026-01-26 12:48:35 2650.091 N&#xa;mv: socket 1, 2026-01-26 13:03:35 2650.091 N&#xa;mv: socket 1, 2026-01-26 13:18:35 2650.091 N&#xa;mv: socket 1, 2026-01-26 13:33:35 2650.091 N&#xa;mv: socket 1, 2026-01-26 13:48:35 2650.091 N&#xa;mv: socket 1, 2026-01-26 14:03:35 2650.091 N&#xa;mv: socket 1, 2026-01-26 14:18:35 2650.091 N&#xa;mv: socket 1, 2026-01-26 14:33:35 2650.091 N&#xa;mv: socket 1, 2026-01-26 14:48:35 2650.091 N&#xa;mv: socket 1, 2026-01-26 15:03:35 2650.091 N&#xa;mv: socket 1, 2026-01-26 15:18:35 2650.091 N&#xa;mv: socket 1, 2026-01-26 15:33:35 2650.091 N&#xa;mv: socket 1, 2026-01-26 15:48:35 2650.091 N&#xa;mv: socket 1, 2026-01-26 16:03:35 2650.091 N&#xa;mv: socket 1, 2026-01-26 16:18:35 2650.091 N&#xa;mv: socket 1, 2026-01-26 16:33:35 2650.091 N&#xa;mv: socket 1, 2026-01-26 16:48:35 2650.091 N&#xa;mv: socket 1, 2026-01-26 17:00:54 2650.091 N&#xa;txstop2: id 0xffffffffffffffff, socket 1, 2026-01-26 17:00:54 2650.091kWh 050FE8E3210000 6 5 N&#xa;txstart2: id 0xffffffffffffffff, socket 1, 2026-01-27 10:50:29 2650.091kWh 0421102A577481 3 2 N&#xa;mv: socket 1, 2026-01-27 10:50:29 2650.091 N&#xa;mv: socket 1, 2026-01-27 10:50:31 2650.091 N&#xa;mv: socket 1, 2026-01-27 11:05:30 2652.662 N&#xa;mv: socket 1, 2026-01-27 11:20:30 2655.415 N&#xa;mv: socket 1, 2026-01-27 11:35:30 2658.169 N&#xa;mv: socket 1, 2026-01-27 11:50:30 2660.918 N&#xa;mv: socket 1, 2026-01-27 12:05:30 2663.673 N&#xa;mv: socket 1, 2026-01-27 12:20:30 2666.421 N&#xa;mv: socket 1, 2026-01-27 12:35:30 2669.172 N&#xa;mv: socket 1, 2026-01-27 12:50:30 2671.927 N&#xa;mv: socket 1, 2026-01-27 13:05:30 2674.672 N&#xa;mv: socket 1, 2026-01-27 13:20:30 2677.414 N&#xa;mv: socket 1, 2026-01-27 13:35:30 2680.152 N&#xa;mv: socket 1, 2026-01-27 13:50:30 2682.633 N&#xa;mv: socket 1, 2026-01-27 14:05:30 2682.633 N&#xa;mv: socket 1, 2026-01-27 14:20:30 2682.633 N&#xa;mv: socket 1, 2026-01-27 14:35:30 2682.633 N&#xa;mv: socket 1, 2026-01-27 14:50:30 2682.633 N&#xa;mv: socket 1, 2026-01-27 15:05:30 2682.633 N&#xa;mv: socket 1, 2026-01-27 15:20:30 2682.633 N&#xa;mv: socket 1, 2026-01-27 15:35:30 2682.633 N&#xa;mv: socket 1, 2026-01-27 15:50:30 2682.633 N&#xa;mv: socket 1, 2026-01-27 16:05:30 2682.633 N&#xa;mv: socket 1, 2026-01-27 16:20:30 2682.633 N&#xa;mv: socket 1, 2026-01-27 16:35:30 2682.633 N&#xa;mv: socket 1, 2026-01-27 16:50:30 2682.633 N&#xa;mv: socket 1, 2026-01-27 17:05:30 2682.633 N" vertex="1">
           <mxGeometry height="1320" width="1121.0880508474577" x="29.081440677966103" y="24" as="geometry" />
         </mxCell>
         <mxCell id="0ts4ocg5N4o25eMSjGBl-828" parent="1" style="dashed=0;shape=rect;fillColor=#d0cee2;strokeColor=#56517e;fontSize=11;" value="" vertex="1">
@@ -884,6 +849,21 @@
         <mxCell id="0ts4ocg5N4o25eMSjGBl-852" parent="0ts4ocg5N4o25eMSjGBl-847" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;fontStyle=1;fontSize=15;" value="tag ID" vertex="1">
           <mxGeometry height="30" width="100" x="260" y="15" as="geometry" />
         </mxCell>
+        <mxCell id="0ts4ocg5N4o25eMSjGBl-854" edge="1" parent="1" source="0ts4ocg5N4o25eMSjGBl-853" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="810" y="294" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0ts4ocg5N4o25eMSjGBl-855" edge="1" parent="1" source="0ts4ocg5N4o25eMSjGBl-853" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="810" y="294" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0ts4ocg5N4o25eMSjGBl-856" edge="1" parent="1" source="0ts4ocg5N4o25eMSjGBl-853" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="810" y="294" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="0ts4ocg5N4o25eMSjGBl-853" parent="1" style="rounded=1;fillColor=#F0F2F5;strokeColor=#D8DCE3;align=left;verticalAlign=middle;fontStyle=0;fontSize=12;labelPosition=right;verticalLabelPosition=middle;spacingLeft=10;html=1;shadow=0;dashed=0;allowArrows=0;connectable=0;" value="&lt;font style=&quot;color: rgb(0, 0, 0);&quot;&gt;Zwischenstände anzeigen&lt;/font&gt;" vertex="1">
           <mxGeometry height="12" width="12" x="790" y="314.44000000000005" as="geometry" />
         </mxCell>
@@ -928,6 +908,11 @@
         </mxCell>
         <mxCell id="0ts4ocg5N4o25eMSjGBl-873" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontColor=#000000;fontStyle=1;fontSize=15;" value="Zeitraum" vertex="1">
           <mxGeometry height="30" width="60" x="240" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="0ts4ocg5N4o25eMSjGBl-876" edge="1" parent="1" source="0ts4ocg5N4o25eMSjGBl-874" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="196" y="262.42857142857156" as="targetPoint" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="0ts4ocg5N4o25eMSjGBl-874" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontColor=#000000;fontStyle=1;fontSize=15;" value="Filter" vertex="1">
           <mxGeometry height="30" width="60" x="40" y="264" as="geometry" />

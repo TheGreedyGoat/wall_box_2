@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'transaction.dart';
+part of 'address.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -12,40 +12,41 @@ part of 'transaction.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
-mixin _$Transaction {
+mixin _$Address {
 
- String get id; String get tagID; String get deviceID; DateTime get start; DateTime get stop; KiloWattHour get usage;
-/// Create a copy of Transaction
+ String get id; String? get street; String? get number; String? get postcode; String? get city;// optional
+ String? get country; String? get adressAdditions;
+/// Create a copy of Address
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$TransactionCopyWith<Transaction> get copyWith => _$TransactionCopyWithImpl<Transaction>(this as Transaction, _$identity);
+$AddressCopyWith<Address> get copyWith => _$AddressCopyWithImpl<Address>(this as Address, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Transaction&&(identical(other.id, id) || other.id == id)&&(identical(other.tagID, tagID) || other.tagID == tagID)&&(identical(other.deviceID, deviceID) || other.deviceID == deviceID)&&(identical(other.start, start) || other.start == start)&&(identical(other.stop, stop) || other.stop == stop)&&(identical(other.usage, usage) || other.usage == usage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Address&&(identical(other.id, id) || other.id == id)&&(identical(other.street, street) || other.street == street)&&(identical(other.number, number) || other.number == number)&&(identical(other.postcode, postcode) || other.postcode == postcode)&&(identical(other.city, city) || other.city == city)&&(identical(other.country, country) || other.country == country)&&(identical(other.adressAdditions, adressAdditions) || other.adressAdditions == adressAdditions));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,tagID,deviceID,start,stop,usage);
+int get hashCode => Object.hash(runtimeType,id,street,number,postcode,city,country,adressAdditions);
 
 @override
 String toString() {
-  return 'Transaction(id: $id, tagID: $tagID, deviceID: $deviceID, start: $start, stop: $stop, usage: $usage)';
+  return 'Address(id: $id, street: $street, number: $number, postcode: $postcode, city: $city, country: $country, adressAdditions: $adressAdditions)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $TransactionCopyWith<$Res>  {
-  factory $TransactionCopyWith(Transaction value, $Res Function(Transaction) _then) = _$TransactionCopyWithImpl;
+abstract mixin class $AddressCopyWith<$Res>  {
+  factory $AddressCopyWith(Address value, $Res Function(Address) _then) = _$AddressCopyWithImpl;
 @useResult
 $Res call({
- String id, String tagID, String deviceID, DateTime start, DateTime stop,@KiloWattHourConverter()@JsonKey(name: 'usage') KiloWattHour usage
+ String id, String? street, String? postcode, String? number, String? city, String? country, String? adressAdditions
 });
 
 
@@ -53,32 +54,33 @@ $Res call({
 
 }
 /// @nodoc
-class _$TransactionCopyWithImpl<$Res>
-    implements $TransactionCopyWith<$Res> {
-  _$TransactionCopyWithImpl(this._self, this._then);
+class _$AddressCopyWithImpl<$Res>
+    implements $AddressCopyWith<$Res> {
+  _$AddressCopyWithImpl(this._self, this._then);
 
-  final Transaction _self;
-  final $Res Function(Transaction) _then;
+  final Address _self;
+  final $Res Function(Address) _then;
 
-/// Create a copy of Transaction
+/// Create a copy of Address
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? tagID = null,Object? deviceID = null,Object? start = null,Object? stop = null,Object? usage = null,}) {
-  return _then(Transaction(
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? street = freezed,Object? postcode = freezed,Object? number = freezed,Object? city = freezed,Object? country = freezed,Object? adressAdditions = freezed,}) {
+  return _then(Address(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,tagID: null == tagID ? _self.tagID : tagID // ignore: cast_nullable_to_non_nullable
-as String,deviceID: null == deviceID ? _self.deviceID : deviceID // ignore: cast_nullable_to_non_nullable
-as String,start: null == start ? _self.start : start // ignore: cast_nullable_to_non_nullable
-as DateTime,stop: null == stop ? _self.stop : stop // ignore: cast_nullable_to_non_nullable
-as DateTime,usage: null == usage ? _self.usage : usage // ignore: cast_nullable_to_non_nullable
-as KiloWattHour,
+as String,street: freezed == street ? _self.street : street // ignore: cast_nullable_to_non_nullable
+as String?,postcode: freezed == postcode ? _self.postcode : postcode // ignore: cast_nullable_to_non_nullable
+as String?,number: freezed == number ? _self.number : number // ignore: cast_nullable_to_non_nullable
+as String?,city: freezed == city ? _self.city : city // ignore: cast_nullable_to_non_nullable
+as String?,country: freezed == country ? _self.country : country // ignore: cast_nullable_to_non_nullable
+as String?,adressAdditions: freezed == adressAdditions ? _self.adressAdditions : adressAdditions // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
 }
 
 
-/// Adds pattern-matching-related methods to [Transaction].
-extension TransactionPatterns on Transaction {
+/// Adds pattern-matching-related methods to [Address].
+extension AddressPatterns on Address {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
