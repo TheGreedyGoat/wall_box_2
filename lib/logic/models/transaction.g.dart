@@ -12,6 +12,9 @@ Transaction _$TransactionFromJson(Map<String, dynamic> json) => Transaction(
   deviceID: json['deviceID'] as String,
   start: DateTime.parse(json['start'] as String),
   stop: DateTime.parse(json['stop'] as String),
+  discount: const PercentJSONConverter().fromJson(
+    (json['discount'] as num?)?.toInt(),
+  ),
   usage: const KiloWattHourConverter().fromJson((json['usage'] as num).toInt()),
 );
 
@@ -23,4 +26,5 @@ Map<String, dynamic> _$TransactionToJson(Transaction instance) =>
       'start': instance.start.toIso8601String(),
       'stop': instance.stop.toIso8601String(),
       'usage': const KiloWattHourConverter().toJson(instance.usage),
+      'discount': const PercentJSONConverter().toJson(instance.discount),
     };

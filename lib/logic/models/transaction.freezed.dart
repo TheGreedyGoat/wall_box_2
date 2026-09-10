@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Transaction {
 
- String get id; String get tagID; String get deviceID; DateTime get start; DateTime get stop; KiloWattHour get usage;
+ String get id; String get tagID; String get deviceID; DateTime get start; DateTime get stop; KiloWattHour get usage; Percent? get discount;
 /// Create a copy of Transaction
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $TransactionCopyWith<Transaction> get copyWith => _$TransactionCopyWithImpl<Tran
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Transaction&&(identical(other.id, id) || other.id == id)&&(identical(other.tagID, tagID) || other.tagID == tagID)&&(identical(other.deviceID, deviceID) || other.deviceID == deviceID)&&(identical(other.start, start) || other.start == start)&&(identical(other.stop, stop) || other.stop == stop)&&(identical(other.usage, usage) || other.usage == usage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Transaction&&(identical(other.id, id) || other.id == id)&&(identical(other.tagID, tagID) || other.tagID == tagID)&&(identical(other.deviceID, deviceID) || other.deviceID == deviceID)&&(identical(other.start, start) || other.start == start)&&(identical(other.stop, stop) || other.stop == stop)&&(identical(other.usage, usage) || other.usage == usage)&&(identical(other.discount, discount) || other.discount == discount));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,tagID,deviceID,start,stop,usage);
+int get hashCode => Object.hash(runtimeType,id,tagID,deviceID,start,stop,usage,discount);
 
 @override
 String toString() {
-  return 'Transaction(id: $id, tagID: $tagID, deviceID: $deviceID, start: $start, stop: $stop, usage: $usage)';
+  return 'Transaction(id: $id, tagID: $tagID, deviceID: $deviceID, start: $start, stop: $stop, usage: $usage, discount: $discount)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $TransactionCopyWith<$Res>  {
   factory $TransactionCopyWith(Transaction value, $Res Function(Transaction) _then) = _$TransactionCopyWithImpl;
 @useResult
 $Res call({
- String id, String tagID, String deviceID, DateTime start, DateTime stop,@KiloWattHourConverter()@JsonKey(name: 'usage') KiloWattHour usage
+ String id, String tagID, String deviceID, DateTime start, DateTime stop,@PercentJSONConverter() Percent? discount,@KiloWattHourConverter()@JsonKey(name: 'usage') KiloWattHour usage
 });
 
 
@@ -62,14 +62,15 @@ class _$TransactionCopyWithImpl<$Res>
 
 /// Create a copy of Transaction
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? tagID = null,Object? deviceID = null,Object? start = null,Object? stop = null,Object? usage = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? tagID = null,Object? deviceID = null,Object? start = null,Object? stop = null,Object? discount = freezed,Object? usage = null,}) {
   return _then(Transaction(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,tagID: null == tagID ? _self.tagID : tagID // ignore: cast_nullable_to_non_nullable
 as String,deviceID: null == deviceID ? _self.deviceID : deviceID // ignore: cast_nullable_to_non_nullable
 as String,start: null == start ? _self.start : start // ignore: cast_nullable_to_non_nullable
 as DateTime,stop: null == stop ? _self.stop : stop // ignore: cast_nullable_to_non_nullable
-as DateTime,usage: null == usage ? _self.usage : usage // ignore: cast_nullable_to_non_nullable
+as DateTime,discount: freezed == discount ? _self.discount : discount // ignore: cast_nullable_to_non_nullable
+as Percent?,usage: null == usage ? _self.usage : usage // ignore: cast_nullable_to_non_nullable
 as KiloWattHour,
   ));
 }

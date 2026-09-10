@@ -1,3 +1,5 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 /// Represents, well, a percentage.
 ///
 /// Uses an int [permille] as internal data
@@ -23,4 +25,13 @@ class Percent {
 
   @override
   String toString() => '${percent.toStringAsFixed(1)} %';
+}
+
+class PercentJSONConverter extends JsonConverter<Percent?, int?> {
+  const PercentJSONConverter();
+  @override
+  Percent? fromJson(int? json) => json != null ? Percent(json) : null;
+
+  @override
+  int? toJson(Percent? object) => object?.permille;
 }

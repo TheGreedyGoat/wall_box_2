@@ -86,7 +86,7 @@ classDiagram
     }
         
     
-    class Transaction{
+    class Transaction ::: inProgress{
         String id
         String tagID;
         String deviceID;
@@ -96,11 +96,12 @@ classDiagram
         Interval get interval
 
         KiloWattHours powerUsage;
+        Percentace? discount;
 
         getTagAssignment() TagAssignment?
     }
 
-    class TagAssignment{
+    class TagAssignment ::: inProgress{
         String tagID
         String? tagName
         DateTime from
@@ -110,7 +111,7 @@ classDiagram
 
         getCustomer(String tagID, DateTime timestamp) Customer?
     }
-    class PriceAssignment{
+    class PriceAssignment ::: inProgress{
         int customerID
         Euro unitPrice
         DateTime from

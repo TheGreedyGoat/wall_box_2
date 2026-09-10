@@ -5,6 +5,11 @@ abstract class Unit {
   /// returns the internal int value
   int get value;
 
+  /// the factor to convert from the internal value to the displayed value
+  int get factor;
+
+  double get externalValue => value / factor;
+
   /// The unit's symbol
   String get symbol;
 
@@ -17,7 +22,8 @@ abstract class Unit {
   /// defines how to display the value.
   ///
   /// [precision] defines the number of digits after the.
-  String toStringAsFixed(int precision);
+  String toStringAsFixed(int precision) =>
+      '${externalValue.toStringAsFixed(precision)} $symbol';
 
   @override
   String toString() => toStringAsFixed(defaultPrecision);
