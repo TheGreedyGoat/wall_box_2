@@ -1,0 +1,37 @@
+
+flowchart
+
+    start(start)
+    ta[/TransactionBlock/]
+    hasStart{has\nstart?}
+    hasStop{has\nstop?}
+
+    findStart@{shape: subproc, label: "try fetch start"}
+    findStop@{shape: subproc, label: "try fetch stop"}
+
+    mergeStart@{shape: subproc, label: "merge,\ndelete parts"}
+    mergeStop@{shape: subproc, label: "merge,\ndelete parts"}
+
+    checkComplete{Is\n Complete?}
+
+    save@{shape: subproc, label: "Save"}
+    create@{shape: subproc, label: "Build Transaction"}
+    fin(stop)
+
+    start-->ta
+    ta --hasStart-->
+    hasStart --YES--> hasStop
+
+    hasStart --NO--> findStart
+    findStart --FOUND--> mergeStart --> hasStop
+    findStart --NOT FOUND--> hasStop
+
+    hasStop --NO--> findStop
+    findStop --FOUND--> mergeStop --> checkComplete
+    findStop --NOT FOUND--> checkComplete
+
+    checkComplete --YES--> create
+    checkComplete --NO-->save
+
+    create & save --> fin
+
