@@ -27,8 +27,17 @@ class Percent {
   String toString() => '${percent.toStringAsFixed(1)} %';
 }
 
-class PercentJSONConverter extends JsonConverter<Percent?, int?> {
+class PercentJSONConverter extends JsonConverter<Percent, int> {
   const PercentJSONConverter();
+  @override
+  Percent fromJson(int json) => Percent(json);
+
+  @override
+  int toJson(Percent object) => object.permille;
+}
+
+class PercentJSONConverterNullable extends JsonConverter<Percent?, int?> {
+  const PercentJSONConverterNullable();
   @override
   Percent? fromJson(int? json) => json != null ? Percent(json) : null;
 

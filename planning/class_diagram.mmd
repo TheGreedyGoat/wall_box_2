@@ -131,6 +131,10 @@ classDiagram
         CompanyData? company;
         PersonalData? personal
 
+        
+                Adress? adress
+                Contact? contact
+
         getPriceAtTime (DateTime date) Euro
         getTransactions(DateTime from, DateTime to) Transaction[]
     }
@@ -138,15 +142,14 @@ classDiagram
 
             class CompanyData :::done{
                 String? companyName
-                Adress? adress
-                Contact? contact
+                String? compAddition
             }
 
             class PersonalData :::done{
+                Gender? gender
+                String? "title"
                 String? prename
                 String? surname
-                Adress? adress
-                Contact? contact 
             }
 
         }
@@ -221,7 +224,7 @@ classDiagram
     
     Customer "1"*.."0,n" CompanyData
     Customer "1"*.."0,n" PersonalData
-    Customer "1" *-- "n"PriceAssignment
+    PriceAssignment "n" *-- "1" Customer
 
     note for Customer "erhält Tags & Rechnungen"
 

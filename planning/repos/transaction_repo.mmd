@@ -1,0 +1,37 @@
+erDiagram
+    TRANSACTION ||--|| TAG_ASSIGNMENT : ""
+
+    CUSTOMER ||--|| TAG_ASSIGNMENT : ""
+    CUSTOMER ||--|| PRICE_ASSIGNMENT : ""
+    TRANSACTION{
+        String tagID PK
+        String wb_id FK
+        int start_date "=> used to match tag assignment"
+        int stop_date 
+        int power_usage
+    }
+
+    TAG_ASSIGNMENT{
+        String tagID PK,FK
+        int date_from PK
+        int? date_to "null => until today"
+        int customer_id FK
+        int? user_id FK
+    }
+
+    
+    CUSTOMER{
+        String id PK  "uuid"
+        String companyName
+
+        String prename
+        String surname
+        etc pp
+    }
+
+    PRICE_ASSIGNMENT{
+        String customer_id
+        int price "centicents"
+        int date_from
+        int? date_to
+    }

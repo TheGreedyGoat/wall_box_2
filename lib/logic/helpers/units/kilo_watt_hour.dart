@@ -42,7 +42,7 @@ class KiloWattHour extends Unit {
 }
 
 /// JSPN Converter for [KiloWattHour]
-class KiloWattHourConverter implements UnitConverter<KiloWattHour> {
+class KiloWattHourConverter extends JsonConverter<KiloWattHour, int> {
   /// JSPN Converter for [KiloWattHour]
   const KiloWattHourConverter();
   @override

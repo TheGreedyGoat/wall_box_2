@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:wall_box_2/logic/helpers/data_error.dart';
+import 'package:wall_box_2/logic/helpers/enums/data_error.dart';
 import 'package:wall_box_2/logic/models/master_data/contact/email.dart';
 import 'package:wall_box_2/logic/models/master_data/master_data.dart';
 import 'package:wall_box_2/logic/models/master_data/contact/phone.dart';
@@ -43,10 +43,10 @@ class ContactData extends MasterData with _$ContactData {
 }
 
 /// JSON Converter for ContactData
-class ContactDataJsonConverter
+class ContactDataJsonConverterNullable
     extends JsonConverter<ContactData?, Map<String, dynamic>?> {
   /// JSON Converter for ContactData
-  const ContactDataJsonConverter();
+  const ContactDataJsonConverterNullable();
 
   @override
   ContactData? fromJson(Map<String, dynamic>? json) =>
@@ -55,4 +55,19 @@ class ContactDataJsonConverter
   @override
   Map<String, dynamic>? toJson(ContactData? object) =>
       object == null ? null : _$ContactDataToJson(object);
+}
+
+/// JSON Converter for ContactData
+class ContactDataJsonConverter
+    extends JsonConverter<ContactData, Map<String, dynamic>> {
+  /// JSON Converter for ContactData
+  const ContactDataJsonConverter();
+
+  @override
+  ContactData fromJson(Map<String, dynamic> json) =>
+      _$ContactDataFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson(ContactData object) =>
+      _$ContactDataToJson(object);
 }

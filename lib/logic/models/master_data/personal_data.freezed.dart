@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PersonalData {
 
- String get id; String? get prename; String? get surname; ContactData? get contact; Address? get address;
+ String get id; Gender? get gender; String? get prename; String? get surname;
 /// Create a copy of PersonalData
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $PersonalDataCopyWith<PersonalData> get copyWith => _$PersonalDataCopyWithImpl<P
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PersonalData&&(identical(other.id, id) || other.id == id)&&(identical(other.prename, prename) || other.prename == prename)&&(identical(other.surname, surname) || other.surname == surname)&&(identical(other.contact, contact) || other.contact == contact)&&(identical(other.address, address) || other.address == address));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PersonalData&&(identical(other.id, id) || other.id == id)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.prename, prename) || other.prename == prename)&&(identical(other.surname, surname) || other.surname == surname));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,prename,surname,contact,address);
+int get hashCode => Object.hash(runtimeType,id,gender,prename,surname);
 
 @override
 String toString() {
-  return 'PersonalData(id: $id, prename: $prename, surname: $surname, contact: $contact, address: $address)';
+  return 'PersonalData(id: $id, gender: $gender, prename: $prename, surname: $surname)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $PersonalDataCopyWith<$Res>  {
   factory $PersonalDataCopyWith(PersonalData value, $Res Function(PersonalData) _then) = _$PersonalDataCopyWithImpl;
 @useResult
 $Res call({
- String id, String? prename, String? surname,@ContactDataJsonConverter()@JsonKey(name: 'contact') ContactData? contact,@AddressJsonConverter()@JsonKey(name: 'address') Address? address
+ String id, Gender? gender, String? prename, String? surname
 });
 
 
@@ -62,14 +62,13 @@ class _$PersonalDataCopyWithImpl<$Res>
 
 /// Create a copy of PersonalData
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? prename = freezed,Object? surname = freezed,Object? contact = freezed,Object? address = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? gender = freezed,Object? prename = freezed,Object? surname = freezed,}) {
   return _then(PersonalData(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,prename: freezed == prename ? _self.prename : prename // ignore: cast_nullable_to_non_nullable
+as String,gender: freezed == gender ? _self.gender : gender // ignore: cast_nullable_to_non_nullable
+as Gender?,prename: freezed == prename ? _self.prename : prename // ignore: cast_nullable_to_non_nullable
 as String?,surname: freezed == surname ? _self.surname : surname // ignore: cast_nullable_to_non_nullable
-as String?,contact: freezed == contact ? _self.contact : contact // ignore: cast_nullable_to_non_nullable
-as ContactData?,address: freezed == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
-as Address?,
+as String?,
   ));
 }
 

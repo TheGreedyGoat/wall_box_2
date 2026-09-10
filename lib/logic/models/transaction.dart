@@ -9,7 +9,13 @@ part 'transaction.freezed.dart';
 part 'transaction.g.dart';
 
 @freezed
-@JsonSerializable(converters: [KiloWattHourConverter(), PercentJSONConverter()])
+@JsonSerializable(
+  converters: [
+    KiloWattHourConverter(),
+    PercentJSONConverter(),
+    TagAssignmentJsonConverterNullable(),
+  ],
+)
 /// Describes one transaction at a wallbox
 class Transaction with _$Transaction {
   @override
@@ -54,8 +60,8 @@ class Transaction with _$Transaction {
     required this.deviceID,
     required this.start,
     required this.stop,
-    this.tagAssignment,
+    @TagAssignmentJsonConverterNullable() this.tagAssignment,
     @PercentJSONConverter() this.discount,
-    @KiloWattHourConverter() @JsonKey(name: 'usage') required this.usage,
+    @KiloWattHourConverter() required this.usage,
   });
 }

@@ -1,4 +1,4 @@
-import 'package:wall_box_2/logic/helpers/data_error.dart';
+import 'package:wall_box_2/logic/helpers/enums/data_error.dart';
 
 /// abstract class for Master data (Stammdaten)
 ///

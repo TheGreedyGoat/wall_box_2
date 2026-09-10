@@ -8,21 +8,21 @@ part of 'personal_data.dart';
 
 PersonalData _$PersonalDataFromJson(Map<String, dynamic> json) => PersonalData(
   id: json['id'] as String,
+  gender: $enumDecodeNullable(_$GenderEnumMap, json['gender']),
   prename: json['prename'] as String?,
   surname: json['surname'] as String?,
-  contact: const ContactDataJsonConverter().fromJson(
-    json['contact'] as Map<String, dynamic>?,
-  ),
-  address: const AddressJsonConverter().fromJson(
-    json['address'] as Map<String, dynamic>?,
-  ),
 );
 
 Map<String, dynamic> _$PersonalDataToJson(PersonalData instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'gender': _$GenderEnumMap[instance.gender],
       'prename': instance.prename,
       'surname': instance.surname,
-      'contact': const ContactDataJsonConverter().toJson(instance.contact),
-      'address': const AddressJsonConverter().toJson(instance.address),
     };
+
+const _$GenderEnumMap = {
+  Gender.male: 'male',
+  Gender.female: 'female',
+  Gender.divers: 'divers',
+};

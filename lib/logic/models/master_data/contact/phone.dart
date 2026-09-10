@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:wall_box_2/logic/helpers/data_error.dart';
+import 'package:wall_box_2/logic/helpers/enums/data_error.dart';
 import 'package:wall_box_2/logic/models/master_data/master_data.dart';
 
 part 'phone.freezed.dart';

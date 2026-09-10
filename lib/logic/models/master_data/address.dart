@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:wall_box_2/logic/helpers/data_error.dart';
+import 'package:wall_box_2/logic/helpers/enums/data_error.dart';
 import 'package:wall_box_2/logic/models/master_data/master_data.dart';
 
 part 'address.freezed.dart';
@@ -49,9 +49,21 @@ class Address extends MasterData with _$Address {
 
 /// Converter for adresses
 class AddressJsonConverter
-    extends JsonConverter<Address?, Map<String, dynamic>?> {
+    extends JsonConverter<Address, Map<String, dynamic>> {
   /// Converter for adresses
   const AddressJsonConverter();
+
+  @override
+  Address fromJson(Map<String, dynamic> json) => _$AddressFromJson(json);
+  @override
+  Map<String, dynamic> toJson(Address object) => _$AddressToJson(object);
+}
+
+/// Converter for adresses
+class AddressJsonConverterNullable
+    extends JsonConverter<Address?, Map<String, dynamic>?> {
+  /// Converter for adresses
+  const AddressJsonConverterNullable();
 
   @override
   Address? fromJson(Map<String, dynamic>? json) =>

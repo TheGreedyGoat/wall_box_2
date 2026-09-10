@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'company_data.dart';
+part of 'customer.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -12,40 +12,40 @@ part of 'company_data.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
-mixin _$CompanyData {
+mixin _$Customer {
 
- String get id; String? get companyName; String? get companyAddition;
-/// Create a copy of CompanyData
+ String get id; CompanyData? get company; PersonalData? get personal; Address get address; ContactData get contact;
+/// Create a copy of Customer
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$CompanyDataCopyWith<CompanyData> get copyWith => _$CompanyDataCopyWithImpl<CompanyData>(this as CompanyData, _$identity);
+$CustomerCopyWith<Customer> get copyWith => _$CustomerCopyWithImpl<Customer>(this as Customer, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CompanyData&&(identical(other.id, id) || other.id == id)&&(identical(other.companyName, companyName) || other.companyName == companyName)&&(identical(other.companyAddition, companyAddition) || other.companyAddition == companyAddition));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Customer&&(identical(other.id, id) || other.id == id)&&(identical(other.company, company) || other.company == company)&&(identical(other.personal, personal) || other.personal == personal)&&(identical(other.address, address) || other.address == address)&&(identical(other.contact, contact) || other.contact == contact));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,companyName,companyAddition);
+int get hashCode => Object.hash(runtimeType,id,company,personal,address,contact);
 
 @override
 String toString() {
-  return 'CompanyData(id: $id, companyName: $companyName, companyAddition: $companyAddition)';
+  return 'Customer(id: $id, company: $company, personal: $personal, address: $address, contact: $contact)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $CompanyDataCopyWith<$Res>  {
-  factory $CompanyDataCopyWith(CompanyData value, $Res Function(CompanyData) _then) = _$CompanyDataCopyWithImpl;
+abstract mixin class $CustomerCopyWith<$Res>  {
+  factory $CustomerCopyWith(Customer value, $Res Function(Customer) _then) = _$CustomerCopyWithImpl;
 @useResult
 $Res call({
- String id, String? companyName, String? companyAddition
+ String id,@AddressJsonConverter()@JsonKey(name: 'address') Address address,@ContactDataJsonConverterNullable()@JsonKey(name: 'contact') ContactData contact,@PersonalDataJsonConverterNullable() PersonalData? personal,@CompanyDataJsonConverterNullable() CompanyData? company
 });
 
 
@@ -53,29 +53,31 @@ $Res call({
 
 }
 /// @nodoc
-class _$CompanyDataCopyWithImpl<$Res>
-    implements $CompanyDataCopyWith<$Res> {
-  _$CompanyDataCopyWithImpl(this._self, this._then);
+class _$CustomerCopyWithImpl<$Res>
+    implements $CustomerCopyWith<$Res> {
+  _$CustomerCopyWithImpl(this._self, this._then);
 
-  final CompanyData _self;
-  final $Res Function(CompanyData) _then;
+  final Customer _self;
+  final $Res Function(Customer) _then;
 
-/// Create a copy of CompanyData
+/// Create a copy of Customer
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? companyName = freezed,Object? companyAddition = freezed,}) {
-  return _then(CompanyData(
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? address = null,Object? contact = null,Object? personal = freezed,Object? company = freezed,}) {
+  return _then(Customer(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,companyName: freezed == companyName ? _self.companyName : companyName // ignore: cast_nullable_to_non_nullable
-as String?,companyAddition: freezed == companyAddition ? _self.companyAddition : companyAddition // ignore: cast_nullable_to_non_nullable
-as String?,
+as String,address: null == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
+as Address,contact: null == contact ? _self.contact : contact // ignore: cast_nullable_to_non_nullable
+as ContactData,personal: freezed == personal ? _self.personal : personal // ignore: cast_nullable_to_non_nullable
+as PersonalData?,company: freezed == company ? _self.company : company // ignore: cast_nullable_to_non_nullable
+as CompanyData?,
   ));
 }
 
 }
 
 
-/// Adds pattern-matching-related methods to [CompanyData].
-extension CompanyDataPatterns on CompanyData {
+/// Adds pattern-matching-related methods to [Customer].
+extension CustomerPatterns on Customer {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:

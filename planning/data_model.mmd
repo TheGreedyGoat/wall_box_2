@@ -7,13 +7,15 @@ config:
 erDiagram
     direction LR
     
-    WALLBOX_LOG ||--o{ LOG_SCAN: "consits of"
-    LOG_SCAN ||--o{ MV : "contains"
-    LOG_SCAN ||--o{ TA_LOG: ""
+    %% WALLBOX_LOG ||--o{ LOG_SCAN: "consits of"
+    %% LOG_SCAN ||--o{ MV : "contains"
+    %% LOG_SCAN ||--o{ TA_LOG: ""
 
-    TA_LOG ||--|| TRANSACTION: "converts to if complete"
-    %% TRANSACTION ||--|| TAG_ASSIGNMENT: ""
-    TAG_ASSIGNMENT ||--o| TAG:"assigns"
+    %% TA_LOG ||--|| TRANSACTION: "converts to if complete"
+    %% %% TRANSACTION ||--|| TAG_ASSIGNMENT: ""
+    %% TAG_ASSIGNMENT ||--o| TAG:"assigns"
+
+    
 
     CUSTOMER ||--o{ USER: "distribute tags"
     CUSTOMER ||--O{ CUSTOMER_PRICE: "pays per kWh"
@@ -25,37 +27,10 @@ erDiagram
     COMPANY_DATA ||--|| CUSTOMER : "defines"
 
     PERSONAL_DATA ||--|| USER : "defines"
-    VEHICLE_DATA ||--|| USER : "defines"
-   
-
-    WALLBOX_LOG{
-        String wallbox_id PK
-        String(20)? name 
+    
+    INCOMPLETE_TRANSACTION{
 
     }
-    LOG_SCAN{
-        int id PK "AUTO INC"
-        String wallbox_id FK
-        int generationDate
-    }
-
-    MV{
-        int scan_id PK, FK "=> LOG_SCAN"
-        int timestamp PK
-        int powerlevel
-    }
-
-    TA_LOG{
-        int ransaction_id PK "AI"
-        String tagID
-        int scan_id FK "=> LOG_SCAN"
-        int? startDate
-        int? stopDate
-
-        bool gotMatched
-
-    }
-
     TRANSACTION{
         String tagID PK
         String wb_id FK
@@ -98,9 +73,6 @@ erDiagram
         String vehicle
         String licencePlate
     }
-    TAG {
-        String tagID PK
-    }
 
     COMPANY_DATA{
         String customer_id PK, FK
@@ -113,9 +85,9 @@ erDiagram
         String? customer_id FK
         String? user_id FK
     }
-    VEHICLE_DATA{
-        int id PK, FK
-        String user_id FK
-    }
+    %% VEHICLE_DATA{
+    %%     int id PK, FK
+    %%     String user_id FK
+    %% }
 
 %% classDef default fill:#f9f,stroke-width:4px

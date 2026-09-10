@@ -1,7 +1,7 @@
 // ignore_for_file: unused_import
 
 import 'package:flutter/material.dart';
-import 'package:wall_box_2/logic/models/customer.dart';
+import 'package:wall_box_2/logic/models/master_data/customer.dart';
 import 'package:wall_box_2/logic/models/master_data/address.dart';
 import 'package:wall_box_2/logic/models/master_data/company_data.dart';
 import 'package:wall_box_2/logic/models/master_data/contact/contact_data.dart';
@@ -14,8 +14,10 @@ import 'package:wall_box_2/ui/dummy/upload_and_parse.dart';
 void main() {
   final c = Customer(
     id: 'id',
-    company: CompanyData(id: 'id'),
+    company: CompanyData(id: 'id', companyName: 'bla'),
     personal: PersonalData(id: 'id'),
+    address: Address(id: 'id'),
+    contact: ContactData(id: 'id'),
   );
   print(c.validate());
   print(c.toString());

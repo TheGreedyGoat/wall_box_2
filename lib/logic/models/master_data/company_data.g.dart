@@ -9,18 +9,12 @@ part of 'company_data.dart';
 CompanyData _$CompanyDataFromJson(Map<String, dynamic> json) => CompanyData(
   id: json['id'] as String,
   companyName: json['companyName'] as String?,
-  address: const AddressJsonConverter().fromJson(
-    json['address'] as Map<String, dynamic>?,
-  ),
-  contact: const ContactDataJsonConverter().fromJson(
-    json['contact'] as Map<String, dynamic>?,
-  ),
+  companyAddition: json['companyAddition'] as String?,
 );
 
 Map<String, dynamic> _$CompanyDataToJson(CompanyData instance) =>
     <String, dynamic>{
       'id': instance.id,
       'companyName': instance.companyName,
-      'address': const AddressJsonConverter().toJson(instance.address),
-      'contact': const ContactDataJsonConverter().toJson(instance.contact),
+      'companyAddition': instance.companyAddition,
     };

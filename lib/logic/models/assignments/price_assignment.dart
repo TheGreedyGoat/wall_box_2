@@ -1,6 +1,6 @@
 import 'package:wall_box_2/logic/helpers/units/euro.dart';
 import 'package:wall_box_2/logic/models/assignments/assignment.dart';
-import 'package:wall_box_2/logic/models/customer.dart';
+import 'package:wall_box_2/logic/models/master_data/customer.dart';
 
 class PriceAssignment extends Assignment {
   final Customer customer;

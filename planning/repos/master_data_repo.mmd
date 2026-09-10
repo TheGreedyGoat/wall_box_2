@@ -1,0 +1,50 @@
+erDiagram
+    %% CUSTOMER |o--|| COMPANY_DATA : "can have"
+    %% CUSTOMER |o--|| PERSONAL_DATA : "can have"
+
+    PERSONAL_DATA ||--|| ADDRESS: contains
+    PERSONAL_DATA ||--|| CONTACT: contains
+
+    COMPANY_DATA ||--|| ADDRESS: contains
+    COMPANY_DATA ||--|| CONTACT: contains
+
+    %% CUSTOMER{
+    %%     String customer_id PK
+    %%     String? personal_id FK
+    %%     String? company_id FK
+
+    %% }
+
+    COMPANY_DATA{
+        String company_id PK
+        String address_id FK
+        String contact_id FK
+
+        String company_name
+    }
+
+    PERSONAL_DATA{
+        
+        String personal_id PK
+        String address_id FK
+        String contact_id FK
+
+        String prename
+        String surname
+    }
+
+    ADDRESS{
+        String address_id PK
+        String street,
+        String number,
+        String postcode,
+        String city,
+        String? country,
+    }
+
+    CONTACT{
+        String contact_id PK
+        String? phone
+        String? mobile
+        String? email
+    }

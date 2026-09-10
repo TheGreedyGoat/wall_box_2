@@ -1,16 +1,12 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:wall_box_2/logic/helpers/data_error.dart';
-import 'package:wall_box_2/logic/models/master_data/address.dart';
-import 'package:wall_box_2/logic/models/master_data/contact/contact_data.dart';
+import 'package:wall_box_2/logic/helpers/enums/data_error.dart';
 import 'package:wall_box_2/logic/models/master_data/master_data.dart';
 
 part 'company_data.freezed.dart';
 part 'company_data.g.dart';
 
 @freezed
-@JsonSerializable(
-  converters: [ContactDataJsonConverter(), AddressJsonConverter()],
-)
+@JsonSerializable()
 /// represents data for a company
 ///
 /// All fields are required for validation
@@ -19,27 +15,43 @@ class CompanyData extends MasterData with _$CompanyData {
   final String id;
   @override
   final String? companyName;
-  @override
-  final Address? address;
-  @override
-  final ContactData? contact;
+  final String? companyAddition;
 
   /// represents data for a company
   ///
   /// All fields are required for validation
   CompanyData({
     required this.id,
-    this.companyName,
-    @AddressJsonConverter() @JsonKey(name: 'address') this.address,
-    @ContactDataJsonConverter() @JsonKey(name: 'contact') this.contact,
+    required this.companyName,
+    this.companyAddition,
   });
 
   @override
   List<DataError?> get validationList => [
     (companyName ?? '').isEmpty ? DataError.noCompanyName : null,
-    address == null ? DataError.noAddress : null,
-    contact == null ? DataError.noContact : null,
-    if (address != null) ...address!.validate(),
-    if (contact != null) ...contact!.validate(),
   ];
+}
+
+class CompanyDataJsonConverter
+    extends JsonConverter<CompanyData, Map<String, dynamic>> {
+  const CompanyDataJsonConverter();
+  @override
+  CompanyData fromJson(Map<String, dynamic> json) =>
+      _$CompanyDataFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson(CompanyData object) =>
+      _$CompanyDataToJson(object);
+}
+
+class CompanyDataJsonConverterNullable
+    extends JsonConverter<CompanyData?, Map<String, dynamic>?> {
+  const CompanyDataJsonConverterNullable();
+  @override
+  CompanyData? fromJson(Map<String, dynamic>? json) =>
+      json == null ? null : _$CompanyDataFromJson(json);
+
+  @override
+  Map<String, dynamic>? toJson(CompanyData? object) =>
+      object == null ? null : _$CompanyDataToJson(object);
 }
