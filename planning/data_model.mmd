@@ -5,32 +5,18 @@ config:
 ---
 
 erDiagram
-    direction LR
+    direction TB
     
-    %% WALLBOX_LOG ||--o{ LOG_SCAN: "consits of"
-    %% LOG_SCAN ||--o{ MV : "contains"
-    %% LOG_SCAN ||--o{ TA_LOG: ""
-
-    %% TA_LOG ||--|| TRANSACTION: "converts to if complete"
-    %% %% TRANSACTION ||--|| TAG_ASSIGNMENT: ""
-    %% TAG_ASSIGNMENT ||--o| TAG:"assigns"
+    TRANSACTION }o--o| TAG_ASSIGNMENT : "aquire infos"
+    TAG_ASSIGNMENT }o--|| CUSTOMER: "belongs to"
+    CUSTOMER ||--|| ADDRESS : "has"
+    CUSTOMER ||--|| CONTACT : "has"
+    CUSTOMER ||--o| COMPANY_DATA : "has"
+    CUSTOMER ||--o| PERSONAL_DATA : "has"
+    CUSTOMER ||--o{ PRICE_ASSIGNMENT: "has"
 
     
 
-    CUSTOMER ||--o{ USER: "distribute tags"
-    CUSTOMER ||--O{ CUSTOMER_PRICE: "pays per kWh"
-
-    TAG_ASSIGNMENT ||--|| CUSTOMER:"Zuordnung durch Betreiber"
-    TAG_ASSIGNMENT ||--o| USER: "Zuordnung durch Kunden"
-
-    PERSONAL_DATA ||--|| CUSTOMER : "defines"
-    COMPANY_DATA ||--|| CUSTOMER : "defines"
-
-    PERSONAL_DATA ||--|| USER : "defines"
-    
-    INCOMPLETE_TRANSACTION{
-
-    }
     TRANSACTION{
         String tagID PK
         String wb_id FK
@@ -49,45 +35,48 @@ erDiagram
 
     
     CUSTOMER{
-        String id PK  "uuid"
-        String companyName
+        String customer_id PK
+        String address_id FK
+        String contact_id FK
 
-        String prename
-        String surname
-        etc pp
+        String? company_id FK
+        String? personal_id FK
+
     }
 
-    CUSTOMER_PRICE{
-        String customer_id
+    PRICE_ASSIGNMENT{
+        String customer_id FK
         int price "centicents"
         int date_from
         int? date_to
     }
 
-    USER{
-        String id PK
-        String K_id FK
+
+    COMPANY_DATA{
+        String company_id
+        String company_name
+        String? company_addition
+    }
+    PERSONAL_DATA{
+        String personal_id PK
         String prename
         String surname
 
-        String vehicle
-        String licencePlate
+        String gemder
+
     }
 
-    COMPANY_DATA{
-        String customer_id PK, FK
-        String company_name
-        String street 
-        etc pp
+    ADDRESS{
+        String street
+        String house_number
+        String? postcode
+        String city
+        String country
     }
-    PERSONAL_DATA{
-        int id PK "AI"
-        String? customer_id FK
-        String? user_id FK
-    }
-    %% VEHICLE_DATA{
-    %%     int id PK, FK
-    %%     String user_id FK
-    %% }
 
-%% classDef default fill:#f9f,stroke-width:4px
+    CONTACT{
+        String phone
+        String mobile
+        String fax
+        String email
+    }
