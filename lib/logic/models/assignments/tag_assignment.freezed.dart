@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TagAssignment {
 
- DateTime get from; DateTime? get to; String get tagID; String? get tagName; Customer get customer;
+ DateTime get from; DateTime? get to; String get tagID; String get customerID;
 /// Create a copy of TagAssignment
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $TagAssignmentCopyWith<TagAssignment> get copyWith => _$TagAssignmentCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TagAssignment&&(identical(other.from, from) || other.from == from)&&(identical(other.to, to) || other.to == to)&&(identical(other.tagID, tagID) || other.tagID == tagID)&&(identical(other.tagName, tagName) || other.tagName == tagName)&&(identical(other.customer, customer) || other.customer == customer));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TagAssignment&&(identical(other.from, from) || other.from == from)&&(identical(other.to, to) || other.to == to)&&(identical(other.tagID, tagID) || other.tagID == tagID)&&(identical(other.customerID, customerID) || other.customerID == customerID));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,from,to,tagID,tagName,customer);
+int get hashCode => Object.hash(runtimeType,from,to,tagID,customerID);
 
 @override
 String toString() {
-  return 'TagAssignment(from: $from, to: $to, tagID: $tagID, tagName: $tagName, customer: $customer)';
+  return 'TagAssignment(from: $from, to: $to, tagID: $tagID, customerID: $customerID)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $TagAssignmentCopyWith<$Res>  {
   factory $TagAssignmentCopyWith(TagAssignment value, $Res Function(TagAssignment) _then) = _$TagAssignmentCopyWithImpl;
 @useResult
 $Res call({
- String tagID,@CustomerJsonConverter() Customer customer, String? tagName, DateTime from, DateTime? to
+@JsonKey(name: TagAssignmentColumns.tag_id) String tagID,@JsonKey(name: TagAssignmentColumns.customer_id) String customerID,@JsonKey(name: TagAssignmentColumns.from) DateTime from,@JsonKey(name: TagAssignmentColumns.to) DateTime? to
 });
 
 
@@ -62,12 +62,11 @@ class _$TagAssignmentCopyWithImpl<$Res>
 
 /// Create a copy of TagAssignment
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? tagID = null,Object? customer = null,Object? tagName = freezed,Object? from = null,Object? to = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? tagID = null,Object? customerID = null,Object? from = null,Object? to = freezed,}) {
   return _then(TagAssignment(
 tagID: null == tagID ? _self.tagID : tagID // ignore: cast_nullable_to_non_nullable
-as String,customer: null == customer ? _self.customer : customer // ignore: cast_nullable_to_non_nullable
-as Customer,tagName: freezed == tagName ? _self.tagName : tagName // ignore: cast_nullable_to_non_nullable
-as String?,from: null == from ? _self.from : from // ignore: cast_nullable_to_non_nullable
+as String,customerID: null == customerID ? _self.customerID : customerID // ignore: cast_nullable_to_non_nullable
+as String,from: null == from ? _self.from : from // ignore: cast_nullable_to_non_nullable
 as DateTime,to: freezed == to ? _self.to : to // ignore: cast_nullable_to_non_nullable
 as DateTime?,
   ));

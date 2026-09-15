@@ -1,0 +1,202 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
+
+part of 'price_assignment.dart';
+
+// **************************************************************************
+// FreezedGenerator
+// **************************************************************************
+
+// dart format off
+T _$identity<T>(T value) => value;
+/// @nodoc
+mixin _$PriceAssignment {
+
+ DateTime get from; DateTime? get to; String get customerID; Euro get price;
+/// Create a copy of PriceAssignment
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$PriceAssignmentCopyWith<PriceAssignment> get copyWith => _$PriceAssignmentCopyWithImpl<PriceAssignment>(this as PriceAssignment, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PriceAssignment&&(identical(other.from, from) || other.from == from)&&(identical(other.to, to) || other.to == to)&&(identical(other.customerID, customerID) || other.customerID == customerID)&&(identical(other.price, price) || other.price == price));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,from,to,customerID,price);
+
+@override
+String toString() {
+  return 'PriceAssignment(from: $from, to: $to, customerID: $customerID, price: $price)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $PriceAssignmentCopyWith<$Res>  {
+  factory $PriceAssignmentCopyWith(PriceAssignment value, $Res Function(PriceAssignment) _then) = _$PriceAssignmentCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(name: PriceAssignmentColumns.customer_id) String customerID,@EuroJsonConverter()@JsonKey(name: PriceAssignmentColumns.price) Euro price,@JsonKey(name: PriceAssignmentColumns.from) DateTime from,@JsonKey(name: PriceAssignmentColumns.to) DateTime? to
+});
+
+
+
+
+}
+/// @nodoc
+class _$PriceAssignmentCopyWithImpl<$Res>
+    implements $PriceAssignmentCopyWith<$Res> {
+  _$PriceAssignmentCopyWithImpl(this._self, this._then);
+
+  final PriceAssignment _self;
+  final $Res Function(PriceAssignment) _then;
+
+/// Create a copy of PriceAssignment
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? customerID = null,Object? price = null,Object? from = null,Object? to = freezed,}) {
+  return _then(PriceAssignment(
+customerID: null == customerID ? _self.customerID : customerID // ignore: cast_nullable_to_non_nullable
+as String,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
+as Euro,from: null == from ? _self.from : from // ignore: cast_nullable_to_non_nullable
+as DateTime,to: freezed == to ? _self.to : to // ignore: cast_nullable_to_non_nullable
+as DateTime?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [PriceAssignment].
+extension PriceAssignmentPatterns on PriceAssignment {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(){
+final _that = this;
+switch (_that) {
+case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(){
+final _that = this;
+switch (_that) {
+case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>() {final _that = this;
+switch (_that) {
+case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>() {final _that = this;
+switch (_that) {
+case _:
+  return null;
+
+}
+}
+
+}
+
+// dart format on

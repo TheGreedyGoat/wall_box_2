@@ -7,14 +7,14 @@ part of 'company_data.dart';
 // **************************************************************************
 
 CompanyData _$CompanyDataFromJson(Map<String, dynamic> json) => CompanyData(
-  id: json['id'] as String,
-  companyName: json['companyName'] as String?,
-  companyAddition: json['companyAddition'] as String?,
+  customerID: json['customer_id'] as String,
+  companyName: json['company_name'] as String?,
+  companyAddition: json['company_addition'] as String?,
 );
 
 Map<String, dynamic> _$CompanyDataToJson(CompanyData instance) =>
     <String, dynamic>{
-      'id': instance.id,
-      'companyName': instance.companyName,
-      'companyAddition': instance.companyAddition,
+      'customer_id': instance.customerID,
+      'company_name': instance.companyName,
+      'company_addition': instance.companyAddition,
     };

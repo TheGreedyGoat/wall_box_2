@@ -7,22 +7,24 @@ part of 'personal_data.dart';
 // **************************************************************************
 
 PersonalData _$PersonalDataFromJson(Map<String, dynamic> json) => PersonalData(
-  id: json['id'] as String,
+  customerID: json['customer_id'] as String,
   gender: $enumDecodeNullable(_$GenderEnumMap, json['gender']),
+  title: json['title'] as String?,
   prename: json['prename'] as String?,
   surname: json['surname'] as String?,
 );
 
 Map<String, dynamic> _$PersonalDataToJson(PersonalData instance) =>
     <String, dynamic>{
-      'id': instance.id,
+      'customer_id': instance.customerID,
       'gender': _$GenderEnumMap[instance.gender],
+      'title': instance.title,
       'prename': instance.prename,
       'surname': instance.surname,
     };
 
 const _$GenderEnumMap = {
-  Gender.male: 'male',
-  Gender.female: 'female',
-  Gender.divers: 'divers',
+  Gender.male: null,
+  Gender.female: null,
+  Gender.divers: null,
 };

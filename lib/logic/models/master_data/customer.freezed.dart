@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Customer {
 
- String get id; CompanyData? get company; PersonalData? get personal; Address get address; ContactData get contact;
+ String get id; String? get taxID; set taxID(String? value);
 /// Create a copy of Customer
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $CustomerCopyWith<Customer> get copyWith => _$CustomerCopyWithImpl<Customer>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Customer&&(identical(other.id, id) || other.id == id)&&(identical(other.company, company) || other.company == company)&&(identical(other.personal, personal) || other.personal == personal)&&(identical(other.address, address) || other.address == address)&&(identical(other.contact, contact) || other.contact == contact));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Customer&&(identical(other.id, id) || other.id == id)&&(identical(other.taxID, taxID) || other.taxID == taxID));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,company,personal,address,contact);
+int get hashCode => Object.hash(runtimeType,id,taxID);
 
 @override
 String toString() {
-  return 'Customer(id: $id, company: $company, personal: $personal, address: $address, contact: $contact)';
+  return 'Customer(id: $id, taxID: $taxID)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $CustomerCopyWith<$Res>  {
   factory $CustomerCopyWith(Customer value, $Res Function(Customer) _then) = _$CustomerCopyWithImpl;
 @useResult
 $Res call({
- String id,@AddressJsonConverter()@JsonKey(name: 'address') Address address,@ContactDataJsonConverterNullable()@JsonKey(name: 'contact') ContactData contact,@PersonalDataJsonConverterNullable() PersonalData? personal,@CompanyDataJsonConverterNullable() CompanyData? company
+@JsonKey(name: CustomerColumns.id) String id,@JsonKey(name: CustomerColumns.taxID) String? taxID
 });
 
 
@@ -62,14 +62,11 @@ class _$CustomerCopyWithImpl<$Res>
 
 /// Create a copy of Customer
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? address = null,Object? contact = null,Object? personal = freezed,Object? company = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? taxID = freezed,}) {
   return _then(Customer(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as String,address: null == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
-as Address,contact: null == contact ? _self.contact : contact // ignore: cast_nullable_to_non_nullable
-as ContactData,personal: freezed == personal ? _self.personal : personal // ignore: cast_nullable_to_non_nullable
-as PersonalData?,company: freezed == company ? _self.company : company // ignore: cast_nullable_to_non_nullable
-as CompanyData?,
+as String,taxID: freezed == taxID ? _self.taxID : taxID // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

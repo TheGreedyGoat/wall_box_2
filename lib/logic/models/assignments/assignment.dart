@@ -1,11 +1,13 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:wall_box_2/logic/helpers/interval.dart';
 
-class Assignment {
-  final DateTime from;
-  final DateTime? to;
+abstract class Assignment {
+  DateTime get from;
+  DateTime? get to;
 
-  const Assignment({required this.from, this.to});
+  const Assignment();
 
   DateTime get toOrNow => to ?? DateTime.now();
+  @override
   Interval get interval => Interval(from: from, to: toOrNow);
 }

@@ -8,34 +8,30 @@ part of 'transaction.dart';
 
 Transaction _$TransactionFromJson(Map<String, dynamic> json) => Transaction(
   id: json['id'] as String,
-  tagID: json['tagID'] as String,
-  deviceID: json['deviceID'] as String,
+  tagID: json['tag_id'] as String,
+  deviceID: json['device_id'] as String,
   start: DateTime.parse(json['start'] as String),
   stop: DateTime.parse(json['stop'] as String),
-  tagAssignment: const TagAssignmentJsonConverterNullable().fromJson(
-    json['tagAssignment'] as Map<String, dynamic>?,
-  ),
   discount: _$JsonConverterFromJson<int, Percent>(
     json['discount'],
     const PercentJSONConverter().fromJson,
   ),
-  usage: const KiloWattHourConverter().fromJson((json['usage'] as num).toInt()),
+  usage: const KiloWattHourConverter().fromJson(
+    (json['power_usage'] as num).toInt(),
+  ),
 );
 
 Map<String, dynamic> _$TransactionToJson(Transaction instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'tagID': instance.tagID,
-      'deviceID': instance.deviceID,
+      'tag_id': instance.tagID,
+      'device_id': instance.deviceID,
       'start': instance.start.toIso8601String(),
       'stop': instance.stop.toIso8601String(),
-      'usage': const KiloWattHourConverter().toJson(instance.usage),
+      'power_usage': const KiloWattHourConverter().toJson(instance.usage),
       'discount': _$JsonConverterToJson<int, Percent>(
         instance.discount,
         const PercentJSONConverter().toJson,
-      ),
-      'tagAssignment': const TagAssignmentJsonConverterNullable().toJson(
-        instance.tagAssignment,
       ),
     };
 

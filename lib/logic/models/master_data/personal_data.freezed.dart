@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PersonalData {
 
- String get id; Gender? get gender; String? get prename; String? get surname;
+ String get customerID; Gender? get gender; String? get title; String? get prename; String? get surname;
 /// Create a copy of PersonalData
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $PersonalDataCopyWith<PersonalData> get copyWith => _$PersonalDataCopyWithImpl<P
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PersonalData&&(identical(other.id, id) || other.id == id)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.prename, prename) || other.prename == prename)&&(identical(other.surname, surname) || other.surname == surname));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PersonalData&&(identical(other.customerID, customerID) || other.customerID == customerID)&&(identical(other.gender, gender) || other.gender == gender)&&(identical(other.title, title) || other.title == title)&&(identical(other.prename, prename) || other.prename == prename)&&(identical(other.surname, surname) || other.surname == surname));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,gender,prename,surname);
+int get hashCode => Object.hash(runtimeType,customerID,gender,title,prename,surname);
 
 @override
 String toString() {
-  return 'PersonalData(id: $id, gender: $gender, prename: $prename, surname: $surname)';
+  return 'PersonalData(customerID: $customerID, gender: $gender, title: $title, prename: $prename, surname: $surname)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $PersonalDataCopyWith<$Res>  {
   factory $PersonalDataCopyWith(PersonalData value, $Res Function(PersonalData) _then) = _$PersonalDataCopyWithImpl;
 @useResult
 $Res call({
- String id, Gender? gender, String? prename, String? surname
+@JsonKey(name: PersonalColumns.customer_id) String customerID,@JsonKey(name: PersonalColumns.gender) Gender? gender,@JsonKey(name: PersonalColumns.title) String? title,@JsonKey(name: PersonalColumns.prename) String? prename,@JsonKey(name: PersonalColumns.surname) String? surname
 });
 
 
@@ -62,11 +62,12 @@ class _$PersonalDataCopyWithImpl<$Res>
 
 /// Create a copy of PersonalData
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? gender = freezed,Object? prename = freezed,Object? surname = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? customerID = null,Object? gender = freezed,Object? title = freezed,Object? prename = freezed,Object? surname = freezed,}) {
   return _then(PersonalData(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+customerID: null == customerID ? _self.customerID : customerID // ignore: cast_nullable_to_non_nullable
 as String,gender: freezed == gender ? _self.gender : gender // ignore: cast_nullable_to_non_nullable
-as Gender?,prename: freezed == prename ? _self.prename : prename // ignore: cast_nullable_to_non_nullable
+as Gender?,title: freezed == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+as String?,prename: freezed == prename ? _self.prename : prename // ignore: cast_nullable_to_non_nullable
 as String?,surname: freezed == surname ? _self.surname : surname // ignore: cast_nullable_to_non_nullable
 as String?,
   ));

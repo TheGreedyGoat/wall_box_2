@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ContactData {
 
- String get id; Phone? get phone; Phone? get mobile; Email? get email;
+ String get customerID; Phone? get phone; Phone? get mobile; Phone? get fax; Email? get email; String? get website;
 /// Create a copy of ContactData
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $ContactDataCopyWith<ContactData> get copyWith => _$ContactDataCopyWithImpl<Cont
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ContactData&&(identical(other.id, id) || other.id == id)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.mobile, mobile) || other.mobile == mobile)&&(identical(other.email, email) || other.email == email));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ContactData&&(identical(other.customerID, customerID) || other.customerID == customerID)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.mobile, mobile) || other.mobile == mobile)&&(identical(other.fax, fax) || other.fax == fax)&&(identical(other.email, email) || other.email == email)&&(identical(other.website, website) || other.website == website));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,phone,mobile,email);
+int get hashCode => Object.hash(runtimeType,customerID,phone,mobile,fax,email,website);
 
 @override
 String toString() {
-  return 'ContactData(id: $id, phone: $phone, mobile: $mobile, email: $email)';
+  return 'ContactData(customerID: $customerID, phone: $phone, mobile: $mobile, fax: $fax, email: $email, website: $website)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $ContactDataCopyWith<$Res>  {
   factory $ContactDataCopyWith(ContactData value, $Res Function(ContactData) _then) = _$ContactDataCopyWithImpl;
 @useResult
 $Res call({
- String id,@PhoneJsonConverter()@JsonKey(name: 'phone') Phone? phone,@PhoneJsonConverter()@JsonKey(name: 'mobile') Phone? mobile,@EmailJsonConverter()@JsonKey(name: 'email') Email? email
+@JsonKey(name: ContactColumns.customer_id) String customerID,@JsonKey(name: ContactColumns.phone)@PhoneJsonConverter() Phone? phone,@JsonKey(name: ContactColumns.mobile)@PhoneJsonConverter() Phone? mobile,@JsonKey(name: ContactColumns.fax)@PhoneJsonConverter() Phone? fax,@JsonKey(name: ContactColumns.email)@EmailJsonConverter() Email? email,@JsonKey(name: ContactColumns.website) String? website
 });
 
 
@@ -62,13 +62,15 @@ class _$ContactDataCopyWithImpl<$Res>
 
 /// Create a copy of ContactData
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? phone = freezed,Object? mobile = freezed,Object? email = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? customerID = null,Object? phone = freezed,Object? mobile = freezed,Object? fax = freezed,Object? email = freezed,Object? website = freezed,}) {
   return _then(ContactData(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+customerID: null == customerID ? _self.customerID : customerID // ignore: cast_nullable_to_non_nullable
 as String,phone: freezed == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
 as Phone?,mobile: freezed == mobile ? _self.mobile : mobile // ignore: cast_nullable_to_non_nullable
+as Phone?,fax: freezed == fax ? _self.fax : fax // ignore: cast_nullable_to_non_nullable
 as Phone?,email: freezed == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
-as Email?,
+as Email?,website: freezed == website ? _self.website : website // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

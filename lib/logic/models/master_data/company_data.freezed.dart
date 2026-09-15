@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$CompanyData {
 
- String get id; String? get companyName; String? get companyAddition;
+ String get customerID; String? get companyName; String? get companyAddition;
 /// Create a copy of CompanyData
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $CompanyDataCopyWith<CompanyData> get copyWith => _$CompanyDataCopyWithImpl<Comp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CompanyData&&(identical(other.id, id) || other.id == id)&&(identical(other.companyName, companyName) || other.companyName == companyName)&&(identical(other.companyAddition, companyAddition) || other.companyAddition == companyAddition));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CompanyData&&(identical(other.customerID, customerID) || other.customerID == customerID)&&(identical(other.companyName, companyName) || other.companyName == companyName)&&(identical(other.companyAddition, companyAddition) || other.companyAddition == companyAddition));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,companyName,companyAddition);
+int get hashCode => Object.hash(runtimeType,customerID,companyName,companyAddition);
 
 @override
 String toString() {
-  return 'CompanyData(id: $id, companyName: $companyName, companyAddition: $companyAddition)';
+  return 'CompanyData(customerID: $customerID, companyName: $companyName, companyAddition: $companyAddition)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $CompanyDataCopyWith<$Res>  {
   factory $CompanyDataCopyWith(CompanyData value, $Res Function(CompanyData) _then) = _$CompanyDataCopyWithImpl;
 @useResult
 $Res call({
- String id, String? companyName, String? companyAddition
+@JsonKey(name: CompanyColumns.customer_id) String customerID,@JsonKey(name: CompanyColumns.company_name) String? companyName,@JsonKey(name: CompanyColumns.company_addition) String? companyAddition
 });
 
 
@@ -62,9 +62,9 @@ class _$CompanyDataCopyWithImpl<$Res>
 
 /// Create a copy of CompanyData
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? companyName = freezed,Object? companyAddition = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? customerID = null,Object? companyName = freezed,Object? companyAddition = freezed,}) {
   return _then(CompanyData(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+customerID: null == customerID ? _self.customerID : customerID // ignore: cast_nullable_to_non_nullable
 as String,companyName: freezed == companyName ? _self.companyName : companyName // ignore: cast_nullable_to_non_nullable
 as String?,companyAddition: freezed == companyAddition ? _self.companyAddition : companyAddition // ignore: cast_nullable_to_non_nullable
 as String?,

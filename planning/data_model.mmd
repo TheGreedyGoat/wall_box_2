@@ -18,7 +18,8 @@ erDiagram
     
 
     TRANSACTION{
-        String tagID PK
+        String id
+        String tagID 
         String wb_id FK
         int start_date "=> used to match tag assignment"
         int stop_date 
@@ -26,7 +27,7 @@ erDiagram
     }
     
     TAG_ASSIGNMENT{
-        String tagID PK,FK
+        String tagID PK
         int date_from PK
         int? date_to "null => until today"
         int customer_id FK
@@ -35,7 +36,7 @@ erDiagram
 
     
     CUSTOMER{
-        String customer_id PK
+        String id PK
         String address_id FK
         String contact_id FK
 
@@ -45,20 +46,20 @@ erDiagram
     }
 
     PRICE_ASSIGNMENT{
-        String customer_id FK
+        String customer_id PK,FK
+        int date_from PK
         int price "centicents"
-        int date_from
         int? date_to
     }
 
 
     COMPANY_DATA{
-        String company_id
+        String customer_id Pk, FK
         String company_name
         String? company_addition
     }
     PERSONAL_DATA{
-        String personal_id PK
+        String customer_id Pk, FK
         String prename
         String surname
 
@@ -67,6 +68,7 @@ erDiagram
     }
 
     ADDRESS{
+        String customer_id Pk, FK
         String street
         String house_number
         String? postcode
@@ -75,6 +77,7 @@ erDiagram
     }
 
     CONTACT{
+        String customer_id Pk, FK
         String phone
         String mobile
         String fax

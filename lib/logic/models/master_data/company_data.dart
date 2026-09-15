@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:wall_box_2/data/database/tables/company_table.dart';
 import 'package:wall_box_2/logic/helpers/enums/data_error.dart';
 import 'package:wall_box_2/logic/models/master_data/master_data.dart';
 
@@ -12,18 +13,19 @@ part 'company_data.g.dart';
 /// All fields are required for validation
 class CompanyData extends MasterData with _$CompanyData {
   @override
-  final String id;
+  final String customerID;
   @override
   final String? companyName;
+  @override
   final String? companyAddition;
 
   /// represents data for a company
   ///
   /// All fields are required for validation
   CompanyData({
-    required this.id,
-    required this.companyName,
-    this.companyAddition,
+    @JsonKey(name: CompanyColumns.customer_id) required this.customerID,
+    @JsonKey(name: CompanyColumns.company_name) required this.companyName,
+    @JsonKey(name: CompanyColumns.company_addition) this.companyAddition,
   });
 
   @override

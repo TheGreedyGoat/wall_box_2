@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:wall_box_2/data/database/tables/address_table.dart';
 import 'package:wall_box_2/logic/helpers/enums/data_error.dart';
 import 'package:wall_box_2/logic/models/master_data/master_data.dart';
 
@@ -10,7 +11,7 @@ part 'address.g.dart';
 @JsonSerializable()
 class Address extends MasterData with _$Address {
   @override
-  final String id;
+  final String customerID;
   @override
   final String? street;
   @override
@@ -21,6 +22,8 @@ class Address extends MasterData with _$Address {
   final String? city;
   // optional
   @override
+  final String? state;
+  @override
   final String? country;
 
   /// optional additional notes for the address (eg. 1st floor etc)
@@ -29,13 +32,14 @@ class Address extends MasterData with _$Address {
 
   /// Represents an address
   Address({
-    required this.id,
-    this.street,
-    this.postcode,
-    this.number,
-    this.city,
-    this.country,
-    this.adressAdditions,
+    @JsonKey(name: AddressColumns.customer_id) required this.customerID,
+    @JsonKey(name: AddressColumns.street) this.street,
+    @JsonKey(name: AddressColumns.house_number) this.number,
+    @JsonKey(name: AddressColumns.postcode) this.postcode,
+    @JsonKey(name: AddressColumns.city) this.city,
+    @JsonKey(name: AddressColumns.state) this.state,
+    @JsonKey(name: AddressColumns.country) this.country,
+    @JsonKey(name: AddressColumns.adress_additions) this.adressAdditions,
   });
 
   @override
