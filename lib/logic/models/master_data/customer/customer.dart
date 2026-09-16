@@ -1,11 +1,11 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:wall_box_2/data/database/tables/customer_table.dart';
 import 'package:wall_box_2/logic/helpers/enums/data_error.dart';
-import 'package:wall_box_2/logic/models/master_data/address.dart';
-import 'package:wall_box_2/logic/models/master_data/company_data.dart';
+import 'package:wall_box_2/logic/models/master_data/address/address.dart';
+import 'package:wall_box_2/logic/models/master_data/company/company_data.dart';
 import 'package:wall_box_2/logic/models/master_data/contact/contact_data.dart';
 import 'package:wall_box_2/logic/models/master_data/master_data.dart';
-import 'package:wall_box_2/logic/models/master_data/personal_data.dart';
+import 'package:wall_box_2/logic/models/master_data/personal/personal_data.dart';
 
 part 'customer.freezed.dart';
 part 'customer.g.dart';

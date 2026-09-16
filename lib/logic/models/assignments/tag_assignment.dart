@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:wall_box_2/data/database/tables/tag_assignment_table.dart';
+import 'package:wall_box_2/logic/helpers/enums/data_error.dart';
 import 'package:wall_box_2/logic/helpers/interval.dart';
 import 'package:wall_box_2/logic/models/assignments/assignment.dart';
 
@@ -31,6 +32,9 @@ class TagAssignment extends Assignment with _$TagAssignment {
     @JsonKey(name: TagAssignmentColumns.from) required this.from,
     @JsonKey(name: TagAssignmentColumns.to) this.to,
   });
+
+  @override
+  List<DataError?> get validationList => throw UnimplementedError();
 }
 
 class TagAssignmentJsonConverter

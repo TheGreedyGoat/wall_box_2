@@ -25,3 +25,11 @@ analyzer:
     overridden_fields: ignore
     unnecessary_this: ignore
     unused_element: ignore
+  exclude:
+    - build/**
+    - android/**
+    - ios/**
+    - web/**
+    - windows/**
+    - macos/**
+    - linux/**

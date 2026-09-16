@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 mixin _$Address {
 
  String get customerID; String? get street; String? get number; String? get postcode; String? get city;// optional
- String? get state; String? get country; String? get adressAdditions;
+ String? get state; String? get country; String? get addressAdditions;
 /// Create a copy of Address
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,16 +26,16 @@ $AddressCopyWith<Address> get copyWith => _$AddressCopyWithImpl<Address>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Address&&(identical(other.customerID, customerID) || other.customerID == customerID)&&(identical(other.street, street) || other.street == street)&&(identical(other.number, number) || other.number == number)&&(identical(other.postcode, postcode) || other.postcode == postcode)&&(identical(other.city, city) || other.city == city)&&(identical(other.state, state) || other.state == state)&&(identical(other.country, country) || other.country == country)&&(identical(other.adressAdditions, adressAdditions) || other.adressAdditions == adressAdditions));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Address&&(identical(other.customerID, customerID) || other.customerID == customerID)&&(identical(other.street, street) || other.street == street)&&(identical(other.number, number) || other.number == number)&&(identical(other.postcode, postcode) || other.postcode == postcode)&&(identical(other.city, city) || other.city == city)&&(identical(other.state, state) || other.state == state)&&(identical(other.country, country) || other.country == country)&&(identical(other.addressAdditions, addressAdditions) || other.addressAdditions == addressAdditions));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,customerID,street,number,postcode,city,state,country,adressAdditions);
+int get hashCode => Object.hash(runtimeType,customerID,street,number,postcode,city,state,country,addressAdditions);
 
 @override
 String toString() {
-  return 'Address(customerID: $customerID, street: $street, number: $number, postcode: $postcode, city: $city, state: $state, country: $country, adressAdditions: $adressAdditions)';
+  return 'Address(customerID: $customerID, street: $street, number: $number, postcode: $postcode, city: $city, state: $state, country: $country, addressAdditions: $addressAdditions)';
 }
 
 
@@ -46,7 +46,7 @@ abstract mixin class $AddressCopyWith<$Res>  {
   factory $AddressCopyWith(Address value, $Res Function(Address) _then) = _$AddressCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: AddressColumns.customer_id) String customerID,@JsonKey(name: AddressColumns.street) String? street,@JsonKey(name: AddressColumns.house_number) String? number,@JsonKey(name: AddressColumns.postcode) String? postcode,@JsonKey(name: AddressColumns.city) String? city,@JsonKey(name: AddressColumns.state) String? state,@JsonKey(name: AddressColumns.country) String? country,@JsonKey(name: AddressColumns.adress_additions) String? adressAdditions
+@JsonKey(name: AddressColumns.customer_id) String customerID,@JsonKey(name: AddressColumns.street) String? street,@JsonKey(name: AddressColumns.house_number) String? number,@JsonKey(name: AddressColumns.postcode) String? postcode,@JsonKey(name: AddressColumns.city) String? city,@JsonKey(name: AddressColumns.state) String? state,@JsonKey(name: AddressColumns.country) String? country,@JsonKey(name: AddressColumns.adress_additions) String? addressAdditions
 });
 
 
@@ -63,7 +63,7 @@ class _$AddressCopyWithImpl<$Res>
 
 /// Create a copy of Address
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? customerID = null,Object? street = freezed,Object? number = freezed,Object? postcode = freezed,Object? city = freezed,Object? state = freezed,Object? country = freezed,Object? adressAdditions = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? customerID = null,Object? street = freezed,Object? number = freezed,Object? postcode = freezed,Object? city = freezed,Object? state = freezed,Object? country = freezed,Object? addressAdditions = freezed,}) {
   return _then(Address(
 customerID: null == customerID ? _self.customerID : customerID // ignore: cast_nullable_to_non_nullable
 as String,street: freezed == street ? _self.street : street // ignore: cast_nullable_to_non_nullable
@@ -72,7 +72,7 @@ as String?,postcode: freezed == postcode ? _self.postcode : postcode // ignore: 
 as String?,city: freezed == city ? _self.city : city // ignore: cast_nullable_to_non_nullable
 as String?,state: freezed == state ? _self.state : state // ignore: cast_nullable_to_non_nullable
 as String?,country: freezed == country ? _self.country : country // ignore: cast_nullable_to_non_nullable
-as String?,adressAdditions: freezed == adressAdditions ? _self.adressAdditions : adressAdditions // ignore: cast_nullable_to_non_nullable
+as String?,addressAdditions: freezed == addressAdditions ? _self.addressAdditions : addressAdditions // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }

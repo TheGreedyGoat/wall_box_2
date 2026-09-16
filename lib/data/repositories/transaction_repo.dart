@@ -4,6 +4,8 @@ import 'package:wall_box_2/data/repositories/repository.dart';
 import 'package:wall_box_2/logic/models/transaction.dart';
 
 class TransactionRepo extends Repository<Transaction> {
+  TransactionRepo({required super.onchanged});
+
   @override
   TransactionJsonConverter get converter => TransactionJsonConverter();
 

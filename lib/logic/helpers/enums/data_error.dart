@@ -2,6 +2,7 @@
 
 /// lists all possible kinds of errors that can occur within any masterdata
 enum DataError {
+  noID,
   // customer
   noCompanyOrPersonal,
   // company, personal
@@ -14,6 +15,7 @@ enum DataError {
   noHouseNumber,
   noPostcode,
   noCity,
+  noCountry,
 
   // contact
   noContact,

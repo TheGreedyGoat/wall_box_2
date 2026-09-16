@@ -28,7 +28,7 @@ class Address extends MasterData with _$Address {
 
   /// optional additional notes for the address (eg. 1st floor etc)
   @override
-  final String? adressAdditions;
+  final String? addressAdditions;
 
   /// Represents an address
   Address({
@@ -39,15 +39,13 @@ class Address extends MasterData with _$Address {
     @JsonKey(name: AddressColumns.city) this.city,
     @JsonKey(name: AddressColumns.state) this.state,
     @JsonKey(name: AddressColumns.country) this.country,
-    @JsonKey(name: AddressColumns.adress_additions) this.adressAdditions,
+    @JsonKey(name: AddressColumns.adress_additions) this.addressAdditions,
   });
 
   @override
   List<DataError?> get validationList => [
-    (street ?? '').isEmpty ? DataError.noStreet : null,
-    (number ?? '').isEmpty ? DataError.noHouseNumber : null,
-    (postcode ?? '').isEmpty ? DataError.noPostcode : null,
     (city ?? '').isEmpty ? DataError.noCity : null,
+    (country ?? '').isEmpty ? DataError.noCountry : null,
   ];
 }
 
