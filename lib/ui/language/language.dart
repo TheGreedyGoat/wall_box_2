@@ -35,6 +35,8 @@ const german = Language(
   saveSuccessful: 'Speichern erfolgreich',
   errorOccured: 'Etwas ist schiefgelaufen',
   assignedTags: 'Zugewiesene Tags:',
+  cancel: 'abbrechen',
+  confirm: 'fortfahren',
 );
 
 var currentLanguage = german;
@@ -72,9 +74,12 @@ class Language {
     required this.saveSuccessful,
     required this.errorOccured,
     required this.assignedTags,
+    required this.cancel,
+    required this.confirm,
   });
 
   final String assignedTags;
+  final String cancel, confirm;
   final String company;
   final String companyAddition;
   final String customerID;

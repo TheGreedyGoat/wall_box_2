@@ -1,10 +1,13 @@
-import 'package:json_annotation/src/json_converter.dart';
 import 'package:wall_box_2/data/database/tables/company_table.dart';
 import 'package:wall_box_2/data/database/tables/table_names.dart';
 import 'package:wall_box_2/data/repositories/repository.dart';
 import 'package:wall_box_2/logic/models/master_data/company/company_data.dart';
 
+/// The Reopsitory for all company data
+
 class CompanyRepo extends Repository<CompanyData> {
+  /// The Reopsitory for all company data
+
   CompanyRepo({required super.onchanged});
 
   @override
@@ -12,6 +15,8 @@ class CompanyRepo extends Repository<CompanyData> {
 
   @override
   CompanyDataJsonConverter get converter => CompanyDataJsonConverter();
+
+  /// Returns a customer's company data if they have any
   Future<CompanyData?> getById(String customerID) async =>
       await get('${CompanyColumns.customer_id} = ?', [customerID]);
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:wall_box_2/logic/helpers/date_timeextension.dart';
@@ -5,9 +7,14 @@ import 'package:wall_box_2/logic/helpers/enums/assignment_error.dart';
 import 'package:wall_box_2/logic/models/assignments/tag_assignment.dart';
 import 'package:wall_box_2/logic/riverpod/providers.dart';
 import 'package:wall_box_2/ui/decorators/text_field_decoration.dart';
-import 'package:wall_box_2/ui/language/language.dart';
 
+/// Widget to add a new tag assignment to a customer
+///
+///
 class AddTagAssignment extends ConsumerStatefulWidget {
+  /// Widget to add a new tag assignment to a customer
+  ///
+  ///
   const AddTagAssignment({super.key});
 
   @override
@@ -16,7 +23,11 @@ class AddTagAssignment extends ConsumerStatefulWidget {
 
 class _AddTagAssignmentState extends ConsumerState<AddTagAssignment> {
   DateTime? currentFromDate;
-  String? tagID;
+  final TextEditingController _tagIDController = TextEditingController();
+
+  String get tagID => _tagIDController.text;
+  set tagID(String value) => _tagIDController.text = value;
+
   List<TagAssignmentError> errors = [];
 
   bool get noDate =>
@@ -29,6 +40,7 @@ class _AddTagAssignmentState extends ConsumerState<AddTagAssignment> {
       child: Column(
         children: [
           TextFormField(
+            controller: _tagIDController,
             decoration: textFieldDecoration.copyWith(
               labelText: 'Tag-ID',
               errorText: errors.contains(TagAssignmentError.noTagID)
@@ -37,9 +49,6 @@ class _AddTagAssignmentState extends ConsumerState<AddTagAssignment> {
                   ? 'TagID ist bereits zugewiesen'
                   : null,
             ),
-            onChanged: (value) => setState(() {
-              tagID = value;
-            }),
           ),
           OutlinedButton(
             style: OutlinedButton.styleFrom(
@@ -65,14 +74,15 @@ class _AddTagAssignmentState extends ConsumerState<AddTagAssignment> {
                     .read(tagAssignmenteditProvider.notifier)
                     .addAssignment(
                       TagAssignment(
-                        tagID: tagID!,
+                        tagID: _tagIDController.text,
                         customerID: ref.read(customerEditProvider).id,
                         from: currentFromDate!,
                       ),
+                      () {},
                     );
+                _clearInput();
               }
               setState(() {
-                print('update errors to $validation');
                 errors = validation;
               });
             },
@@ -83,6 +93,13 @@ class _AddTagAssignmentState extends ConsumerState<AddTagAssignment> {
     );
   }
 
+  void _clearInput() {
+    setState(() {
+      tagID = '';
+      currentFromDate = null;
+    });
+  }
+
   void _pickDate() async {
     if (!context.mounted) return;
     final date = await showDatePicker(
@@ -90,7 +107,7 @@ class _AddTagAssignmentState extends ConsumerState<AddTagAssignment> {
       firstDate:
           await ref
               .read(tagAssignmentRepoProvider)
-              .latestAvailableDate(tagID ?? '') ??
+              .earliestAvailableDate(tagID) ??
           DateTime.now().subtract(Duration(days: 365)),
       lastDate: DateTime.now(),
     );
@@ -102,9 +119,9 @@ class _AddTagAssignmentState extends ConsumerState<AddTagAssignment> {
   Future<List<TagAssignmentError>> validateAssignment() async {
     return [
       if (currentFromDate == null) TagAssignmentError.noStartDate,
-      if ((tagID?.trim() ?? '').isEmpty) TagAssignmentError.noTagID,
-      if ((tagID?.trim() ?? '').isNotEmpty &&
-          !(await ref.read(tagAssignmentRepoProvider).isAvailable(tagID!)))
+      if ((tagID.trim()).isEmpty) TagAssignmentError.noTagID,
+      if ((tagID.trim()).isNotEmpty &&
+          !(await ref.read(tagAssignmentRepoProvider).isAvailable(tagID)))
         TagAssignmentError.tagIDTaken,
     ];
   }

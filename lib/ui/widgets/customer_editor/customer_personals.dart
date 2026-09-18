@@ -2,13 +2,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:wall_box_2/logic/helpers/enums/data_error.dart';
 import 'package:wall_box_2/logic/helpers/enums/genders.dart';
-import 'package:wall_box_2/logic/models/master_data/customer/customer_data_package.dart';
 import 'package:wall_box_2/logic/riverpod/customer_edit/customer_edit_notifier.dart';
 import 'package:wall_box_2/logic/riverpod/providers.dart';
 import 'package:wall_box_2/ui/decorators/text_field_decoration.dart';
 import 'package:wall_box_2/ui/language/language.dart';
 
+/// holds all fields to display and edit personal data
 class CustomerPersonals extends ConsumerStatefulWidget {
+  /// holds all fields to display and edit personal data
   const CustomerPersonals({super.key});
 
   @override
@@ -33,7 +34,7 @@ class _CustomerPersonalsState extends ConsumerState<CustomerPersonals> {
               label: Text(currentLanguage.salutation),
               dropdownMenuEntries: [
                 ...Gender.values.map(
-                  (e) => DropdownMenuEntry(value: e, label: e.titleDisplay),
+                  (e) => DropdownMenuEntry(value: e, label: e.display),
                 ),
               ],
               onSelected: (value) {

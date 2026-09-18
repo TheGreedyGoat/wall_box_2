@@ -34,8 +34,10 @@ class CompanyData extends MasterData with _$CompanyData {
   ];
 }
 
+///
 class CompanyDataJsonConverter
     extends JsonConverter<CompanyData, Map<String, dynamic>> {
+  ///
   const CompanyDataJsonConverter();
   @override
   CompanyData fromJson(Map<String, dynamic> json) =>
@@ -46,8 +48,10 @@ class CompanyDataJsonConverter
       _$CompanyDataToJson(object);
 }
 
+///
 class CompanyDataJsonConverterNullable
     extends JsonConverter<CompanyData?, Map<String, dynamic>?> {
+  ///
   const CompanyDataJsonConverterNullable();
   @override
   CompanyData? fromJson(Map<String, dynamic>? json) =>

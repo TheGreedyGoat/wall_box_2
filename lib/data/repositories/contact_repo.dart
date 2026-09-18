@@ -3,7 +3,9 @@ import 'package:wall_box_2/data/database/tables/table_names.dart';
 import 'package:wall_box_2/data/repositories/repository.dart';
 import 'package:wall_box_2/logic/models/master_data/contact/contact_data.dart';
 
+/// Repository for contact data
 class ContactRepo extends Repository<ContactData> {
+  /// Repository for contact data
   ContactRepo({required super.onchanged});
 
   @override
@@ -12,6 +14,7 @@ class ContactRepo extends Repository<ContactData> {
   @override
   ContactDataJsonConverter get converter => ContactDataJsonConverter();
 
+  /// get the customer's contact data
   Future<ContactData?> getById(String customerID) async =>
       await get('${ContactColumns.customer_id} = ?', [customerID]);
 }

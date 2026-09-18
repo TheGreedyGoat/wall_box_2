@@ -1,18 +1,34 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'change_state.freezed.dart';
 
 @freezed
+/// Notifies the ui when changes are made in the database.
+///
+/// The integers are just dummy values to be incremented whenever a change is made.
+/// For each table there is one corresponding integer
+///
 class DatabaseChangeState with _$DatabaseChangeState {
+  @override
   final int address;
+  @override
   final int company;
+  @override
   final int contact;
+  @override
   final int customer;
+  @override
   final int personal;
+  @override
   final int priceAssignment;
+  @override
   final int tagAssignment;
+  @override
   final int transactRepo;
+  @override
   final int customerPackage;
 
   DatabaseChangeState({
@@ -39,6 +55,13 @@ class DatabaseChangeState with _$DatabaseChangeState {
       );
 }
 
+/// Notifies the ui when changes are made in the database.
+///
+/// The integers are just dummy values to be incremented whenever a change is made.
+/// For each table there is one corresponding integer
+///
+/// to trigger an update call the corresponding ___Changed() method
+///
 class DatabaseChangeNotifier extends Notifier<DatabaseChangeState> {
   @override
   DatabaseChangeState build() => DatabaseChangeState.init();

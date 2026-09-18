@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TagAssignmentEditState {
 
- List<TagAssignment> get originals; List<TagAssignment> get newAssignments;
+ List<TagAssignment> get originals; List<TagAssignmentModification> get modifiedAssignments;
 /// Create a copy of TagAssignmentEditState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $TagAssignmentEditStateCopyWith<TagAssignmentEditState> get copyWith => _$TagAss
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TagAssignmentEditState&&const DeepCollectionEquality().equals(other.originals, originals)&&const DeepCollectionEquality().equals(other.newAssignments, newAssignments));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TagAssignmentEditState&&const DeepCollectionEquality().equals(other.originals, originals)&&const DeepCollectionEquality().equals(other.modifiedAssignments, modifiedAssignments));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(originals),const DeepCollectionEquality().hash(newAssignments));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(originals),const DeepCollectionEquality().hash(modifiedAssignments));
 
 @override
 String toString() {
-  return 'TagAssignmentEditState(originals: $originals, newAssignments: $newAssignments)';
+  return 'TagAssignmentEditState(originals: $originals, modifiedAssignments: $modifiedAssignments)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $TagAssignmentEditStateCopyWith<$Res>  {
   factory $TagAssignmentEditStateCopyWith(TagAssignmentEditState value, $Res Function(TagAssignmentEditState) _then) = _$TagAssignmentEditStateCopyWithImpl;
 @useResult
 $Res call({
- List<TagAssignment> originals, List<TagAssignment> newAssignments
+ List<TagAssignment> originals, List<TagAssignmentModification> modifiedAssignments
 });
 
 
@@ -62,11 +62,11 @@ class _$TagAssignmentEditStateCopyWithImpl<$Res>
 
 /// Create a copy of TagAssignmentEditState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? originals = null,Object? newAssignments = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? originals = null,Object? modifiedAssignments = null,}) {
   return _then(TagAssignmentEditState(
 originals: null == originals ? _self.originals : originals // ignore: cast_nullable_to_non_nullable
-as List<TagAssignment>,newAssignments: null == newAssignments ? _self.newAssignments : newAssignments // ignore: cast_nullable_to_non_nullable
-as List<TagAssignment>,
+as List<TagAssignment>,modifiedAssignments: null == modifiedAssignments ? _self.modifiedAssignments : modifiedAssignments // ignore: cast_nullable_to_non_nullable
+as List<TagAssignmentModification>,
   ));
 }
 
@@ -75,6 +75,192 @@ as List<TagAssignment>,
 
 /// Adds pattern-matching-related methods to [TagAssignmentEditState].
 extension TagAssignmentEditStatePatterns on TagAssignmentEditState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(){
+final _that = this;
+switch (_that) {
+case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(){
+final _that = this;
+switch (_that) {
+case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>() {final _that = this;
+switch (_that) {
+case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>() {final _that = this;
+switch (_that) {
+case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+mixin _$TagAssignmentModification {
+
+ TagAssignment? get original; TagAssignment? get change;
+/// Create a copy of TagAssignmentModification
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$TagAssignmentModificationCopyWith<TagAssignmentModification> get copyWith => _$TagAssignmentModificationCopyWithImpl<TagAssignmentModification>(this as TagAssignmentModification, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TagAssignmentModification&&(identical(other.original, original) || other.original == original)&&(identical(other.change, change) || other.change == change));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,original,change);
+
+@override
+String toString() {
+  return 'TagAssignmentModification(original: $original, change: $change)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $TagAssignmentModificationCopyWith<$Res>  {
+  factory $TagAssignmentModificationCopyWith(TagAssignmentModification value, $Res Function(TagAssignmentModification) _then) = _$TagAssignmentModificationCopyWithImpl;
+@useResult
+$Res call({
+ TagAssignment? original, TagAssignment? change
+});
+
+
+
+
+}
+/// @nodoc
+class _$TagAssignmentModificationCopyWithImpl<$Res>
+    implements $TagAssignmentModificationCopyWith<$Res> {
+  _$TagAssignmentModificationCopyWithImpl(this._self, this._then);
+
+  final TagAssignmentModification _self;
+  final $Res Function(TagAssignmentModification) _then;
+
+/// Create a copy of TagAssignmentModification
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? original = freezed,Object? change = freezed,}) {
+  return _then(TagAssignmentModification(
+original: freezed == original ? _self.original : original // ignore: cast_nullable_to_non_nullable
+as TagAssignment?,change: freezed == change ? _self.change : change // ignore: cast_nullable_to_non_nullable
+as TagAssignment?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [TagAssignmentModification].
+extension TagAssignmentModificationPatterns on TagAssignmentModification {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:

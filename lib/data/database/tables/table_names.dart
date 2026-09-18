@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names, public_member_api_docs
+
 abstract class TableNames {
   static const String customer = 'CUSTOMERS';
   static const String address = 'ADDRESSES';

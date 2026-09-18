@@ -13,15 +13,19 @@ part 'price_assignment.g.dart';
     EuroJsonConverter(),
   ],
 )
+/// When did a customer had what price assigned?
 class PriceAssignment extends Assignment with _$PriceAssignment {
   @override
   final DateTime from;
   @override
   final DateTime? to;
 
+  @override
   final String customerID;
+  @override
   final Euro price;
 
+  /// When did a customer had what price assigned?
   const PriceAssignment({
     @JsonKey(name: PriceAssignmentColumns.customer_id) required this.customerID,
     @EuroJsonConverter()
@@ -32,8 +36,10 @@ class PriceAssignment extends Assignment with _$PriceAssignment {
   });
 }
 
+/// Surprise, it's another json converter!
 class PriceAssignmentJsonConverter
     extends JsonConverter<PriceAssignment, Map<String, Object?>> {
+  /// Surprise, it's another json converter!
   const PriceAssignmentJsonConverter();
 
   @override

@@ -38,9 +38,12 @@ const _$PriceAssignmentJsonSchema = {
     'Euro': {
       'type': 'object',
       'properties': {
-        'value': {'type': 'integer'},
+        'centicents': {
+          'type': 'integer',
+          'description': 'the monetary value. 1/100 of a cent',
+        },
       },
-      'required': ['value'],
+      'required': ['centicents'],
     },
   },
 };

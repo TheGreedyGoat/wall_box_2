@@ -30,8 +30,11 @@ const _$TagAssignmentJsonSchema = {
   'properties': {
     'starts_at': {'type': 'string', 'format': 'date-time'},
     'ends_at': {'type': 'string', 'format': 'date-time'},
-    'tag_id': {'type': 'string'},
-    'customer_id': {'type': 'string'},
+    'tag_id': {'type': 'string', 'description': "The assigned tag's id"},
+    'customer_id': {
+      'type': 'string',
+      'description': 'the id of the customer the tag is assigned to',
+    },
   },
   'required': ['starts_at', 'tag_id', 'customer_id'],
 };

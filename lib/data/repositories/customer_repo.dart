@@ -3,7 +3,9 @@ import 'package:wall_box_2/data/database/tables/table_names.dart';
 import 'package:wall_box_2/data/repositories/repository.dart';
 import 'package:wall_box_2/logic/models/master_data/customer/customer.dart';
 
+/// Repository for Customers
 class CustomerRepo extends Repository<Customer> {
+  /// Repository for Customers
   CustomerRepo({required super.onchanged});
 
   @override
@@ -12,6 +14,7 @@ class CustomerRepo extends Repository<Customer> {
   @override
   CustomerJsonConverter get converter => CustomerJsonConverter();
 
+  /// get the customer with the passed id
   Future<Customer?> getByID(String id) async {
     final db = await database;
 
@@ -22,18 +25,4 @@ class CustomerRepo extends Repository<Customer> {
     );
     return qu.isEmpty ? null : converter.fromJson(qu[0]);
   }
-
-  // Future<CustomerDataPackage?> getFullCustomerData(Customer customer) async {
-  //   try {
-  //     return CustomerDataPackage(
-  //       customer: customer,
-  //       address: address,
-  //       contact: contact,
-  //       company: company,
-  //       personal: personal,
-  //     );
-  //   } catch (e) {
-  //     return null;
-  //   }
-  // }
 }

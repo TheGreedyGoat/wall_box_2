@@ -8,7 +8,12 @@ import 'package:wall_box_2/data/database/tables/price_assignment_table.dart';
 import 'package:wall_box_2/data/database/tables/tag_assignment_table.dart';
 import 'package:wall_box_2/data/database/tables/transaction_table.dart';
 
+/// This is where the database's structure is defined.
+///
+/// holds the logic to create and update the database
+///
 class DatabaseSchema {
+  /// call to create a new database
   static Future<void> create(Database db, int version) async {
     await db.execute(CustomerTable.create);
 
@@ -22,6 +27,7 @@ class DatabaseSchema {
     await db.execute(TransactionTable.create);
   }
 
+  /// call to upgrade an existing database
   static Future<void> upgrade(
     Database db,
     int oldVersion,

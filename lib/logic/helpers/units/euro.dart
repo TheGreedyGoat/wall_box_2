@@ -1,11 +1,18 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:wall_box_2/logic/helpers/units/unit.dart';
 
+/// an amount of Euros (stored in centicents)
 class Euro extends Unit {
+  /// the monetary value. 1/100 of a cent
+  final int centicents;
   @override
-  final int value;
+  int get value => centicents;
 
-  const Euro(this.value);
+  /// conversion to cents
+  double get cents => centicents / 100.0;
+
+  /// an amount of Euros (stored in centicents)
+  const Euro(this.centicents);
 
   @override
   int get defaultPrecision => 2;

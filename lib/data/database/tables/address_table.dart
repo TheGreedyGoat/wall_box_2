@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names, public_member_api_docs
+
 import 'package:wall_box_2/data/database/tables/customer_table.dart';
 import 'package:wall_box_2/data/database/tables/table_names.dart';
 

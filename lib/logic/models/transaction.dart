@@ -67,8 +67,10 @@ class Transaction with _$Transaction {
   });
 }
 
+/// another converter
 class TransactionJsonConverter
     extends JsonConverter<Transaction, Map<String, Object?>> {
+  /// another converter
   const TransactionJsonConverter();
 
   @override

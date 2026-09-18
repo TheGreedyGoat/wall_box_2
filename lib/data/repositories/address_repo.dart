@@ -3,7 +3,9 @@ import 'package:wall_box_2/data/database/tables/table_names.dart';
 import 'package:wall_box_2/data/repositories/repository.dart';
 import 'package:wall_box_2/logic/models/master_data/address/address.dart';
 
+/// The Reopsitory for all address data
 class AddressRepo extends Repository<Address> {
+  /// The Reopsitory for all address data
   AddressRepo({required super.onchanged});
 
   @override
@@ -12,6 +14,7 @@ class AddressRepo extends Repository<Address> {
   @override
   AddressJsonConverter get converter => AddressJsonConverter();
 
+  /// Returns a customer's address
   Future<Address?> getByID(String customerID) async {
     final db = await database;
     final query = await db.query(
@@ -23,5 +26,6 @@ class AddressRepo extends Repository<Address> {
     if (query.isNotEmpty) {
       return converter.fromJson(query[0]);
     }
+    return null;
   }
 }

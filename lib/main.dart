@@ -21,7 +21,7 @@ import 'package:wall_box_2/ui/dummy/upload_and_parse.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:wall_box_2/ui/pages/customer_overview.dart';
 import 'package:wall_box_2/ui/pages/enter_customer_data.dart';
-import 'package:wall_box_2/ui/widgets/customer_editor/tag_assignments/tag_assigning.dart';
+import 'package:wall_box_2/ui/widgets/customer_editor/tag_assignments/customer_tag_assignments.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,6 +30,11 @@ void main() async {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
   }
+
+  // final db = await AppDatabase.instance.queryAll();
+  // for (final e in db) {
+  //   print(e.toString());
+  // }
   // await AppDatabase.instance.delete();
   // await TagAssignmentRepo(
   //   onchanged: () {},
