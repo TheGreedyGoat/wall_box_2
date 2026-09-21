@@ -19,47 +19,121 @@ class CustomerEditChangeNotifier extends Notifier<bool> {
   void set(bool value) => state = value;
 }
 
+/// Stores, what is currently entered on a customer's page
+///
+class CustomerEditState {
+  /// the customer's data
+  final CustomerDataPackage data;
+
+  /// The originally loaded customer's id
+  ///
+  /// only != data.id if a new customer is being created and the input field is edited
+  final String? originalCustomerID;
+
+  /// Stores, what is currently entered on a customer's page
+  ///
+  CustomerEditState({
+    CustomerDataPackage? data,
+    required this.originalCustomerID,
+  }) : this.data = data ?? CustomerDataPackage.empty;
+
+  /// returns a new instance with the old [originalCustomerID] and a new datapack
+  CustomerEditState updateData(CustomerDataPackage newData) =>
+      CustomerEditState(data: newData, originalCustomerID: originalCustomerID);
+
+  /// quick access to the customer id
+  String get id => data.id;
+
+  /// shortcut for
+  /// ```dart
+  ///   originalCustomerID == null;
+  /// ```
+  bool get isCreation => originalCustomerID == null;
+}
+
+// class IDEditingEnabledNotifier extends Notifier<bool>{}
+
 /// Core Notifier for creating and editing Customer data profiles
 ///
 /// stores all changes made. Changes are only updated when save() is called
-class CustomerEditNotifier extends Notifier<CustomerDataPackage> {
+class CustomerEditNotifier extends Notifier<CustomerEditState> {
+  bool _mainChanged = false, _tagsChanged = false, _priceChanged = false;
+  set mainChanged(bool value) {
+    _mainChanged = value;
+    checkChanges();
+  }
+
+  set tagsChanged(bool value) {
+    _tagsChanged = value;
+    checkChanges();
+  }
+
+  set priceChanged(bool value) {
+    _priceChanged = value;
+    checkChanges();
+  }
+
+  /// shortcut to the state's data package
+  CustomerDataPackage get data => state.data;
+
   @override
-  CustomerDataPackage build() => CustomerDataPackage.empty;
+  CustomerEditState build() => CustomerEditState(
+    data: CustomerDataPackage.empty,
+    originalCustomerID: null,
+  );
 
   CustomerEditChangeNotifier get _changeNotifier =>
       ref.read(customerEditChangeProvider.notifier);
 
-  /// set the state's value. If [data] == null, an empty data package will be set
-  void set(CustomerDataPackage? data) =>
-      state = data ?? CustomerDataPackage.empty;
+  void _setCustomer(CustomerDataPackage? data) =>
+      state = CustomerEditState(data: data, originalCustomerID: data?.id);
 
-  void load(String? customerID) async {
+  /// updates the changenotifier to be true there is currently any change active
+  void checkChanges() => ref
+      .read(customerEditChangeProvider.notifier)
+      .set(_mainChanged || _tagsChanged || _priceChanged);
+
+  /// loads the current database state of the corresponding customer into the notifier
+  ///
+  /// Also triggers the tag- and priceAssignemnt notifier to fetch from the database
+  Future<void> load(String? customerID) async {
     if (customerID == null) {
-      set(null);
-      return;
+      _setCustomer(null);
+    } else {
+      final packs = await ref.read(customerPackageProvider.future);
+      _setCustomer(
+        packs
+            .where(
+              (pack) => pack.id == customerID,
+            )
+            .firstOrNull,
+      );
     }
-    ref.read(customerPackageProvider).whenData(
-      (packs) {
-        set(
-          packs
-              .where(
-                (pack) => pack.id == customerID,
-              )
-              .firstOrNull,
-        );
-      },
-    );
+    ref.read(tagAssignmenteditProvider.notifier).load(customerID);
+    ref.read(priceAssignmentEditProvider.notifier).load(customerID);
+    ref.read(customerEditChangeProvider.notifier).set(false);
+  }
+
+  /// resets the state to show the original data
+  Future<void> reload() async {
+    await load(state.originalCustomerID);
   }
 
   /// update the customerID consistently
   void setId(String id) {
-    state = state.copyWith(
-      customer: state.customer.copyWith(id: id),
-      address: state.address.copyWith(customerID: id),
-      contact: state.contact?.copyWith(customerID: id),
-      company: state.company?.copyWith(customerID: id),
-      personal: state.personal?.copyWith(customerID: id),
+    final data = state.data;
+    state = state.updateData(
+      data.copyWith(
+        customer: data.customer.copyWith(id: id),
+        address: data.address.copyWith(customerID: id),
+        contact: data.contact?.copyWith(customerID: id),
+        company: data.company?.copyWith(customerID: id),
+        personal: data.personal?.copyWith(customerID: id),
+      ),
     );
+
+    ref.read(tagAssignmenteditProvider.notifier).setCustomerID(id);
+    mainChanged = true;
   }
 
   /// pass custom logic on how to update the state.
@@ -70,7 +144,7 @@ class CustomerEditNotifier extends Notifier<CustomerDataPackage> {
   void update({
     required CustomerDataPackage Function(CustomerDataPackage state) updater,
   }) {
-    state = updater(state);
+    state = state.updateData(updater(state.data));
     _changeNotifier.set(true);
   }
 
@@ -120,56 +194,20 @@ class CustomerEditNotifier extends Notifier<CustomerDataPackage> {
     );
   }
 
-  /// fully resets the state to be empty
-  void reset() {
-    state = CustomerDataPackage.empty;
-    ref.read(customerErrorProvider.notifier).clear();
-    ref.read(customerEditChangeProvider.notifier).set(false);
-  }
-
   /// attempts to save the current state into the database.
   ///
   /// To ensure the saving process is successful, use state.validate() before saving and only save if the returned list is empty
   ///
   /// Use the two callbacks to add more logic to the outcomes
-  Future<void> save({
+  Future<void> validateAndTrySave({
     required void Function() onSuccess,
     required void Function(Object?) onError,
   }) async {
     try {
-      assert(state.company != null || state.personal != null);
-      assert(state.customer.id == state.address.customerID);
-      assert(
-        state.contact == null || state.customer.id == state.contact!.customerID,
-      );
-      assert(
-        state.company == null || state.customer.id == state.company!.customerID,
-      );
-      assert(
-        state.personal == null ||
-            state.customer.id == state.personal!.customerID,
-      );
+      if (!(await ref.read(customerErrorProvider.notifier).validate())) return;
 
-      assert(state.customer.isValid);
-      assert(state.address.isValid);
-      assert(state.contact?.isValid ?? true);
-      assert(state.company?.isValid ?? true);
-      assert(state.personal?.isValid ?? true);
-
-      await ref.read(customerRepoProvider).insert(state.customer);
-      await ref.read(addressRepoProvider).insert(state.address);
-      if (state.contact != null) {
-        await ref.read(contactRepoProvider).insert(state.contact!);
-      }
-      if (state.company != null) {
-        await ref.read(companyRepoProvider).insert(state.company!);
-      }
-      if (state.personal != null) {
-        await ref.read(personalRepoProvider).insert(state.personal!);
-      }
-
-      await ref.read(tagAssignmenteditProvider.notifier).saveNew(state.id);
-      await ref.read(priceAssignmentEditProvider.notifier).save(state.id);
+      await ref.read(tagAssignmenteditProvider.notifier).saveChanges(data.id);
+      await ref.read(priceAssignmentEditProvider.notifier).save(data.id);
 
       ref.read(customerEditChangeProvider.notifier).set(false);
       onSuccess();

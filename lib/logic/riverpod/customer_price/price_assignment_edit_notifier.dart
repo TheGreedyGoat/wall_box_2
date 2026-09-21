@@ -53,6 +53,7 @@ class PriceAssignmentEditNotifier extends Notifier<PriceAssignmentEditState> {
         );
       },
     );
+    ref.read(customerEditProvider.notifier).priceChanged = false;
   }
 
   /// saves the state's date into a new assignment, assigning it to the [customerID]
@@ -80,12 +81,15 @@ class PriceAssignmentEditNotifier extends Notifier<PriceAssignmentEditState> {
   /// set the state's kWh price
   void setPrice(int centicents) {
     state = state.copyWith(price: Euro(centicents));
-    ref.read(customerEditChangeProvider.notifier).set(true);
+    changed();
   }
 
   /// set the date when the assignment will start
   void setStartDate(DateTime date) {
     state = state.copyWith(selectedDate: date);
-    ref.read(customerEditChangeProvider.notifier).set(true);
+    changed();
   }
+
+  /// updates the Editor notifier something changed with the price assignments
+  void changed() => ref.read(customerEditProvider.notifier).priceChanged = true;
 }

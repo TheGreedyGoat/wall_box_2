@@ -25,4 +25,12 @@ class CustomerRepo extends Repository<Customer> {
     );
     return qu.isEmpty ? null : converter.fromJson(qu[0]);
   }
+
+  /// Check if a customer with the passed d exists
+  Future<bool> checkID(String customerID) async {
+    return (await query(
+      where: '${CustomerColumns.id} = ?',
+      whereArgs: [customerID],
+    )).isNotEmpty;
+  }
 }

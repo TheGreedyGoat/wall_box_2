@@ -1,10 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:wall_box_2/logic/riverpod/providers.dart';
-import 'package:wall_box_2/ui/pages/enter_customer_data.dart';
 import 'package:wall_box_2/ui/widgets/customer_overview_tile.dart';
 
+/// displays a list of all known customers
 class CustomerOverview extends ConsumerWidget {
+  /// displays a list of all known customers
   const CustomerOverview({super.key});
 
   @override
@@ -12,27 +13,32 @@ class CustomerOverview extends ConsumerWidget {
     final snapShot = ref.watch(customerPackageProvider);
     return Scaffold(
       appBar: AppBar(
+        title: Text('Kundenübersicht'),
         actions: [
-          ElevatedButton(
+          IconButton(
             onPressed: () {
-              toCustomerView(ref: ref, context: context);
+              ref.read(customerEditProvider.notifier).load(null);
             },
-            child: Text('Kunden anlegen'),
+            icon: Icon(Icons.person_add),
+            tooltip: 'Neuen Kunden anlegen',
           ),
         ],
       ),
       body: Center(
         child: snapShot.when(
-          data: (data) => data.isEmpty
-              ? noCustomers()
-              : ListView.builder(
-                  itemCount: data.length,
-                  itemBuilder: (context, index) {
-                    return CustomerOverviewTile(
-                      data: data[index],
-                    );
-                  },
-                ),
+          data: (data) {
+            data.sort((a, b) => a.displayName.compareTo(b.displayName));
+            return data.isEmpty
+                ? _noCustomers()
+                : ListView.builder(
+                    itemCount: data.length,
+                    itemBuilder: (context, index) {
+                      return CustomerOverviewTile(
+                        data: data[index],
+                      );
+                    },
+                  );
+          },
           error: (error, stackTrace) => Text(error.toString()),
           loading: () => CircularProgressIndicator(),
         ),
@@ -40,7 +46,7 @@ class CustomerOverview extends ConsumerWidget {
     );
   }
 
-  Widget noCustomers() => Column(
+  Widget _noCustomers() => Column(
     mainAxisSize: MainAxisSize.min,
     children: [
       Text('Keine Kunden gespeichert'),

@@ -1,11 +1,20 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
+import 'package:wall_box_2/logic/helpers/enums/data_modification_type.dart';
 import 'package:wall_box_2/logic/riverpod/providers.dart';
-import 'package:wall_box_2/ui/widgets/customer_editor/customer_price_display.dart';
-import 'package:wall_box_2/ui/widgets/customer_editor/tag_assignments/add_tag_assignment.dart';
-import 'package:wall_box_2/ui/widgets/customer_editor/tag_assignments/tag_assignment_tile.dart';
+import 'package:wall_box_2/ui/widgets/customer_view/customer_price_display.dart';
+import 'package:wall_box_2/ui/widgets/customer_view/tag_assignments/add_tag_assignment.dart';
+import 'package:wall_box_2/ui/widgets/customer_view/tag_assignments/tag_assignment_tile.dart';
 
+/// widget to edit a customer's tag assignments
+///
+/// The user can add new assignments, set end dates for unfinished assignements and delete already existing ones
+///
 class CustomerTagAssignments extends ConsumerStatefulWidget {
+  /// widget to edit a customer's tag assignments
+  ///
+  /// The user can add new assignments, set end dates for unfinished assignements and delete already existing ones
+  ///
   const CustomerTagAssignments({super.key});
 
   @override
@@ -16,7 +25,6 @@ class _TagAssigningState extends ConsumerState<CustomerTagAssignments> {
   bool hideOld = false;
   @override
   Widget build(BuildContext context) {
-    final assignmentState = ref.watch(tagAssignmenteditProvider);
     return SizedBox(
       width: 600,
       child: Card(
@@ -26,18 +34,30 @@ class _TagAssigningState extends ConsumerState<CustomerTagAssignments> {
           // mainAxisSize: MainAxisSize.min,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              spacing: 4.0,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Checkbox(
-                  value: hideOld,
-                  onChanged: (value) {
-                    setState(() {
-                      hideOld = value!;
-                    });
-                  },
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  spacing: 4.0,
+                  children: [
+                    Checkbox(
+                      value: hideOld,
+                      onChanged: (value) {
+                        setState(() {
+                          hideOld = value!;
+                        });
+                      },
+                    ),
+                    Text('abgeschlossene verstecken'),
+                  ],
                 ),
-                Text('abgeschlossene verstecken'),
+                IconButton(
+                  onPressed: () {
+                    ref.read(tagAssignmenteditProvider.notifier).revertAll();
+                  },
+                  tooltip: 'Tag - Änderungen rückgängig machen',
+                  icon: Icon(Icons.undo),
+                ),
               ],
             ),
 
@@ -71,25 +91,25 @@ class _TagAssigningState extends ConsumerState<CustomerTagAssignments> {
         ...modified.map(
           (e) => TagAssignmentTile(
             assignment: e,
-            assignmentState: TagAssignmentState.modified,
+            modification: DataModificationType.modified,
           ),
         ),
         ...added.map(
           (e) => TagAssignmentTile(
             assignment: e,
-            assignmentState: TagAssignmentState.added,
+            modification: DataModificationType.added,
           ),
         ),
         ...unmodified.map(
           (e) => TagAssignmentTile(
             assignment: e,
-            assignmentState: TagAssignmentState.unmodified,
+            modification: DataModificationType.unmodified,
           ),
         ),
         ...removed.map(
           (e) => TagAssignmentTile(
             assignment: e,
-            assignmentState: TagAssignmentState.removed,
+            modification: DataModificationType.removed,
           ),
         ),
       ],

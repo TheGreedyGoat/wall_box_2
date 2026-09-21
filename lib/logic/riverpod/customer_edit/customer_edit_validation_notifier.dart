@@ -37,11 +37,13 @@ class CustomerEditValidationNotifier extends Notifier<CustomerEditErrorState> {
   ///
   /// Any errors the notifier finds will be stored in the state
   ///
-  CustomerEditErrorState validate() {
-    state = CustomerEditErrorState(
-      errors: ref.read(customerEditProvider).validate(),
-    );
-    return state;
+  Future<bool> validate() async {
+    final data = ref.read(customerEditProvider).data;
+    final errors = data.validate();
+    if ((await ref.read(customerRepoProvider).checkID(data.id))) {
+      errors.add(DataError.idTaken);
+    }
+    return errors.isEmpty;
   }
 
   /// clears all errors

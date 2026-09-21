@@ -11,6 +11,8 @@ part 'tag_assignment_edit_notifier.freezed.dart';
 /// Changes here will not alter the database until the notifier's [saveNew] is called
 class TagAssignmentEditState with _$TagAssignmentEditState {
   @override
+  final String? customerID;
+  @override
   final List<TagAssignment> originals;
   @override
   final List<TagAssignmentModification> modifiedAssignments;
@@ -59,33 +61,80 @@ class TagAssignmentEditState with _$TagAssignmentEditState {
   ///
   /// - [modifiedAssignments]: Stores all new and changed tag assignments
   TagAssignmentEditState({
+    required this.customerID,
     required this.originals,
     required this.modifiedAssignments,
   });
 }
 
 @freezed
+/// Tracks changes on Tagassignments
+///
+/// the field [original] is supposed to store an assigment as it is currently saved within the database,
+/// [change] stores the new version.
+///
+/// ## Attention
+///
+/// only use for actual changes! Storing an original and setting changed to null rasults in deletion of the original!
+///
+/// ### Interpretations:
+/// - original != null && change != null => an existing [TagAssignment] is to be changed
+/// - original == null && change != null => new [TagAssignment] to be added
+/// - original != null && change == null => existing [TagAssignment] to be deleted
+///
+/// other combinations should not occur
+///
 class TagAssignmentModification with _$TagAssignmentModification {
-  /// null => new assignment
+  @override
+  /// set, if an already saved assignment is supposed to be changed or deleted
+  ///
+  /// unset to add a new assignment
   final TagAssignment? original;
 
+  @override
+  /// this is the assignment that is going to be added or updated
+  ///
+  /// If [original] is set and [change] is null, the corresponding original will be deleted from the database
   final TagAssignment? change;
 
+  /// quick access to the tagID (since one of [original] and [change] should always be non-null, this also should)
   String? get tagID => original?.tagID ?? change?.tagID;
 
+  /// Tracks changes on Tagassignments
+  ///
+  /// the field [original] is supposed to store an assigment as it is currently saved within the database,
+  /// [change] stores the new version.
+  ///
+  /// ## Attention
+  ///
+  /// only use for actual changes! Storing an original and setting changed to null rasults in deletion of the original!
+  ///
+  /// ### Interpretations:
+  /// - original != null && change != null => an existing [TagAssignment] is to be changed
+  /// - original == null && change != null => new [TagAssignment] to be added
+  /// - original != null && change == null => existing [TagAssignment] to be deleted
+  ///
+  /// other combinations should not occur
+  ///
   TagAssignmentModification({this.original, required this.change});
 }
 
 /// Notifier for [TagAssignmentEditState].
 ///
-/// Changes here will not alter the database until [saveNew] is called
+/// Changes here will not alter the database until [saveChanges] is called
 ///
 class TagAssignmentEditNotifier extends Notifier<TagAssignmentEditState> {
   @override
   TagAssignmentEditState build() => TagAssignmentEditState(
+    customerID: '',
     originals: [],
     modifiedAssignments: [],
   );
+
+  /// Sets the id only if it's not set yet
+  void setCustomerID(String? customerID) => state = state.customerID == null
+      ? state.copyWith(customerID: customerID)
+      : state;
 
   /// pulls all the tag assignments for the passed [customerID] wich are currently in the database.
   /// Those items will be put into the states originals field
@@ -99,9 +148,11 @@ class TagAssignmentEditNotifier extends Notifier<TagAssignmentEditState> {
               .assignmentsByCustomer(customerID: customerID)
         : <TagAssignment>[];
     state = TagAssignmentEditState(
+      customerID: customerID ?? '',
       originals: assignments,
       modifiedAssignments: [],
     );
+    ref.read(customerEditProvider.notifier).tagsChanged = false;
   }
 
   /// checks if
@@ -128,11 +179,14 @@ class TagAssignmentEditNotifier extends Notifier<TagAssignmentEditState> {
           change.change?.tagID == assignment.tagID,
     );
     changes.add(TagAssignmentModification(change: assignment));
-    state = state.copyWith(modifiedAssignments: changes);
+    state = state.copyWith(
+      modifiedAssignments: changes,
+    );
 
     changed();
   }
 
+  /// Undos all changes made to the TagAssignemts
   void revertChange(String tagID) {
     final mods = state.modifiedAssignments.toList();
     mods.removeWhere(
@@ -141,6 +195,10 @@ class TagAssignmentEditNotifier extends Notifier<TagAssignmentEditState> {
     state = state.copyWith(modifiedAssignments: mods);
   }
 
+  /// undos all changes made to the tagassignment list
+  void revertAll() => load(state.customerID);
+
+  /// sets the end date of a yet unfinished assignment
   void setAssignmentEnd(String tagID, DateTime end) {
     final modifiedAssignments = state.modifiedAssignments.toList();
     // check if there already is a change for this tagID
@@ -172,7 +230,8 @@ class TagAssignmentEditNotifier extends Notifier<TagAssignmentEditState> {
     changed();
   }
 
-  setDeletion(String tagID) {
+  /// sets up a specific original assigment for deletion
+  void setDeletion(String tagID, DateTime from) {
     final original = state.originals
         .where(
           (element) => element.tagID == tagID,
@@ -181,22 +240,28 @@ class TagAssignmentEditNotifier extends Notifier<TagAssignmentEditState> {
     if (original == null) return;
     final mods = state.modifiedAssignments.toList();
     mods.removeWhere(
-      (element) => element.tagID == tagID,
+      (element) => element.tagID == tagID && element.original!.from == from,
     );
     mods.add(TagAssignmentModification(original: original, change: null));
     state = state.copyWith(modifiedAssignments: mods);
+    changed();
   }
 
-  void changed() => ref.read(customerEditChangeProvider.notifier).set(true);
+  /// tell the Change Notifier that achange was made
+  void changed() => ref.read(customerEditProvider.notifier).tagsChanged = true;
 
-  Future<void> saveNew(String customerID) async {
+  /// applies all changes to the database
+  Future<void> saveChanges(String customerID) async {
     final mods = state.modifiedAssignments;
     final repo = ref.read(tagAssignmentRepoProvider);
     for (final mod in mods) {
       if (mod.change != null) {
         await repo.insert(mod.change!);
       } else if (mod.original != null) {
-        await repo.deleteWhereTagID(mod.original!.tagID);
+        await repo.deleteWhereTagIDAndFrom(
+          mod.original!.tagID,
+          mod.original!.from,
+        );
       }
     }
     load(customerID);

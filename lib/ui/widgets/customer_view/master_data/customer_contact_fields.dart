@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:wall_box_2/ui/decorators/text_field_decoration.dart';
 import 'package:wall_box_2/ui/language/language.dart';
 
-class CustomerContact extends StatelessWidget {
-  const CustomerContact({super.key});
+/// Subwidget for a customer's page to display and edit contact data
+class CustomerContactFields extends StatelessWidget {
+  /// Subwidget for a customer's page to display and edit address data
+  const CustomerContactFields({super.key});
 
   @override
   Widget build(BuildContext context) {

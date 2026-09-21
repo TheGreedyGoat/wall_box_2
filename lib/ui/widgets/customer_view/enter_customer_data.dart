@@ -3,56 +3,39 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wall_box_2/logic/models/master_data/customer/customer_data_package.dart';
 import 'package:wall_box_2/logic/riverpod/providers.dart';
 import 'package:wall_box_2/ui/language/language.dart';
-import 'package:wall_box_2/ui/widgets/customer_editor/customer_master_data.dart';
-import 'package:wall_box_2/ui/widgets/customer_editor/tag_assignments/customer_tag_assignments.dart';
-
-/// Prepares data for the customer editing page and navigates to it.
-/// set data = null to create a new customer
-///
-void toCustomerView({
-  required WidgetRef ref,
-  required BuildContext context,
-  CustomerDataPackage? data,
-}) {
-  _loadCustomerEditData(ref, data);
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => _EnterCustomerData(
-        original: data,
-      ),
-    ),
-  );
-}
+import 'package:wall_box_2/ui/widgets/customer_view/master_data/customer_master_data.dart';
+import 'package:wall_box_2/ui/widgets/customer_view/tag_assignments/customer_tag_assignments.dart';
 
 /// triggers all relevant notifiers to fetch the data they need corresponding to the customer
 ///
 /// All values on the page will change to match, what is currently saved in the database or to be empty if no data package is passed
 void _loadCustomerEditData(WidgetRef ref, CustomerDataPackage? data) {
   ref.read(customerEditProvider.notifier).load(data?.id);
-  ref.read(tagAssignmenteditProvider.notifier).load(data?.id);
-  ref.read(priceAssignmentEditProvider.notifier).load(data?.id);
-  ref.read(customerEditChangeProvider.notifier).set(false);
 }
 
 /// The core page to create or edit customer data.
-///
-/// This is set private to ensure all access is made through [toCustomerView]. This way we guarantee everything gets setup properly
-class _EnterCustomerData extends ConsumerStatefulWidget {
-  final CustomerDataPackage? original;
-  const _EnterCustomerData({this.original});
+class EnterCustomerData extends ConsumerStatefulWidget {
+  /// The core page to create or edit customer data.
+  const EnterCustomerData({super.key});
 
   @override
-  ConsumerState<_EnterCustomerData> createState() => _EnterCustomerDataState();
+  ConsumerState<EnterCustomerData> createState() => _EnterCustomerDataState();
 }
 
-class _EnterCustomerDataState extends ConsumerState<_EnterCustomerData> {
+class _EnterCustomerDataState extends ConsumerState<EnterCustomerData> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    final customerState = ref.watch(customerEditProvider);
     final activeChanges = ref.watch(customerEditChangeProvider);
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(
+          (customerState.originalCustomerID?.trim() ?? '').isEmpty
+              ? 'Neuer Kunde'
+              : customerState.data.displayName,
+        ),
+      ),
       body: Form(
         key: _formKey,
         child: Column(
@@ -71,7 +54,7 @@ class _EnterCustomerDataState extends ConsumerState<_EnterCustomerData> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       CustomerMasterData(
-                        original: widget.original,
+                        key: ValueKey(customerState.originalCustomerID),
                       ),
                       CustomerTagAssignments(),
                     ],
@@ -93,8 +76,7 @@ class _EnterCustomerDataState extends ConsumerState<_EnterCustomerData> {
         children: [
           ElevatedButton(
             onPressed: () {
-              if (!_validate()) return;
-              _save();
+              _validateAndTrySave();
             },
             child: Row(
               spacing: 4.0,
@@ -109,7 +91,7 @@ class _EnterCustomerDataState extends ConsumerState<_EnterCustomerData> {
           ElevatedButton(
             onPressed: () {
               _formKey.currentState?.reset();
-              _loadCustomerEditData(ref, widget.original);
+              ref.read(customerEditProvider.notifier).reload();
             },
             child: Row(
               spacing: 4.0,
@@ -125,14 +107,10 @@ class _EnterCustomerDataState extends ConsumerState<_EnterCustomerData> {
     ),
   );
 
-  bool _validate() {
-    return ref.read(customerErrorProvider.notifier).validate().errors.isEmpty;
-  }
-
-  void _save() {
+  void _validateAndTrySave() {
     ref
         .read(customerEditProvider.notifier)
-        .save(
+        .validateAndTrySave(
           onSuccess: () => _snackBar(
             context,
             currentLanguage.saveSuccessful,

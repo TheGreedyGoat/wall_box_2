@@ -1,21 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:wall_box_2/logic/models/master_data/customer/customer_data_package.dart';
-import 'package:wall_box_2/ui/widgets/customer_editor/customer_address.dart';
-import 'package:wall_box_2/ui/widgets/customer_editor/customer_company.dart';
-import 'package:wall_box_2/ui/widgets/customer_editor/customer_contact.dart';
-import 'package:wall_box_2/ui/widgets/customer_editor/customer_id.dart';
-import 'package:wall_box_2/ui/widgets/customer_editor/customer_personals.dart';
+import 'package:wall_box_2/ui/widgets/customer_view/master_data/customer_address_fields.dart';
+import 'package:wall_box_2/ui/widgets/customer_view/master_data/customer_company_fields.dart';
+import 'package:wall_box_2/ui/widgets/customer_view/master_data/customer_contact_fields.dart';
+import 'package:wall_box_2/ui/widgets/customer_view/master_data/customer_id_field.dart';
+import 'package:wall_box_2/ui/widgets/customer_view/master_data/customer_personals_field.dart';
 
 /// Root widget to display and edit all Data of a customer
 class CustomerMasterData extends ConsumerStatefulWidget {
-  ///the original state wich is being edited if not null
-  final CustomerDataPackage? original;
-
   /// Root widget to display and edit all Data of a customer
-  ///
-  /// [original] : the original state wich is being edited if not null
-  const CustomerMasterData({this.original, super.key});
+  const CustomerMasterData({super.key});
 
   @override
   ConsumerState<CustomerMasterData> createState() => _CustomerMasterDataState();
@@ -39,11 +33,9 @@ class _CustomerMasterDataState extends ConsumerState<CustomerMasterData> {
                   mainAxisSize: MainAxisSize.min,
                   spacing: 20.0,
                   children: [
-                    CustomerID(
-                      editable: (widget.original?.id ?? '').isEmpty,
-                    ),
-                    CustomerCompany(),
-                    CustomerPersonals(),
+                    CustomerIDField(),
+                    CustomerCompanyFields(),
+                    CustomerPersonalsFields(),
                   ],
                 ),
               ),
@@ -51,8 +43,8 @@ class _CustomerMasterDataState extends ConsumerState<CustomerMasterData> {
                 child: Column(
                   spacing: 20.0,
                   children: [
-                    CustomerAddress(),
-                    CustomerContact(),
+                    CustomerAddressFields(),
+                    CustomerContactFields(),
                   ],
                 ),
               ),

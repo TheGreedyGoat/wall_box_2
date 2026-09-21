@@ -90,10 +90,15 @@ class TagAssignmentRepo extends Repository<TagAssignment> {
           );
   }
 
-  Future<int> deleteWhereTagID(String tagID) async {
+  /// permanently deletes a tag assignment.
+  Future<int> deleteWhereTagIDAndFrom(String tagID, DateTime from) async {
     return await delete(
-      where: '${TagAssignmentColumns.tag_id} = ?',
-      whereArgs: [tagID],
+      where:
+          '''
+      ${TagAssignmentColumns.tag_id} = ?
+      AND ${TagAssignmentColumns.from} = ?
+      ''',
+      whereArgs: [tagID, from.toIso8601String()],
     );
   }
 

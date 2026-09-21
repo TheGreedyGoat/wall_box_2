@@ -8,16 +8,18 @@ import 'package:wall_box_2/logic/riverpod/providers.dart';
 import 'package:wall_box_2/ui/decorators/text_field_decoration.dart';
 import 'package:wall_box_2/ui/language/language.dart';
 
-class CustomerAddress extends ConsumerStatefulWidget {
-  const CustomerAddress({super.key});
+/// Subwidget for a customer's page to display and edit address data
+class CustomerAddressFields extends ConsumerStatefulWidget {
+  /// Subwidget for a customer's page to display and edit address data
+  const CustomerAddressFields({super.key});
 
   @override
-  ConsumerState<CustomerAddress> createState() => _CustomerAddressState();
+  ConsumerState<CustomerAddressFields> createState() => _CustomerAddressState();
 }
 
-class _CustomerAddressState extends ConsumerState<CustomerAddress> {
+class _CustomerAddressState extends ConsumerState<CustomerAddressFields> {
   CustomerEditNotifier get notifier => ref.read(customerEditProvider.notifier);
-  CustomerDataPackage get state => ref.watch(customerEditProvider);
+  CustomerDataPackage get state => ref.watch(customerEditProvider).data;
 
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,8 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:wall_box_2/logic/helpers/enums/data_error.dart';
 
+/// Deutsch Sprach
 const german = Language(
   customerID: 'Kundenkennung',
   generate: 'generieren',
@@ -26,6 +29,7 @@ const german = Language(
   dataErrorMessages: {
     // customer
     DataError.noCompanyOrPersonal: 'Firmen- oder Nachname benötigt',
+    DataError.idTaken: 'Kundenkennung existiert bereits',
   },
   save: 'Speichern',
   discard: 'Verwerfen',
@@ -39,9 +43,20 @@ const german = Language(
   confirm: 'fortfahren',
 );
 
+/// The currently displayed language
 var currentLanguage = german;
 
+/// Language pack
+///
+/// variable names should either be the exact english phrase (for single words/ short phrases)
+///
+/// or describe the content distinctively
 class Language {
+  /// Language pack
+  ///
+  /// variable names should either be the exact english phrase (for single words/ short phrases)
+  ///
+  /// or describe the content distinctively
   const Language({
     required this.mr,
     required this.mrs,

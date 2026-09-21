@@ -1,41 +1,30 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:wall_box_2/logic/helpers/date_timeextension.dart';
+import 'package:wall_box_2/logic/helpers/enums/data_modification_type.dart';
 import 'package:wall_box_2/logic/models/assignments/tag_assignment.dart';
 import 'package:wall_box_2/logic/riverpod/providers.dart';
 import 'package:wall_box_2/ui/widgets/general/date_button.dart';
-
-enum TagAssignmentState {
-  unmodified,
-  modified,
-  removed,
-  added;
-
-  Color color(BuildContext context) => switch (this) {
-    TagAssignmentState.unmodified => Theme.of(context).colorScheme.surfaceDim,
-    TagAssignmentState.modified => Colors.deepOrangeAccent,
-    TagAssignmentState.removed => Colors.blueGrey,
-    TagAssignmentState.added => Colors.lightGreen,
-  };
-}
 
 /// displays one TagAssignment
 class TagAssignmentTile extends ConsumerWidget {
   /// You'll figure it out
   final TagAssignment assignment;
-  final TagAssignmentState assignmentState;
+
+  /// If and how the qassignment was changed
+  final DataModificationType modification;
 
   /// displays one TagAssignment
   const TagAssignmentTile({
     super.key,
     required this.assignment,
-    this.assignmentState = TagAssignmentState.unmodified,
+    this.modification = DataModificationType.unmodified,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Card(
-      color: assignmentState.color(context),
+      color: modification.color(context),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: SizedBox(
@@ -46,15 +35,11 @@ class TagAssignmentTile extends ConsumerWidget {
             children: [
               SizedBox(
                 width: 150,
-                child: Container(
-                  // color: Colors.blueGrey,
-                  child: SelectableText(
-                    '${assignment.tagID}',
-                    style: TextStyle(fontSize: 12),
-                  ),
+                child: SelectableText(
+                  '${assignment.tagID}',
+                  style: TextStyle(fontSize: 12),
                 ),
               ),
-
               SelectableText(assignment.from.toNiceString()),
               assignment.to != null
                   ? SelectableText(
@@ -68,7 +53,7 @@ class TagAssignmentTile extends ConsumerWidget {
                             .read(tagAssignmenteditProvider.notifier)
                             .setAssignmentEnd(assignment.tagID, date);
                       },
-                      enabled: assignmentState != TagAssignmentState.removed,
+                      enabled: modification != DataModificationType.removed,
                       notSelectedLabel: 'aktuell',
                     ),
 
@@ -78,11 +63,14 @@ class TagAssignmentTile extends ConsumerWidget {
                     final notifier = ref.read(
                       tagAssignmenteditProvider.notifier,
                     );
-                    assignmentState == TagAssignmentState.unmodified
-                        ? notifier.setDeletion(assignment.tagID)
+                    modification == DataModificationType.unmodified
+                        ? notifier.setDeletion(
+                            assignment.tagID,
+                            assignment.from,
+                          )
                         : notifier.revertChange(assignment.tagID);
                   },
-                  icon: assignmentState == TagAssignmentState.unmodified
+                  icon: modification == DataModificationType.unmodified
                       ? Icon(Icons.cancel)
                       : Icon(Icons.undo),
                 ),

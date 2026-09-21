@@ -19,9 +19,10 @@ import 'package:wall_box_2/logic/riverpod/providers.dart';
 import 'package:wall_box_2/logic/services/global.dart';
 import 'package:wall_box_2/ui/dummy/upload_and_parse.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:wall_box_2/ui/pages/customer_overview.dart';
-import 'package:wall_box_2/ui/pages/enter_customer_data.dart';
-import 'package:wall_box_2/ui/widgets/customer_editor/tag_assignments/customer_tag_assignments.dart';
+import 'package:wall_box_2/ui/widgets/customer_view/customer_overview.dart';
+import 'package:wall_box_2/ui/pages/customer_page.dart';
+import 'package:wall_box_2/ui/widgets/customer_view/enter_customer_data.dart';
+import 'package:wall_box_2/ui/widgets/customer_view/tag_assignments/customer_tag_assignments.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -62,7 +63,7 @@ class MainApp extends ConsumerWidget {
       //   Locale('de'),
       //   Locale('en'),
       // ],
-      home: CustomerOverview(),
+      home: CustomerPage(),
     );
   }
 }

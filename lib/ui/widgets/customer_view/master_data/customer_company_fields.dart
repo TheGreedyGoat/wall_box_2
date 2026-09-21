@@ -1,26 +1,27 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:wall_box_2/logic/helpers/enums/data_error.dart';
-import 'package:wall_box_2/logic/models/master_data/customer/customer_data_package.dart';
 import 'package:wall_box_2/logic/riverpod/customer_edit/customer_edit_notifier.dart';
 import 'package:wall_box_2/logic/riverpod/customer_edit/customer_edit_validation_notifier.dart';
 import 'package:wall_box_2/logic/riverpod/providers.dart';
 import 'package:wall_box_2/ui/decorators/text_field_decoration.dart';
 import 'package:wall_box_2/ui/language/language.dart';
 
-class CustomerCompany extends ConsumerStatefulWidget {
-  const CustomerCompany({super.key});
+/// Display and edit a cutomer's company data
+class CustomerCompanyFields extends ConsumerStatefulWidget {
+  /// Display and edit a cutomer's company data
+  const CustomerCompanyFields({super.key});
 
   @override
-  ConsumerState<CustomerCompany> createState() => _CustomerCompanyState();
+  ConsumerState<CustomerCompanyFields> createState() => _CustomerCompanyState();
 }
 
-class _CustomerCompanyState extends ConsumerState<CustomerCompany> {
+class _CustomerCompanyState extends ConsumerState<CustomerCompanyFields> {
   CustomerEditNotifier get notifier => ref.read(customerEditProvider.notifier);
-  CustomerDataPackage get state => ref.watch(customerEditProvider);
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.read(customerEditProvider).data;
     final CustomerEditErrorState errorState = ref.watch(customerErrorProvider);
     return Column(
       spacing: 8.0,

@@ -8,20 +8,21 @@ import 'package:wall_box_2/ui/decorators/text_field_decoration.dart';
 import 'package:wall_box_2/ui/language/language.dart';
 
 /// holds all fields to display and edit personal data
-class CustomerPersonals extends ConsumerStatefulWidget {
+class CustomerPersonalsFields extends ConsumerStatefulWidget {
   /// holds all fields to display and edit personal data
-  const CustomerPersonals({super.key});
+  const CustomerPersonalsFields({super.key});
 
   @override
-  ConsumerState<CustomerPersonals> createState() => _CustomerPersonalsState();
+  ConsumerState<CustomerPersonalsFields> createState() =>
+      _CustomerPersonalsState();
 }
 
-class _CustomerPersonalsState extends ConsumerState<CustomerPersonals> {
+class _CustomerPersonalsState extends ConsumerState<CustomerPersonalsFields> {
   CustomerEditNotifier get notifier => ref.read(customerEditProvider.notifier);
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(customerEditProvider);
+    final state = ref.watch(customerEditProvider).data;
     final errorState = ref.watch(customerErrorProvider);
     return Column(
       spacing: 8.0,

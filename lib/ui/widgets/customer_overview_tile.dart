@@ -3,21 +3,37 @@ import 'package:flutter/material.dart';
 import 'package:wall_box_2/data/database/tables/customer_table.dart';
 import 'package:wall_box_2/logic/models/master_data/customer/customer_data_package.dart';
 import 'package:wall_box_2/logic/riverpod/providers.dart';
+import 'package:wall_box_2/ui/confirm_action_dialog.dart';
 import 'package:wall_box_2/ui/language/language.dart';
-import 'package:wall_box_2/ui/pages/enter_customer_data.dart';
 
+/// displays a customer's basic informations
+///
+/// clicking sets the main customer page to display [data]
 class CustomerOverviewTile extends ConsumerWidget {
+  /// The corresponding customer's data
   final CustomerDataPackage data;
+
+  /// displays a customer's basic informations
+  ///
+  /// clicking sets the main customer page to display [data]
   const CustomerOverviewTile({super.key, required this.data});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    bool isSelected = ref.watch(customerEditProvider).data == data;
     return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadiusGeometry.circular(8.0),
+        side: isSelected ? BorderSide() : BorderSide.none,
+      ),
       child: ListTile(
-        title: SelectableText(
+        onTap: () {
+          ref.read(customerEditProvider.notifier).load(data.id);
+        },
+        title: Text(
           data.displayName,
         ),
-        subtitle: SelectableText('#${data.id}'),
+        subtitle: IntrinsicWidth(child: Text('# ${data.id}')),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -25,7 +41,7 @@ class CustomerOverviewTile extends ConsumerWidget {
               itemBuilder: (context) => [
                 PopupMenuItem(
                   onTap: () =>
-                      toCustomerView(ref: ref, context: context, data: data),
+                      ref.read(customerEditProvider.notifier).load(data.id),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -50,12 +66,12 @@ class CustomerOverviewTile extends ConsumerWidget {
                 ),
               ],
             ),
-            IconButton(
-              onPressed: () {
-                toCustomerView(ref: ref, context: context, data: data);
-              },
-              icon: Icon(Icons.chevron_right),
-            ),
+            // IconButton(
+            //   onPressed: () {
+
+            //   },
+            //   icon: Icon(Icons.chevron_right),
+            // ),
           ],
         ),
       ),
@@ -63,33 +79,22 @@ class CustomerOverviewTile extends ConsumerWidget {
   }
 
   void _confirmDeletion(BuildContext context, WidgetRef ref) async {
-    final confirm = await showDialog<bool>(
+    showConfirmationDialog(
       context: context,
-      builder: (context) {
-        return AlertDialog(
-          icon: Icon(Icons.dangerous),
-          content: Text(
-            'Sind Sie sicher, dass sie Kunde ${data.displayName} und alle zugehörigen Daten löschen wollen?',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, true),
-              child: Text('löschen'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: Text('abbrechen'),
-            ),
-          ],
-        );
+      onConfirm: () {
+        ref
+            .read(customerRepoProvider)
+            .delete(
+              where: '${CustomerColumns.id} = ?',
+              whereArgs: [data.id],
+            );
       },
+      onCancel: () {},
+      content: Text(
+        'Sind Sie sicher, dass sie Kunde ${data.displayName} und alle zugehörigen Daten löschen wollen?',
+      ),
+      title: Text('Löschen bestätigen'),
+      icon: Icon(Icons.delete_forever),
     );
-    if (!(confirm ?? false)) return;
-    ref
-        .read(customerRepoProvider)
-        .delete(
-          where: '${CustomerColumns.id} = ?',
-          whereArgs: [data.id],
-        );
   }
 }

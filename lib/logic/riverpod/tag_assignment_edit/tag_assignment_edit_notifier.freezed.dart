@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TagAssignmentEditState {
 
- List<TagAssignment> get originals; List<TagAssignmentModification> get modifiedAssignments;
+ String? get customerID; List<TagAssignment> get originals; List<TagAssignmentModification> get modifiedAssignments;
 /// Create a copy of TagAssignmentEditState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $TagAssignmentEditStateCopyWith<TagAssignmentEditState> get copyWith => _$TagAss
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TagAssignmentEditState&&const DeepCollectionEquality().equals(other.originals, originals)&&const DeepCollectionEquality().equals(other.modifiedAssignments, modifiedAssignments));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TagAssignmentEditState&&(identical(other.customerID, customerID) || other.customerID == customerID)&&const DeepCollectionEquality().equals(other.originals, originals)&&const DeepCollectionEquality().equals(other.modifiedAssignments, modifiedAssignments));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(originals),const DeepCollectionEquality().hash(modifiedAssignments));
+int get hashCode => Object.hash(runtimeType,customerID,const DeepCollectionEquality().hash(originals),const DeepCollectionEquality().hash(modifiedAssignments));
 
 @override
 String toString() {
-  return 'TagAssignmentEditState(originals: $originals, modifiedAssignments: $modifiedAssignments)';
+  return 'TagAssignmentEditState(customerID: $customerID, originals: $originals, modifiedAssignments: $modifiedAssignments)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $TagAssignmentEditStateCopyWith<$Res>  {
   factory $TagAssignmentEditStateCopyWith(TagAssignmentEditState value, $Res Function(TagAssignmentEditState) _then) = _$TagAssignmentEditStateCopyWithImpl;
 @useResult
 $Res call({
- List<TagAssignment> originals, List<TagAssignmentModification> modifiedAssignments
+ String? customerID, List<TagAssignment> originals, List<TagAssignmentModification> modifiedAssignments
 });
 
 
@@ -62,9 +62,10 @@ class _$TagAssignmentEditStateCopyWithImpl<$Res>
 
 /// Create a copy of TagAssignmentEditState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? originals = null,Object? modifiedAssignments = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? customerID = freezed,Object? originals = null,Object? modifiedAssignments = null,}) {
   return _then(TagAssignmentEditState(
-originals: null == originals ? _self.originals : originals // ignore: cast_nullable_to_non_nullable
+customerID: freezed == customerID ? _self.customerID : customerID // ignore: cast_nullable_to_non_nullable
+as String?,originals: null == originals ? _self.originals : originals // ignore: cast_nullable_to_non_nullable
 as List<TagAssignment>,modifiedAssignments: null == modifiedAssignments ? _self.modifiedAssignments : modifiedAssignments // ignore: cast_nullable_to_non_nullable
 as List<TagAssignmentModification>,
   ));
