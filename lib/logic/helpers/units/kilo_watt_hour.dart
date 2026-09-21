@@ -19,16 +19,13 @@ class KiloWattHour extends Unit {
   /// Describes an amount of Power. Stores it's values in [wattHours]
 
   /// converts [wattHours] to kWh
-  double get kWh => externalValue;
+  double get kWh => factoredValue;
 
   @override
   int get defaultPrecision => 3;
 
+  /// Describes an amount of Power. Stores it's values in [wattHours]
   const KiloWattHour({required this.wattHours});
-
-  @override
-  String toStringAsFixed(int precision) =>
-      '${kWh.toStringAsFixed(precision)} $symbol';
 
   ///
   KiloWattHour operator +(KiloWattHour other) {

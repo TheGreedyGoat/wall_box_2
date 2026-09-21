@@ -27,6 +27,9 @@ abstract class MasterData {
   ///
   List<DataError?> get validationList;
 
+  ///
+  bool get isValid => validate().isEmpty;
+
   /// use to validate the data. ([validationList] has to be setup properly)
   ///
   /// the validation is considered succesful, if the retuned list is empty

@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:wall_box_2/data/database/tables/contact_table.dart';
 import 'package:wall_box_2/logic/helpers/enums/data_error.dart';
 import 'package:wall_box_2/logic/models/master_data/contact/email.dart';
 import 'package:wall_box_2/logic/models/master_data/master_data.dart';
@@ -17,20 +18,27 @@ part 'contact_data.g.dart';
 /// contains contact data such as phone numbers and an email address
 class ContactData extends MasterData with _$ContactData {
   @override
-  final String id;
+  final String customerID;
   @override
   final Phone? phone;
   @override
   final Phone? mobile;
   @override
+  final Phone? fax;
+  @override
   final Email? email;
+
+  @override
+  final String? website;
 
   /// contains contact data such as phone numbers and an email address
   ContactData({
-    required this.id,
-    @PhoneJsonConverter() @JsonKey(name: 'phone') this.phone,
-    @PhoneJsonConverter() @JsonKey(name: 'mobile') this.mobile,
-    @EmailJsonConverter() @JsonKey(name: 'email') this.email,
+    @JsonKey(name: ContactColumns.customer_id) required this.customerID,
+    @JsonKey(name: ContactColumns.phone) @PhoneJsonConverter() this.phone,
+    @JsonKey(name: ContactColumns.mobile) @PhoneJsonConverter() this.mobile,
+    @JsonKey(name: ContactColumns.fax) @PhoneJsonConverter() this.fax,
+    @JsonKey(name: ContactColumns.email) @EmailJsonConverter() this.email,
+    @JsonKey(name: ContactColumns.website) this.website,
   });
 
   @override

@@ -8,20 +8,33 @@ part of 'tag_assignment.dart';
 
 TagAssignment _$TagAssignmentFromJson(Map<String, dynamic> json) =>
     TagAssignment(
-      tagID: json['tagID'] as String,
-      customer: const CustomerJsonConverter().fromJson(
-        json['customer'] as Map<String, dynamic>,
-      ),
-      tagName: json['tagName'] as String?,
-      from: DateTime.parse(json['from'] as String),
-      to: json['to'] == null ? null : DateTime.parse(json['to'] as String),
+      tagID: json['tag_id'] as String,
+      customerID: json['customer_id'] as String,
+      from: DateTime.parse(json['starts_at'] as String),
+      to: json['ends_at'] == null
+          ? null
+          : DateTime.parse(json['ends_at'] as String),
     );
 
 Map<String, dynamic> _$TagAssignmentToJson(TagAssignment instance) =>
     <String, dynamic>{
-      'from': instance.from.toIso8601String(),
-      'to': instance.to?.toIso8601String(),
-      'tagID': instance.tagID,
-      'tagName': instance.tagName,
-      'customer': const CustomerJsonConverter().toJson(instance.customer),
+      'starts_at': instance.from.toIso8601String(),
+      'ends_at': instance.to?.toIso8601String(),
+      'tag_id': instance.tagID,
+      'customer_id': instance.customerID,
     };
+
+const _$TagAssignmentJsonSchema = {
+  r'$schema': 'https://json-schema.org/draft/2020-12/schema',
+  'type': 'object',
+  'properties': {
+    'starts_at': {'type': 'string', 'format': 'date-time'},
+    'ends_at': {'type': 'string', 'format': 'date-time'},
+    'tag_id': {'type': 'string', 'description': "The assigned tag's id"},
+    'customer_id': {
+      'type': 'string',
+      'description': 'the id of the customer the tag is assigned to',
+    },
+  },
+  'required': ['starts_at', 'tag_id', 'customer_id'],
+};
