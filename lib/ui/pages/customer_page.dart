@@ -10,16 +10,18 @@ class CustomerPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Row(
-      children: [
-        SizedBox(
-          width: 500,
-          child: CustomerOverview(),
-        ),
-        Expanded(
-          child: EnterCustomerData(),
-        ),
-      ],
+    return Scaffold(
+      body: Row(
+        children: [
+          SizedBox(
+            width: 500,
+            child: CustomerOverview(),
+          ),
+          Expanded(
+            child: EnterCustomerData(),
+          ),
+        ],
+      ),
     );
   }
 }

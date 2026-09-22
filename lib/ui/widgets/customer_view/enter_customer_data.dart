@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wall_box_2/logic/models/master_data/custom_data/customer_data_package.dart';
+import 'package:wall_box_2/logic/models/data_packs/customer_data_package.dart';
 import 'package:wall_box_2/logic/riverpod/providers.dart';
 import 'package:wall_box_2/ui/language/language.dart';
 import 'package:wall_box_2/ui/widgets/customer_view/master_data/customer_master_data.dart';

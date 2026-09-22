@@ -7,12 +7,17 @@ import 'package:wall_box_2/data/repositories/personal_repo.dart';
 import 'package:wall_box_2/data/repositories/price_assignment_repo.dart';
 import 'package:wall_box_2/data/repositories/tag_assignment_repo.dart';
 import 'package:wall_box_2/data/repositories/transaction_repo.dart';
-import 'package:wall_box_2/logic/models/master_data/custom_data/customer_data_package.dart';
+import 'package:wall_box_2/logic/models/assignments/tag_assignment.dart';
+import 'package:wall_box_2/logic/models/data_packs/customer_data_package.dart';
+import 'package:wall_box_2/logic/models/data_packs/transaction_data_pack.dart';
+import 'package:wall_box_2/logic/models/master_data/customer/customer.dart';
+import 'package:wall_box_2/logic/models/transaction.dart';
 import 'package:wall_box_2/logic/riverpod/database_changes/change_state.dart';
 import 'package:wall_box_2/logic/riverpod/customer_edit/customer_edit_notifier.dart';
 import 'package:wall_box_2/logic/riverpod/customer_edit/customer_edit_validation_notifier.dart';
 import 'package:wall_box_2/logic/riverpod/customer_price/price_assignment_edit_notifier.dart';
 import 'package:wall_box_2/logic/riverpod/tag_assignment_edit/tag_assignment_edit_notifier.dart';
+import 'package:wall_box_2/logic/riverpod/transaction_page/transaction_page_notifier.dart';
 
 // 8888888888     888 d8b 888
 // 888            888 Y8P 888
@@ -93,6 +98,43 @@ final customerPackageProvider = FutureProvider<List<CustomerDataPackage>>(
     return result;
   },
 );
+
+final transactionDataPackageProvider = FutureProvider((ref) async {
+  final transactions = await ref.watch(transactionRepoProvider).allRows;
+  final allDataPackages = await ref.watch(customerPackageProvider.future);
+  final Map<Transaction, TagAssignment?> assignments = {};
+  // collect assignments
+  for (final transaction in transactions) {
+    //no assignment loaded yet matching this transaction
+    final assignment = await ref
+        .watch(tagAssignmentRepoProvider)
+        .ofTagAtDate(tagID: transaction.tagID, date: transaction.start);
+    assignments[transaction] = assignment;
+  }
+  final Map<TagAssignment, CustomerDataPackage?> customers = {};
+
+  for (final assignment in assignments.values) {
+    if (assignment == null) continue;
+    customers[assignment] = allDataPackages
+        .where(
+          (data) => assignment.customerID == data.id,
+        )
+        .firstOrNull;
+  }
+
+  print(assignments.values);
+  print(customers.values);
+
+  return transactions.map(
+    (transaction) {
+      final assignment = assignments[transaction];
+      return TransactionDataPack(
+        transaction: transaction,
+        customer: assignment != null ? customers[assignment] : null,
+      );
+    },
+  ).toList();
+});
 
 /// Returns the repo for customers
 final customerRepoProvider = Provider((ref) {
@@ -196,4 +238,8 @@ final transactionRepoProvider = Provider(
       onchanged: () => ref.read(changeProvider.notifier).transactionChanged(),
     );
   },
+);
+
+final transactionPageProvider = NotifierProvider(
+  () => TransactionPageNotifier(),
 );

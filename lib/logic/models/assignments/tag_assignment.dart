@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:wall_box_2/data/database/tables/tag_assignment_table.dart';
 import 'package:wall_box_2/logic/models/assignments/assignment.dart';
+import 'package:wall_box_2/logic/models/transaction.dart';
 
 part 'tag_assignment.freezed.dart';
 part 'tag_assignment.g.dart';
@@ -33,6 +34,11 @@ class TagAssignment extends Assignment with _$TagAssignment {
     @JsonKey(name: TagAssignmentColumns.from) required this.from,
     @JsonKey(name: TagAssignmentColumns.to) this.to,
   });
+
+  bool matchTransaction(Transaction transaction) {
+    return tagID == transaction.tagID &&
+        interval.containsDate(transaction.start);
+  }
 }
 
 /// used to convert a [TagAssignment] to a json object.

@@ -7,8 +7,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wall_box_2/data/database/core/app_database.dart';
 import 'package:wall_box_2/data/repositories/tag_assignment_repo.dart';
 import 'package:wall_box_2/data/repositories/transaction_repo.dart';
+import 'package:wall_box_2/logic/helpers/date_timeextension.dart';
 import 'package:wall_box_2/logic/models/assignments/tag_assignment.dart';
-import 'package:wall_box_2/logic/models/master_data/custom_data/customer_data_package.dart';
+import 'package:wall_box_2/logic/models/data_packs/customer_data_package.dart';
 import 'package:wall_box_2/logic/models/master_data/customer/customer.dart';
 import 'package:wall_box_2/logic/models/master_data/address/address.dart';
 import 'package:wall_box_2/logic/models/master_data/company/company_data.dart';
@@ -18,8 +19,8 @@ import 'package:wall_box_2/logic/models/master_data/contact/phone.dart';
 import 'package:wall_box_2/logic/models/master_data/personal/personal_data.dart';
 import 'package:wall_box_2/logic/riverpod/providers.dart';
 import 'package:wall_box_2/logic/services/global.dart';
-import 'package:wall_box_2/ui/dummy/upload_and_parse.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:wall_box_2/ui/pages/transaction_overview.dart';
 import 'package:wall_box_2/ui/widgets/customer_view/customer_overview.dart';
 import 'package:wall_box_2/ui/pages/customer_page.dart';
 import 'package:wall_box_2/ui/widgets/customer_view/enter_customer_data.dart';
@@ -32,9 +33,6 @@ void main() async {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
   }
-  await TransactionRepo(
-    onchanged: () {},
-  ).delete();
 
   runApp(ProviderScope(child: MainApp()));
 }
@@ -52,7 +50,7 @@ class MainApp extends ConsumerWidget {
       //   Locale('de'),
       //   Locale('en'),
       // ],
-      home: UploadAndParse(),
+      home: PageTransactionOverview(),
     );
   }
 }

@@ -79,5 +79,5 @@ class DatabaseChangeNotifier extends Notifier<DatabaseChangeState> {
   void tagAssignmentChanged() =>
       state = state.copyWith(tagAssignment: state.tagAssignment + 1);
   void transactionChanged() =>
-      state = state.copyWith(transactRepo: state.transaction + 1);
+      state = state.copyWith(transaction: state.transaction + 1);
 }

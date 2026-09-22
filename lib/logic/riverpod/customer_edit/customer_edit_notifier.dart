@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wall_box_2/logic/models/master_data/custom_data/customer_data_package.dart';
+import 'package:wall_box_2/logic/models/data_packs/customer_data_package.dart';
 import 'package:wall_box_2/logic/models/master_data/address/address.dart';
 import 'package:wall_box_2/logic/models/master_data/company/company_data.dart';
 import 'package:wall_box_2/logic/models/master_data/contact/contact_data.dart';
@@ -206,10 +206,26 @@ class CustomerEditNotifier extends Notifier<CustomerEditState> {
     try {
       if (!(await ref.read(customerErrorProvider.notifier).validate())) return;
 
+      await ref.read(customerRepoProvider).insert(state.data.customer);
+      await ref.read(addressRepoProvider).insert(state.data.address);
+
+      if (state.data.company != null) {
+        await ref.read(companyRepoProvider).insert(state.data.company!);
+      }
+      if (state.data.personal != null) {
+        await ref.read(personalRepoProvider).insert(state.data.personal!);
+      }
+
+      if (state.data.contact != null) {
+        await ref.read(contactRepoProvider).insert(state.data.contact!);
+      }
+
       await ref.read(tagAssignmenteditProvider.notifier).saveChanges(data.id);
       await ref.read(priceAssignmentEditProvider.notifier).save(data.id);
 
-      ref.read(customerEditChangeProvider.notifier).set(false);
+      _mainChanged = false;
+      _tagsChanged = false;
+      _priceChanged = false;
       onSuccess();
     } catch (e) {
       onError(e);

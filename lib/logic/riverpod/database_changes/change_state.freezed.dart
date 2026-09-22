@@ -34,7 +34,7 @@ int get hashCode => Object.hash(runtimeType,address,company,contact,customer,per
 
 @override
 String toString() {
-  return 'DatabaseChangeState(address: $address, company: $company, contact: $contact, customer: $customer, personal: $personal, priceAssignment: $priceAssignment, tagAssignment: $tagAssignment, transactRepo: $transaction, customerPackage: $customerPackage)';
+  return 'DatabaseChangeState(address: $address, company: $company, contact: $contact, customer: $customer, personal: $personal, priceAssignment: $priceAssignment, tagAssignment: $tagAssignment, transaction: $transaction, customerPackage: $customerPackage)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $DatabaseChangeStateCopyWith<$Res>  {
   factory $DatabaseChangeStateCopyWith(DatabaseChangeState value, $Res Function(DatabaseChangeState) _then) = _$DatabaseChangeStateCopyWithImpl;
 @useResult
 $Res call({
- int address, int company, int contact, int customer, int personal, int priceAssignment, int tagAssignment, int transactRepo
+ int address, int company, int contact, int customer, int personal, int priceAssignment, int tagAssignment, int transaction
 });
 
 
@@ -62,7 +62,7 @@ class _$DatabaseChangeStateCopyWithImpl<$Res>
 
 /// Create a copy of DatabaseChangeState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? address = null,Object? company = null,Object? contact = null,Object? customer = null,Object? personal = null,Object? priceAssignment = null,Object? tagAssignment = null,Object? transactRepo = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? address = null,Object? company = null,Object? contact = null,Object? customer = null,Object? personal = null,Object? priceAssignment = null,Object? tagAssignment = null,Object? transaction = null,}) {
   return _then(DatabaseChangeState(
 address: null == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
 as int,company: null == company ? _self.company : company // ignore: cast_nullable_to_non_nullable
@@ -71,7 +71,7 @@ as int,customer: null == customer ? _self.customer : customer // ignore: cast_nu
 as int,personal: null == personal ? _self.personal : personal // ignore: cast_nullable_to_non_nullable
 as int,priceAssignment: null == priceAssignment ? _self.priceAssignment : priceAssignment // ignore: cast_nullable_to_non_nullable
 as int,tagAssignment: null == tagAssignment ? _self.tagAssignment : tagAssignment // ignore: cast_nullable_to_non_nullable
-as int,transaction: null == transactRepo ? _self.transaction : transactRepo // ignore: cast_nullable_to_non_nullable
+as int,transaction: null == transaction ? _self.transaction : transaction // ignore: cast_nullable_to_non_nullable
 as int,
   ));
 }

@@ -61,7 +61,7 @@ class _DateButtonState extends State<DateButton> {
             }
           : null,
       child: Text(
-        selected?.toNiceString() ?? widget.notSelectedLabel ?? 'DD.MM.YYYY',
+        selected?.toDateOnlyString() ?? widget.notSelectedLabel ?? 'DD.MM.YYYY',
       ),
     );
   }

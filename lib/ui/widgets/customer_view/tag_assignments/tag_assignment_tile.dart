@@ -40,10 +40,10 @@ class TagAssignmentTile extends ConsumerWidget {
                   style: TextStyle(fontSize: 12),
                 ),
               ),
-              SelectableText(assignment.from.toNiceString()),
+              SelectableText(assignment.from.toDateOnlyString()),
               assignment.to != null
                   ? SelectableText(
-                      assignment.to!.toNiceString(),
+                      assignment.to!.toDateOnlyString(),
                     )
                   : DateButton(
                       firstDate: assignment.from.add(Duration(days: 1)),

@@ -105,16 +105,6 @@ abstract class Repository<T> {
         .toList();
   }
 
-  Future<List<T>> getAll() async {
-    final qu = await query();
-    print('query: $qu');
-    return qu
-        .map(
-          (e) => converter.fromJson(e),
-        )
-        .toList();
-  }
-
   /// deletes all rows that satisfy the where conditions.
   ///
   /// Returns the number of changes made
