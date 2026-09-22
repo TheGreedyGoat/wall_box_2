@@ -60,15 +60,17 @@ abstract class Repository<T> {
     List<T> values, [
     ConflictAlgorithm onConflict = ConflictAlgorithm.replace,
   ]) async {
-    // for (final e in values) {
-    //   await insert(e, onConflict);
-    // }
-    return values.fold(
-      0,
-      (previousValue, element) async {
-        return await previousValue + await insert(element);
-      },
-    );
+    final db = await database;
+    int changes = 0;
+    for (final v in values) {
+      changes += await db.insert(
+        tableName,
+        converter.toJson(v),
+        conflictAlgorithm: onConflict,
+      );
+    }
+    if (changes != 0) onchanged();
+    return changes;
   }
 
   /// returns the whole table's content
@@ -92,6 +94,25 @@ abstract class Repository<T> {
       limit: 1,
     )).firstOrNull;
     return res != null ? converter.fromJson(res) : null;
+  }
+
+  Future<List<T>> getMultiple({String? where, List<String>? whereArgs}) async {
+    final qu = await query(where: where, whereArgs: whereArgs);
+    return qu
+        .map(
+          (e) => converter.fromJson(e),
+        )
+        .toList();
+  }
+
+  Future<List<T>> getAll() async {
+    final qu = await query();
+    print('query: $qu');
+    return qu
+        .map(
+          (e) => converter.fromJson(e),
+        )
+        .toList();
   }
 
   /// deletes all rows that satisfy the where conditions.

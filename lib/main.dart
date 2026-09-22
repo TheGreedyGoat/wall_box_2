@@ -6,8 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wall_box_2/data/database/core/app_database.dart';
 import 'package:wall_box_2/data/repositories/tag_assignment_repo.dart';
+import 'package:wall_box_2/data/repositories/transaction_repo.dart';
 import 'package:wall_box_2/logic/models/assignments/tag_assignment.dart';
-import 'package:wall_box_2/logic/models/master_data/customer/customer_data_package.dart';
+import 'package:wall_box_2/logic/models/master_data/custom_data/customer_data_package.dart';
 import 'package:wall_box_2/logic/models/master_data/customer/customer.dart';
 import 'package:wall_box_2/logic/models/master_data/address/address.dart';
 import 'package:wall_box_2/logic/models/master_data/company/company_data.dart';
@@ -31,22 +32,10 @@ void main() async {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
   }
+  await TransactionRepo(
+    onchanged: () {},
+  ).delete();
 
-  // final db = await AppDatabase.instance.queryAll();
-  // for (final e in db) {
-  //   print(e.toString());
-  // }
-  // await AppDatabase.instance.delete();
-  // await TagAssignmentRepo(
-  //   onchanged: () {},
-  // ).insert(
-  //   TagAssignment(
-  //     tagID: 'jhdjudasdasd8378342',
-  //     customerID: '66d899a0-b105-11f1-9992-654532a269db',
-  //     from: DateTime(2026, 2, 3),
-  //     to: DateTime.now(),
-  //   ),
-  // );
   runApp(ProviderScope(child: MainApp()));
 }
 
@@ -63,7 +52,7 @@ class MainApp extends ConsumerWidget {
       //   Locale('de'),
       //   Locale('en'),
       // ],
-      home: CustomerPage(),
+      home: UploadAndParse(),
     );
   }
 }

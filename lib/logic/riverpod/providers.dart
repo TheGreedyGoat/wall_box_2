@@ -6,7 +6,8 @@ import 'package:wall_box_2/data/repositories/customer_repo.dart';
 import 'package:wall_box_2/data/repositories/personal_repo.dart';
 import 'package:wall_box_2/data/repositories/price_assignment_repo.dart';
 import 'package:wall_box_2/data/repositories/tag_assignment_repo.dart';
-import 'package:wall_box_2/logic/models/master_data/customer/customer_data_package.dart';
+import 'package:wall_box_2/data/repositories/transaction_repo.dart';
+import 'package:wall_box_2/logic/models/master_data/custom_data/customer_data_package.dart';
 import 'package:wall_box_2/logic/riverpod/database_changes/change_state.dart';
 import 'package:wall_box_2/logic/riverpod/customer_edit/customer_edit_notifier.dart';
 import 'package:wall_box_2/logic/riverpod/customer_edit/customer_edit_validation_notifier.dart';
@@ -180,6 +181,19 @@ final priceAssignmentRepoProvider = Provider(
     return PriceAssignmentRepo(
       onchanged: () =>
           ref.read(changeProvider.notifier).priceAssignmentChanged(),
+    );
+  },
+);
+
+final transactionRepoProvider = Provider(
+  (ref) {
+    ref.watch(
+      changeProvider.select(
+        (value) => value.transaction,
+      ),
+    );
+    return TransactionRepo(
+      onchanged: () => ref.read(changeProvider.notifier).transactionChanged(),
     );
   },
 );

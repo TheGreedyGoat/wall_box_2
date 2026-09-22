@@ -1,3 +1,4 @@
+import 'package:sqflite_common_ffi/sqflite_common_ffi.dart';
 import 'package:wall_box_2/data/database/tables/table_names.dart';
 import 'package:wall_box_2/data/database/tables/tag_assignment_table.dart';
 import 'package:wall_box_2/data/repositories/repository.dart';

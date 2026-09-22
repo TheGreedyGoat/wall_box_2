@@ -46,7 +46,7 @@ class AppDatabase {
 
     return openDatabase(
       path,
-      version: 1,
+      version: 2,
       onCreate: DatabaseSchema.create,
       onUpgrade: DatabaseSchema.upgrade,
     );

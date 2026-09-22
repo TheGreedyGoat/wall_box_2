@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:wall_box_2/data/database/tables/customer_table.dart';
-import 'package:wall_box_2/logic/models/master_data/customer/customer_data_package.dart';
+import 'package:wall_box_2/logic/models/master_data/custom_data/customer_data_package.dart';
 import 'package:wall_box_2/logic/riverpod/providers.dart';
 import 'package:wall_box_2/ui/confirm_action_dialog.dart';
 import 'package:wall_box_2/ui/language/language.dart';

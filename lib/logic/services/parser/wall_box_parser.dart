@@ -13,9 +13,10 @@ class WallBoxParser implements Singleton<WallBoxParser> {
   ///
   /// Returns the parsed [WallBoxLog]s
   Future<List<WallBoxLog>> processFilePickerResult(
-    List<PlatformFile>? result,
-    Future<bool> Function(String content, String fileName) onLineError,
-  ) async {
+    List<PlatformFile>? result, {
+    required Future<bool> Function(String content, String fileName) onLineError,
+    required void Function(String fileName) onLogAlreadyExists,
+  }) async {
     if (result == null) return [];
     final logs = List<WallBoxLog>.empty(growable: true);
     for (int i = 0; i < result.length; i++) {
@@ -32,11 +33,12 @@ class WallBoxParser implements Singleton<WallBoxParser> {
           .replaceFirst('.', '');
 
       String content = await File(path).readAsString();
-      final log = await _createLog(
-        name,
-        ext,
+      final log = await WallBoxLog.fromSource(
         content,
-        (content) => onLineError(content, fullName),
+        onLineError: (p0) async {
+          return await onLineError(p0, fullName);
+        },
+        onLogAlreadyExists: () => onLogAlreadyExists(fullName),
       );
       if (log != null) {
         logs.add(log);
@@ -44,13 +46,6 @@ class WallBoxParser implements Singleton<WallBoxParser> {
     }
     return logs;
   }
-
-  Future<WallBoxLog?> _createLog(
-    String name,
-    String ext,
-    String content,
-    Future<bool> Function(String content) onLineError,
-  ) async => await WallBoxLog.fromSource(content, onLineError);
 
   static String _fileNameFromPath(String path) => path.split('\\').last;
 }

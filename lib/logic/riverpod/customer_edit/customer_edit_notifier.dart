@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wall_box_2/logic/models/master_data/customer/customer_data_package.dart';
+import 'package:wall_box_2/logic/models/master_data/custom_data/customer_data_package.dart';
 import 'package:wall_box_2/logic/models/master_data/address/address.dart';
 import 'package:wall_box_2/logic/models/master_data/company/company_data.dart';
 import 'package:wall_box_2/logic/models/master_data/contact/contact_data.dart';

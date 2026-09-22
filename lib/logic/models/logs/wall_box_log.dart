@@ -1,3 +1,5 @@
+import 'package:wall_box_2/data/repositories/known_logs_repo.dart';
+import 'package:wall_box_2/data/repositories/transaction_repo.dart';
 import 'package:wall_box_2/logic/models/transaction.dart';
 import 'package:wall_box_2/logic/models/logs/wall_box_line/wall_box_line.dart';
 import 'package:wall_box_2/logic/models/logs/wall_box_transaction_block/wall_box_transaction_block.dart';
@@ -103,11 +105,18 @@ class WallBoxLog {
   /// when a line error occurs
   ///
   static Future<WallBoxLog?> fromSource(
-    String source,
-    Future<bool> Function(String) onLineError,
-  ) async {
+    String source, {
+    required Future<bool> Function(String) onLineError,
+    required void Function() onLogAlreadyExists,
+  }) async {
     final split = source.split('\n');
-    final head = '${split[0]}\n${split[1]}';
+    final head = '${split[0]}${split[1]}';
+    if ((await KnownLogsRepo(
+      onchanged: () {},
+    ).doesExist(head))) {
+      onLogAlreadyExists();
+      return null;
+    }
     List<WallBoxTransactionBlock> blocks = List.empty(growable: true);
     for (int i = 2; i < split.length; i++) {
       if (split[i].isEmpty) continue;
@@ -148,7 +157,7 @@ class WallBoxLog {
           start: start,
           mvLines: mvs,
           stop: stop,
-          deviceID: prototype.deviceID ?? 'ERROR',
+          deviceID: prototype.deviceID ?? 'Device ID not found',
         ),
       );
       i = j;
@@ -166,7 +175,7 @@ class WallBoxLog {
   );
 
   /// converts all possible transactionblocks into actual Transaction instances
-  void createTransactions() {
+  List<Transaction> createTransactions() {
     List<Transaction> result = List.empty(growable: true);
     for (final block in blocks) {
       Transaction? fromBlock = block.tryGetTransaction;
@@ -174,6 +183,7 @@ class WallBoxLog {
         result.add(fromBlock);
       }
     }
+    return result;
   }
 
   @override

@@ -27,7 +27,7 @@ class DatabaseChangeState with _$DatabaseChangeState {
   @override
   final int tagAssignment;
   @override
-  final int transactRepo;
+  final int transaction;
   @override
   final int customerPackage;
 
@@ -39,7 +39,7 @@ class DatabaseChangeState with _$DatabaseChangeState {
     required this.personal,
     required this.priceAssignment,
     required this.tagAssignment,
-    required this.transactRepo,
+    required this.transaction,
   }) : customerPackage = customer + address + contact + company + personal;
 
   DatabaseChangeState.init()
@@ -51,7 +51,7 @@ class DatabaseChangeState with _$DatabaseChangeState {
         personal: 0,
         priceAssignment: 0,
         tagAssignment: 0,
-        transactRepo: 0,
+        transaction: 0,
       );
 }
 
@@ -79,5 +79,5 @@ class DatabaseChangeNotifier extends Notifier<DatabaseChangeState> {
   void tagAssignmentChanged() =>
       state = state.copyWith(tagAssignment: state.tagAssignment + 1);
   void transactionChanged() =>
-      state = state.copyWith(transactRepo: state.transactRepo + 1);
+      state = state.copyWith(transactRepo: state.transaction + 1);
 }
