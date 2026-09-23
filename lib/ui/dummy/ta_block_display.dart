@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wall_box_2/logic/models/logs/wall_box_transaction_block/wall_box_transaction_block.dart';
 import 'package:wall_box_2/logic/models/transaction.dart';
 
 /// Test Widget. Displays a transaction block ina condensed way

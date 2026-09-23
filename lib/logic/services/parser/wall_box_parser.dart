@@ -23,15 +23,6 @@ class WallBoxParser implements Singleton<WallBoxParser> {
       final path = result[i].path;
       if (path == null) continue;
       final fullName = _fileNameFromPath(path);
-      final splitName = fullName.split('.');
-      final ext = splitName.removeLast();
-      final name = splitName
-          .fold(
-            '',
-            (previousValue, element) => '$previousValue.$element',
-          )
-          .replaceFirst('.', '');
-
       String content = await File(path).readAsString();
       final log = await WallBoxLog.fromSource(
         content,

@@ -1,12 +1,11 @@
-import 'package:sqflite_common_ffi/sqflite_common_ffi.dart';
 import 'package:wall_box_2/data/database/tables/table_names.dart';
 import 'package:wall_box_2/data/database/tables/tag_assignment_table.dart';
 import 'package:wall_box_2/data/repositories/repository.dart';
 import 'package:wall_box_2/logic/models/assignments/tag_assignment.dart';
 
-///
+/// The Repository for [TagAssignment]s
 class TagAssignmentRepo extends Repository<TagAssignment> {
-  ///
+  /// The Repository for tagAssignment
   TagAssignmentRepo({required super.onchanged});
 
   /// quick assets to the column's name

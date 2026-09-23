@@ -1,5 +1,4 @@
 import 'package:wall_box_2/data/repositories/known_logs_repo.dart';
-import 'package:wall_box_2/data/repositories/transaction_repo.dart';
 import 'package:wall_box_2/logic/models/transaction.dart';
 import 'package:wall_box_2/logic/models/logs/wall_box_line/wall_box_line.dart';
 import 'package:wall_box_2/logic/models/logs/wall_box_transaction_block/wall_box_transaction_block.dart';

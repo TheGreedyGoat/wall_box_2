@@ -39,12 +39,6 @@ extension BetterString on DateTime {
       },
     );
 
-    print(
-      matches.map(
-        (e) => e.groupCount,
-      ),
-    );
-
     for (final match in matches) {
       final m = match.group(0)!;
       final lastIndex = replace.length;

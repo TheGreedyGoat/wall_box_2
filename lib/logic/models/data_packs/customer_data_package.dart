@@ -31,7 +31,7 @@ class CustomerDataPackage extends MasterData with _$CustomerDataPackage {
 
   /// quick access to the person's name
   String? get personalName => personal != null
-      ? '${personal!.prename ?? ''} ${personal!.surname}'
+      ? '${personal!.prename ?? ''} ${personal!.surname}'.trimLeft()
       : null;
 
   /// returns the company name or the personal name or the id (wichever is the first in that order not to be null)
@@ -44,6 +44,12 @@ class CustomerDataPackage extends MasterData with _$CustomerDataPackage {
     this.company,
     this.personal,
   });
+
+  static CustomerDataPackage get unknown => CustomerDataPackage._(
+    customer: Customer(id: 'XXXXXX'),
+    address: Address(customerID: 'XXXXXX'),
+    personal: PersonalData(customerID: 'XXXXXX', surname: 'UNBEKANNT'),
+  );
 
   /// creates a new package.
   ///

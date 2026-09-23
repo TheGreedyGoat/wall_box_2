@@ -1,5 +1,3 @@
-import 'package:wall_box_2/logic/helpers/date_timeextension.dart';
-
 /// Describes a time interval in between two DateTimes
 class Interval {
   /// The start timestamp

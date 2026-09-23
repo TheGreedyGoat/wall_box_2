@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wall_box_2/data/repositories/address_repo.dart';
 import 'package:wall_box_2/data/repositories/company_repo.dart';
@@ -10,7 +12,6 @@ import 'package:wall_box_2/data/repositories/transaction_repo.dart';
 import 'package:wall_box_2/logic/models/assignments/tag_assignment.dart';
 import 'package:wall_box_2/logic/models/data_packs/customer_data_package.dart';
 import 'package:wall_box_2/logic/models/data_packs/transaction_data_pack.dart';
-import 'package:wall_box_2/logic/models/master_data/customer/customer.dart';
 import 'package:wall_box_2/logic/models/transaction.dart';
 import 'package:wall_box_2/logic/riverpod/database_changes/change_state.dart';
 import 'package:wall_box_2/logic/riverpod/customer_edit/customer_edit_notifier.dart';
@@ -99,6 +100,7 @@ final customerPackageProvider = FutureProvider<List<CustomerDataPackage>>(
   },
 );
 
+/// matches
 final transactionDataPackageProvider = FutureProvider((ref) async {
   final transactions = await ref.watch(transactionRepoProvider).allRows;
   final allDataPackages = await ref.watch(customerPackageProvider.future);
@@ -122,15 +124,15 @@ final transactionDataPackageProvider = FutureProvider((ref) async {
         .firstOrNull;
   }
 
-  print(assignments.values);
-  print(customers.values);
-
   return transactions.map(
     (transaction) {
       final assignment = assignments[transaction];
       return TransactionDataPack(
         transaction: transaction,
-        customer: assignment != null ? customers[assignment] : null,
+        tagAssignment: assignment,
+        customerData: assignment != null
+            ? customers[assignment]
+            : CustomerDataPackage.unknown,
       );
     },
   ).toList();

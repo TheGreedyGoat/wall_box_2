@@ -50,7 +50,7 @@ class MainApp extends ConsumerWidget {
       //   Locale('de'),
       //   Locale('en'),
       // ],
-      home: PageTransactionOverview(),
+      home: CustomerPage(),
     );
   }
 }

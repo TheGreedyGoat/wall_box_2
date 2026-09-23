@@ -1,11 +1,9 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:wall_box_2/data/database/tables/transaction_table.dart';
 import 'package:wall_box_2/logic/helpers/interval.dart';
 import 'package:wall_box_2/logic/helpers/percent.dart';
 import 'package:wall_box_2/logic/helpers/units/kilo_watt_hour.dart';
 import 'package:wall_box_2/logic/models/assignments/tag_assignment.dart';
-import 'package:wall_box_2/logic/riverpod/providers.dart';
 
 part 'transaction.freezed.dart';
 part 'transaction.g.dart';
