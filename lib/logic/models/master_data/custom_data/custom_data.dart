@@ -1,5 +1,5 @@
 // ignore_for_file: public_member_api_docs
-// TODO: include (JAAAA KOMMT NOCH)
+// TODO: include (JAAAA KOMMT NOCH) JAAAAAAA MANNN!!!!
 
 import 'package:wall_box_2/logic/helpers/enums/data_error.dart';
 import 'package:wall_box_2/logic/models/master_data/master_data.dart';
@@ -11,7 +11,7 @@ class CustomDataField extends MasterData {
   final String label;
   final String value;
 
-  CustomDataField({
+  const CustomDataField({
     required this.customerID,
     required this.label,
     required this.value,

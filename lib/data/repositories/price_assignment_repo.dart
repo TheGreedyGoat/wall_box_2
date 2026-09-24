@@ -1,12 +1,19 @@
 import 'package:wall_box_2/data/database/tables/price_assignment_table.dart';
 import 'package:wall_box_2/data/database/tables/table_names.dart';
-import 'package:wall_box_2/data/repositories/repository.dart';
+import 'package:wall_box_2/data/database/repository.dart';
+import 'package:wall_box_2/data/repositories/personal_repo.dart';
 import 'package:wall_box_2/logic/models/assignments/price_assignment.dart';
 
 /// Stores prices assigned to customers
 class PriceAssignmentRepo extends Repository<PriceAssignment> {
   /// Stores prices assigned to customers
-  PriceAssignmentRepo({required super.onchanged});
+  PriceAssignmentRepo({required super.onchanged})
+    : super(
+        primaryKeyColumns: [
+          PriceAssignmentColumns.customer_id,
+          PriceAssignmentColumns.from,
+        ],
+      );
 
   @override
   PriceAssignmentJsonConverter get converter => PriceAssignmentJsonConverter();

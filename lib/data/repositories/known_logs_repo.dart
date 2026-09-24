@@ -1,9 +1,10 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:wall_box_2/data/database/tables/known_repos_table.dart';
-import 'package:wall_box_2/data/repositories/repository.dart';
+import 'package:wall_box_2/data/database/tables/known_logs_table.dart';
+import 'package:wall_box_2/data/database/repository.dart';
 
 class KnownLogsRepo extends Repository<String> {
-  KnownLogsRepo({required super.onchanged});
+  KnownLogsRepo({required super.onchanged})
+    : super(primaryKeyColumns: [KnownLogsColumns.head]);
 
   @override
   JsonConverter<String, Map<String, String>> get converter =>

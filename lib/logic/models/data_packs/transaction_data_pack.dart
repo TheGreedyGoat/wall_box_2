@@ -20,6 +20,8 @@ class TransactionDataPack {
   /// returns the customer's name
   String get customerName => customerData?.displayName ?? '[nicht zugewiesen]';
 
+  String get tagID => transaction.tagID;
+
   /// Combines data of a transaction with it's corresponding customer
   TransactionDataPack({
     required this.transaction,

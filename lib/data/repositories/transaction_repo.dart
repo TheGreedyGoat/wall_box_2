@@ -1,12 +1,15 @@
 import 'package:wall_box_2/data/database/tables/table_names.dart';
 import 'package:wall_box_2/data/database/tables/transaction_table.dart';
-import 'package:wall_box_2/data/repositories/repository.dart';
+import 'package:wall_box_2/data/database/repository.dart';
 import 'package:wall_box_2/logic/models/transaction.dart';
 
 ///
 class TransactionRepo extends Repository<Transaction> {
   ///
-  TransactionRepo({required super.onchanged});
+  TransactionRepo({required super.onchanged})
+    : super(
+        primaryKeyColumns: [TransactionColumns.id],
+      );
 
   @override
   TransactionJsonConverter get converter => TransactionJsonConverter();

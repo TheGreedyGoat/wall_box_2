@@ -41,8 +41,7 @@ class CustomerEditValidationNotifier extends Notifier<CustomerEditErrorState> {
     final editState = ref.read(customerEditProvider);
     final data = editState.data;
     final errors = data.validate();
-    if (editState.originalCustomerID ==
-            null && // only check if we try to create new
+    if (editState.original == null && // only check if we try to create new
         (await ref.read(customerRepoProvider).checkID(data.id))) {
       errors.add(DataError.idTaken);
     }

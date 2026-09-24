@@ -32,7 +32,7 @@ class ContactData extends MasterData with _$ContactData {
   final String? website;
 
   /// contains contact data such as phone numbers and an email address
-  ContactData({
+  const ContactData({
     @JsonKey(name: ContactColumns.customer_id) required this.customerID,
     @JsonKey(name: ContactColumns.phone) @PhoneJsonConverter() this.phone,
     @JsonKey(name: ContactColumns.mobile) @PhoneJsonConverter() this.mobile,

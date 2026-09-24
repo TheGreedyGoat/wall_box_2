@@ -18,7 +18,7 @@ class Phone extends MasterData with _$Phone {
   String toString() => '$nationalCode $number';
 
   /// represents a phone number, the national code is stored seperately
-  Phone({
+  const Phone({
     this.nationalCode,
     this.number,
   });

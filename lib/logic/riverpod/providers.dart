@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wall_box_2/data/repositories/address_repo.dart';
 import 'package:wall_box_2/data/repositories/company_repo.dart';
@@ -17,6 +15,7 @@ import 'package:wall_box_2/logic/riverpod/database_changes/change_state.dart';
 import 'package:wall_box_2/logic/riverpod/customer_edit/customer_edit_notifier.dart';
 import 'package:wall_box_2/logic/riverpod/customer_edit/customer_edit_validation_notifier.dart';
 import 'package:wall_box_2/logic/riverpod/customer_price/price_assignment_edit_notifier.dart';
+import 'package:wall_box_2/logic/riverpod/selected_customer_notifier.dart';
 import 'package:wall_box_2/logic/riverpod/tag_assignment_edit/tag_assignment_edit_notifier.dart';
 import 'package:wall_box_2/logic/riverpod/transaction_page/transaction_page_notifier.dart';
 
@@ -95,7 +94,6 @@ final customerPackageProvider = FutureProvider<List<CustomerDataPackage>>(
         ),
       );
     }
-
     return result;
   },
 );
@@ -127,13 +125,15 @@ final transactionDataPackageProvider = FutureProvider((ref) async {
   return transactions.map(
     (transaction) {
       final assignment = assignments[transaction];
-      return TransactionDataPack(
+      final pack = TransactionDataPack(
         transaction: transaction,
         tagAssignment: assignment,
         customerData: assignment != null
             ? customers[assignment]
             : CustomerDataPackage.unknown,
       );
+      if (pack.customerData == null) print(pack.tagAssignment);
+      return pack;
     },
   ).toList();
 });
@@ -229,6 +229,7 @@ final priceAssignmentRepoProvider = Provider(
   },
 );
 
+/// Returns the Repository for transactions
 final transactionRepoProvider = Provider(
   (ref) {
     ref.watch(
@@ -244,4 +245,8 @@ final transactionRepoProvider = Provider(
 
 final transactionPageProvider = NotifierProvider(
   () => TransactionPageNotifier(),
+);
+
+final selectedCustomerDataProvider = NotifierProvider(
+  () => SelectedCustomerNotifier(),
 );

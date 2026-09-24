@@ -16,7 +16,7 @@ class TagAssignmentTile extends ConsumerWidget {
 
   /// displays one TagAssignment
   const TagAssignmentTile({
-    super.key,
+    required super.key,
     required this.assignment,
     this.modification = DataModificationType.unmodified,
   });
@@ -51,7 +51,11 @@ class TagAssignmentTile extends ConsumerWidget {
                       onSelected: (date) {
                         ref
                             .read(tagAssignmenteditProvider.notifier)
-                            .setAssignmentEnd(assignment.tagID, date);
+                            .setAssignmentEnd(
+                              assignment.tagID,
+                              assignment.from,
+                              date,
+                            );
                       },
                       enabled: modification != DataModificationType.removed,
                       notSelectedLabel: 'aktuell',

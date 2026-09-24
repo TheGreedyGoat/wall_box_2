@@ -1,13 +1,15 @@
 import 'package:wall_box_2/data/database/tables/address_table.dart';
 import 'package:wall_box_2/data/database/tables/table_names.dart';
-import 'package:wall_box_2/data/repositories/repository.dart';
+import 'package:wall_box_2/data/database/repository.dart';
 import 'package:wall_box_2/logic/models/master_data/address/address.dart';
 
 /// The Reopsitory for all address data
 class AddressRepo extends Repository<Address> {
   /// The Reopsitory for all address data
-  AddressRepo({required super.onchanged});
+  AddressRepo({required super.onchanged})
+    : super(primaryKeyColumns: [AddressColumns.customer_id]);
 
+  AddressRepo.readonly({required super.primaryKeyColumns}) : super.readonly();
   @override
   String get tableName => TableNames.address;
 

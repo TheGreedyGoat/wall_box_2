@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:wall_box_2/data/repositories/tag_assignment_repo.dart';
 import 'package:wall_box_2/logic/models/assignments/tag_assignment.dart';
 import 'package:wall_box_2/logic/riverpod/providers.dart';
 
@@ -29,12 +32,9 @@ class TagAssignmentEditState with _$TagAssignmentEditState {
       .toList();
 
   /// originals that got changed
-  List<TagAssignment> get modified => modifiedAssignments
+  List<TagAssignmentModification> get modified => modifiedAssignments
       .where(
         (mod) => mod.original != null && mod.change != null,
-      )
-      .map(
-        (e) => e.change!,
       )
       .toList();
 
@@ -130,6 +130,15 @@ class TagAssignmentEditNotifier extends Notifier<TagAssignmentEditState> {
     originals: [],
     modifiedAssignments: [],
   );
+  @override
+  set state(TagAssignmentEditState value) {
+    for (final mod in state.modifiedAssignments) {
+      print(mod.change);
+    }
+    super.state = value;
+  }
+
+  TagAssignmentRepo get repo => ref.read(tagAssignmentRepoProvider);
 
   /// Sets the id only if it's not set yet
   void setCustomerID(String? customerID) => state = state.customerID == null
@@ -141,7 +150,7 @@ class TagAssignmentEditNotifier extends Notifier<TagAssignmentEditState> {
   ///
   /// If [customerID] is null or no assignments were found, an empty state is set
   ///
-  void load(String? customerID) async {
+  Future<void> load(String? customerID) async {
     final assignments = customerID != null
         ? await ref
               .read(tagAssignmentRepoProvider)
@@ -199,11 +208,13 @@ class TagAssignmentEditNotifier extends Notifier<TagAssignmentEditState> {
   void revertAll() => load(state.customerID);
 
   /// sets the end date of a yet unfinished assignment
-  void setAssignmentEnd(String tagID, DateTime end) {
+  ///
+  /// the start date is required to ensure we edit the corrent assignment
+  void setAssignmentEnd(String tagID, DateTime start, DateTime end) {
     final modifiedAssignments = state.modifiedAssignments.toList();
     // check if there already is a change for this tagID
     int index = modifiedAssignments.indexWhere(
-      (mod) => mod.change?.tagID == tagID,
+      (mod) => mod.change?.tagID == tagID && mod.change?.from == start,
     );
 
     if (index >= 0) {
@@ -251,19 +262,24 @@ class TagAssignmentEditNotifier extends Notifier<TagAssignmentEditState> {
   void changed() => ref.read(customerEditProvider.notifier).tagsChanged = true;
 
   /// applies all changes to the database
-  Future<void> saveChanges(String customerID) async {
-    final mods = state.modifiedAssignments;
-    final repo = ref.read(tagAssignmentRepoProvider);
-    for (final mod in mods) {
-      if (mod.change != null) {
-        await repo.insert(mod.change!);
-      } else if (mod.original != null) {
-        await repo.deleteWhereTagIDAndFrom(
-          mod.original!.tagID,
-          mod.original!.from,
-        );
-      }
+  Future<int> saveChanges(String customerID) async {
+    int changes = 0;
+    final modified = state.modified;
+    final added = state.added;
+    final removed = state.removed;
+
+    for (final mod in modified) {
+      changes += await repo.update(mod.original, mod.change);
     }
-    load(customerID);
+
+    for (final add in added) {
+      changes != await repo.insert(add);
+    }
+
+    for (final del in removed) {
+      changes += await repo.deleteByPrimaries(del);
+    }
+    unawaited(load(customerID));
+    return changes;
   }
 }

@@ -28,7 +28,7 @@ class PersonalData extends MasterData with _$PersonalData {
 
   /// contains data about a natural person.
   /// All fields are required.
-  PersonalData({
+  const PersonalData({
     @JsonKey(name: PersonalColumns.customer_id) required this.customerID,
     @JsonKey(name: PersonalColumns.gender) this.gender,
     @JsonKey(name: PersonalColumns.title) this.title,

@@ -28,18 +28,18 @@ class CustomerEditState {
   /// The originally loaded customer's id
   ///
   /// only != data.id if a new customer is being created and the input field is edited
-  final String? originalCustomerID;
+  final CustomerDataPackage? original;
 
   /// Stores, what is currently entered on a customer's page
   ///
   CustomerEditState({
     CustomerDataPackage? data,
-    required this.originalCustomerID,
+    this.original,
   }) : this.data = data ?? CustomerDataPackage.empty;
 
-  /// returns a new instance with the old [originalCustomerID] and a new datapack
+  /// returns a new instance with the old [original] and a new datapack
   CustomerEditState updateData(CustomerDataPackage newData) =>
-      CustomerEditState(data: newData, originalCustomerID: originalCustomerID);
+      CustomerEditState(data: newData, original: original);
 
   /// quick access to the customer id
   String get id => data.id;
@@ -48,7 +48,7 @@ class CustomerEditState {
   /// ```dart
   ///   originalCustomerID == null;
   /// ```
-  bool get isCreation => originalCustomerID == null;
+  bool get isCreation => original == null;
 }
 
 // class IDEditingEnabledNotifier extends Notifier<bool>{}
@@ -79,14 +79,14 @@ class CustomerEditNotifier extends Notifier<CustomerEditState> {
   @override
   CustomerEditState build() => CustomerEditState(
     data: CustomerDataPackage.empty,
-    originalCustomerID: null,
+    original: null,
   );
 
   CustomerEditChangeNotifier get _changeNotifier =>
       ref.read(customerEditChangeProvider.notifier);
 
   void _setCustomer(CustomerDataPackage? data) =>
-      state = CustomerEditState(data: data, originalCustomerID: data?.id);
+      state = CustomerEditState(data: data, original: data);
 
   /// updates the changenotifier to be true there is currently any change active
   void checkChanges() => ref
@@ -109,14 +109,14 @@ class CustomerEditNotifier extends Notifier<CustomerEditState> {
             .firstOrNull,
       );
     }
-    ref.read(tagAssignmenteditProvider.notifier).load(customerID);
-    ref.read(priceAssignmentEditProvider.notifier).load(customerID);
+    await ref.read(tagAssignmenteditProvider.notifier).load(customerID);
+    await ref.read(priceAssignmentEditProvider.notifier).load(customerID);
     ref.read(customerEditChangeProvider.notifier).set(false);
   }
 
   /// resets the state to show the original data
   Future<void> reload() async {
-    await load(state.originalCustomerID);
+    await load(state.original?.id);
   }
 
   /// update the customerID consistently
@@ -205,23 +205,61 @@ class CustomerEditNotifier extends Notifier<CustomerEditState> {
   }) async {
     try {
       if (!(await ref.read(customerErrorProvider.notifier).validate())) return;
+      final customerRepo = ref.read(customerRepoProvider);
+      final addressRepo = ref.read(addressRepoProvider);
 
-      await ref.read(customerRepoProvider).insert(state.data.customer);
-      await ref.read(addressRepoProvider).insert(state.data.address);
+      final companyRepo = ref.read(companyRepoProvider);
+      final personalRepo = ref.read(personalRepoProvider);
+      final contactRepo = ref.read(contactRepoProvider);
 
-      if (state.data.company != null) {
-        await ref.read(companyRepoProvider).insert(state.data.company!);
+      // ignore: unused_local_variable
+      int changes = 0;
+
+      if (state.original == null) {
+        // => new customer => insert
+        changes += await customerRepo.insert(state.data.customer);
+        changes += await addressRepo.insert(state.data.address);
+
+        if (state.data.company != null) {
+          changes += await companyRepo.insert(state.data.company!);
+        }
+        if (state.data.personal != null) {
+          changes += await personalRepo.insert(state.data.personal!);
+        }
+
+        if (state.data.contact != null) {
+          changes += await contactRepo.insert(state.data.contact!);
+        }
+      } else {
+        //=> edit => update
+        changes += await customerRepo.update(
+          state.original!.customer,
+          state.data.customer,
+        );
+        changes += await addressRepo.update(
+          state.original!.address,
+          state.data.address,
+        );
+        changes += await companyRepo.update(
+          state.original!.company!,
+          state.data.company!,
+        );
+        changes += await personalRepo.update(
+          state.original!.personal,
+          state.data.personal,
+        );
+        changes += await contactRepo.update(
+          state.original!.contact,
+          state.data.contact,
+        );
       }
-      if (state.data.personal != null) {
-        await ref.read(personalRepoProvider).insert(state.data.personal!);
-      }
 
-      if (state.data.contact != null) {
-        await ref.read(contactRepoProvider).insert(state.data.contact!);
-      }
-
-      await ref.read(tagAssignmenteditProvider.notifier).saveChanges(data.id);
-      await ref.read(priceAssignmentEditProvider.notifier).save(data.id);
+      changes += await ref
+          .read(tagAssignmenteditProvider.notifier)
+          .saveChanges(data.id);
+      changes += await ref
+          .read(priceAssignmentEditProvider.notifier)
+          .save(data.id);
 
       _mainChanged = false;
       _tagsChanged = false;

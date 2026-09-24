@@ -66,12 +66,6 @@ class CustomerOverviewTile extends ConsumerWidget {
                 ),
               ],
             ),
-            // IconButton(
-            //   onPressed: () {
-
-            //   },
-            //   icon: Icon(Icons.chevron_right),
-            // ),
           ],
         ),
       ),

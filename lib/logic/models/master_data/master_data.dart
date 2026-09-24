@@ -7,7 +7,7 @@ abstract class MasterData {
   /// abstract class for Master data (Stammdaten)
   ///
   /// includes a validation system
-  MasterData();
+  const MasterData();
 
   /// used in[validate] to validate the data block.
   ///

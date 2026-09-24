@@ -3,7 +3,7 @@ import 'package:wall_box_2/data/database/tables/address_table.dart';
 import 'package:wall_box_2/data/database/tables/company_table.dart';
 import 'package:wall_box_2/data/database/tables/contact_table.dart';
 import 'package:wall_box_2/data/database/tables/customer_table.dart';
-import 'package:wall_box_2/data/database/tables/known_repos_table.dart';
+import 'package:wall_box_2/data/database/tables/known_logs_table.dart';
 import 'package:wall_box_2/data/database/tables/personal_table.dart';
 import 'package:wall_box_2/data/database/tables/price_assignment_table.dart';
 import 'package:wall_box_2/data/database/tables/tag_assignment_table.dart';

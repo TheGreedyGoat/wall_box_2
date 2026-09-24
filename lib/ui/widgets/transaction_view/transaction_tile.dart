@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wall_box_2/logic/helpers/date_timeextension.dart';
 import 'package:wall_box_2/logic/models/data_packs/customer_data_package.dart';
 import 'package:wall_box_2/logic/models/data_packs/transaction_data_pack.dart';
+import 'package:wall_box_2/logic/riverpod/providers.dart';
+import 'package:wall_box_2/ui/dialogs/assign_tag_dialog.dart';
 
 /// A tile to display a single transaction's basic data
 ///
@@ -20,14 +23,40 @@ class TransactionTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Card(
       child: SizedBox(
-        height: 55,
+        height: 60,
         child: Row(
           spacing: 16,
           children:
               [
                     _tile(
                       context,
-                      subtitle: SelectableText(data.transaction.tagID),
+                      subtitle: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SelectableText(data.transaction.tagID),
+                          SizedBox.square(
+                            dimension: 20,
+                            child: IconButton(
+                              onPressed: () async {
+                                await Clipboard.setData(
+                                  ClipboardData(text: data.transaction.tagID),
+                                );
+                                if (!context.mounted) return;
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    duration: Duration(seconds: 1),
+                                    content: Text('Tag-ID kopiert'),
+                                  ),
+                                );
+                              },
+                              icon: Icon(Icons.copy),
+                              padding: const EdgeInsets.all(0),
+                              iconSize: 15,
+                              tooltip: 'Tag-ID kopieren',
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     _tile(
                       context,
@@ -36,7 +65,16 @@ class TransactionTile extends ConsumerWidget {
                           ? SelectableText(data.customerData!.id)
                           // this one
                           : TextButton(
-                              onPressed: () {},
+                              onPressed: () async {
+                                await showAssignmentDialog(
+                                  context,
+                                  data.tagID,
+                                  initialDate: data.transaction.start,
+                                );
+                                await ref
+                                    .read(customerEditProvider.notifier)
+                                    .reload();
+                              },
                               child: Text('Tag zuweisen'),
                             ),
                     ),
@@ -57,7 +95,7 @@ class TransactionTile extends ConsumerWidget {
                   ]
                   .map(
                     (e) => SizedBox(
-                      width: 150,
+                      width: 300,
                       child: e,
                     ),
                   )

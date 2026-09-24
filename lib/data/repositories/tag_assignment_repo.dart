@@ -1,12 +1,18 @@
 import 'package:wall_box_2/data/database/tables/table_names.dart';
 import 'package:wall_box_2/data/database/tables/tag_assignment_table.dart';
-import 'package:wall_box_2/data/repositories/repository.dart';
+import 'package:wall_box_2/data/database/repository.dart';
 import 'package:wall_box_2/logic/models/assignments/tag_assignment.dart';
 
 /// The Repository for [TagAssignment]s
 class TagAssignmentRepo extends Repository<TagAssignment> {
   /// The Repository for tagAssignment
-  TagAssignmentRepo({required super.onchanged});
+  TagAssignmentRepo({required super.onchanged})
+    : super(
+        primaryKeyColumns: [
+          TagAssignmentColumns.tag_id,
+          TagAssignmentColumns.from,
+        ],
+      );
 
   /// quick assets to the column's name
   static const tagIDColumn = TagAssignmentColumns.tag_id;
@@ -105,4 +111,18 @@ class TagAssignmentRepo extends Repository<TagAssignment> {
   /// returns if this [tagID] is not already assigned right now
   Future<bool> isAvailable(String tagID) async =>
       (await earliestAvailableDate(tagID)) != null;
+
+  // @override
+  // Future<int> update(TagAssignment? original, TagAssignment? changed) async {
+  //   if (original != null) {
+  //     print(
+  //       await query(
+  //         where: '${TagAssignmentColumns.tag_id} = ?',
+  //         whereArgs: [original.tagID],
+  //       ),
+  //     );
+  //     print(original.tagID);
+  //   }
+  //   return super.update(original, changed);
+  // }
 }

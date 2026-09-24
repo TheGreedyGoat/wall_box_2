@@ -37,7 +37,7 @@ class CustomerDataPackage extends MasterData with _$CustomerDataPackage {
   /// returns the company name or the personal name or the id (wichever is the first in that order not to be null)
   String get displayName => companyName ?? personalName ?? id;
 
-  CustomerDataPackage._({
+  const CustomerDataPackage._({
     required this.customer,
     required this.address,
     this.contact,
@@ -45,7 +45,7 @@ class CustomerDataPackage extends MasterData with _$CustomerDataPackage {
     this.personal,
   });
 
-  static CustomerDataPackage get unknown => CustomerDataPackage._(
+  static const CustomerDataPackage unknown = CustomerDataPackage._(
     customer: Customer(id: 'XXXXXX'),
     address: Address(customerID: 'XXXXXX'),
     personal: PersonalData(customerID: 'XXXXXX', surname: 'UNBEKANNT'),

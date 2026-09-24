@@ -49,6 +49,9 @@ class AppDatabase {
       version: 2,
       onCreate: DatabaseSchema.create,
       onUpgrade: DatabaseSchema.upgrade,
+      onConfigure: (db) async {
+        await db.execute('PRAGMA foreign_keys = ON');
+      },
     );
   }
 

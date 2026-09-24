@@ -20,10 +20,11 @@ import 'package:wall_box_2/logic/models/master_data/personal/personal_data.dart'
 import 'package:wall_box_2/logic/riverpod/providers.dart';
 import 'package:wall_box_2/logic/services/global.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:wall_box_2/ui/pages/transaction_overview.dart';
+import 'package:wall_box_2/ui/pages/page_transaction_overview.dart';
+import 'package:wall_box_2/ui/pages/widget_tree_root.dart';
 import 'package:wall_box_2/ui/widgets/customer_view/customer_overview.dart';
-import 'package:wall_box_2/ui/pages/customer_page.dart';
-import 'package:wall_box_2/ui/widgets/customer_view/enter_customer_data.dart';
+import 'package:wall_box_2/ui/pages/page_customer_details.dart';
+import 'package:wall_box_2/ui/widgets/customer_view/master_data/enter_customer_data.dart';
 import 'package:wall_box_2/ui/widgets/customer_view/tag_assignments/customer_tag_assignments.dart';
 
 void main() async {
@@ -33,8 +34,13 @@ void main() async {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
   }
+  // await _purgeDB();
 
   runApp(ProviderScope(child: MainApp()));
+}
+
+Future<void> _purgeDB() async {
+  await AppDatabase.instance.delete();
 }
 
 ///
@@ -45,12 +51,7 @@ class MainApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
-      // locale: const Locale('de'),
-      // supportedLocales: [
-      //   Locale('de'),
-      //   Locale('en'),
-      // ],
-      home: CustomerPage(),
+      home: WidgetTreeRoot(),
     );
   }
 }

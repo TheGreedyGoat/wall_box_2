@@ -31,7 +31,7 @@ class _EnterCustomerDataState extends ConsumerState<EnterCustomerData> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          (customerState.originalCustomerID?.trim() ?? '').isEmpty
+          (customerState.original?.id.trim() ?? '').isEmpty
               ? 'Neuer Kunde'
               : customerState.data.displayName,
         ),
@@ -54,7 +54,7 @@ class _EnterCustomerDataState extends ConsumerState<EnterCustomerData> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       CustomerMasterData(
-                        key: ValueKey(customerState.originalCustomerID),
+                        key: ValueKey(customerState.original),
                       ),
                       CustomerTagAssignments(),
                     ],

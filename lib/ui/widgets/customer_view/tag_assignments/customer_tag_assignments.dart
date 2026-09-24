@@ -63,7 +63,7 @@ class _TagAssigningState extends ConsumerState<CustomerTagAssignments> {
 
             SizedBox(
               height: 390,
-              child: _newAssignmentDisplay(),
+              child: _tagAssignmentDisplay(),
             ),
             const AddTagAssignment(),
             CustomerPriceDisplay(),
@@ -73,7 +73,7 @@ class _TagAssigningState extends ConsumerState<CustomerTagAssignments> {
     );
   }
 
-  Widget _newAssignmentDisplay() {
+  Widget _tagAssignmentDisplay() {
     final assignmentState = ref.watch(tagAssignmenteditProvider);
     var unmodified = assignmentState.unmodified;
     if (hideOld) {
@@ -86,28 +86,41 @@ class _TagAssigningState extends ConsumerState<CustomerTagAssignments> {
     final modified = assignmentState.modified;
     final added = assignmentState.added;
     final removed = assignmentState.removed;
+
     return ListView(
       children: [
         ...modified.map(
           (e) => TagAssignmentTile(
-            assignment: e,
+            key: ValueKey(
+              '${e.change!.tagID}_${e.change!.from.toIso8601String()}',
+            ),
+            assignment: e.change!,
             modification: DataModificationType.modified,
           ),
         ),
         ...added.map(
           (e) => TagAssignmentTile(
+            key: ValueKey(
+              '${e.tagID}_${e.from.toIso8601String()}',
+            ),
             assignment: e,
             modification: DataModificationType.added,
           ),
         ),
         ...unmodified.map(
           (e) => TagAssignmentTile(
+            key: ValueKey(
+              '${e.tagID}_${e.from.toIso8601String()}',
+            ),
             assignment: e,
             modification: DataModificationType.unmodified,
           ),
         ),
         ...removed.map(
           (e) => TagAssignmentTile(
+            key: ValueKey(
+              '${e.tagID}_${e.from.toIso8601String()}',
+            ),
             assignment: e,
             modification: DataModificationType.removed,
           ),

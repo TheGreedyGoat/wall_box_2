@@ -22,7 +22,7 @@ class Email extends MasterData with _$Email {
   /// represents an email adress
   ///
   /// [local]@[subdomain].[topLevelDomain]
-  Email({
+  const Email({
     this.local,
     this.subdomain,
     this.topLevelDomain,
