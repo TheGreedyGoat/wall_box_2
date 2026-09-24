@@ -56,7 +56,7 @@ class _ImportFileButtonState extends ConsumerState<ImportFileButton> {
     for (final log in logs) {
       await logsRepo.insert(log.head);
       newTas.addAll(
-        log.createTransactions(),
+        await log.createTransactions(),
       );
     }
     final changes = await ref.read(transactionRepoProvider).insertAll(newTas);

@@ -46,7 +46,7 @@ class AppDatabase {
 
     return openDatabase(
       path,
-      version: 2,
+      version: 1,
       onCreate: DatabaseSchema.create,
       onUpgrade: DatabaseSchema.upgrade,
       onConfigure: (db) async {

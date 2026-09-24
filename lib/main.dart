@@ -34,7 +34,7 @@ void main() async {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
   }
-  // await _purgeDB();
+  await _purgeDB();
 
   runApp(ProviderScope(child: MainApp()));
 }

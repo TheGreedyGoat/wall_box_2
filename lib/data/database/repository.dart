@@ -1,5 +1,3 @@
-import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sqflite/sqlite_api.dart';
 import 'package:wall_box_2/data/database/core/app_database.dart';

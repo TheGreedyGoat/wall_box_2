@@ -9,7 +9,6 @@ class AddressRepo extends Repository<Address> {
   AddressRepo({required super.onchanged})
     : super(primaryKeyColumns: [AddressColumns.customer_id]);
 
-  AddressRepo.readonly({required super.primaryKeyColumns}) : super.readonly();
   @override
   String get tableName => TableNames.address;
 

@@ -1,16 +1,17 @@
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:wall_box_2/data/database/tables/incomplete_blocks_table.dart';
+import 'package:wall_box_2/data/repositories/incomplete_blocks_repo.dart';
 import 'package:wall_box_2/logic/helpers/units/kilo_watt_hour.dart';
+import 'package:wall_box_2/logic/models/logs/wall_box_log.dart';
 import 'package:wall_box_2/logic/models/transaction.dart';
 import 'package:wall_box_2/logic/models/logs/wall_box_line/wall_box_line.dart';
 import 'package:wall_box_2/logic/services/global.dart';
 
-part 'wall_box_transaction_block.freezed.dart';
-part 'wall_box_transaction_block.g.dart';
-
 /// Represents  either a full charging process with a start and an end or an incomplete one (when it got interrupted by an end of the log file)
 @freezed
 @JsonSerializable()
-class WallBoxTransactionBlock with _$WallBoxTransactionBlock {
+class WallBoxTransactionBlock {
   /// Represents  either a full charging process with a start and an end or an incomplete one (when it got interrupted by an end of the log file)
   /// - [start] :  stores data of the transactions beginning
   /// - [mvLines] : The interim log lines
@@ -21,6 +22,72 @@ class WallBoxTransactionBlock with _$WallBoxTransactionBlock {
     this.stop,
     required this.deviceID,
   });
+
+  static WallBoxTransactionBlock? tryParse(
+    String source, {
+    String deviceID = 'Unknown device',
+  }) {
+    print('==============PARSING NEW BLOCK=============');
+    MainLine? start;
+    MainLine? stop;
+    List<MVLine> mvs = List.empty(growable: true);
+    final lines = source.split('\n');
+    print(lines.length);
+
+    for (final line in lines) {
+      print('     ==============PARSING NEW LINE=============');
+      print('THIS IS ONE LINE: (($line))');
+      if (line.trim().isEmpty) {
+        continue;
+      }
+      final parsedLine = WallboxLine.tryParse(line);
+      assert(
+        parsedLine != null,
+        'Failed Assertion: $parsedLine is not a valid WB line',
+      );
+
+      final type = parsedLine!.type;
+      print(type);
+      switch (type) {
+        case LineType.start:
+          assert(
+            start == null,
+            'Failed assertion: Found two start lines in one block. source: \n $source',
+          );
+          start = parsedLine as MainLine;
+          break;
+        case LineType.mv:
+          assert(
+            stop == null,
+            'Found stop line after mv line. source: \n $source',
+          );
+          mvs.add(parsedLine as MVLine);
+          break;
+        case LineType.stop:
+          assert(
+            stop == null,
+            'Found second stop line. source: \n $source',
+          );
+          stop = parsedLine as MainLine;
+          break;
+      }
+    }
+    // if (mvs.isEmpty) {
+    //   print(source);
+    //   print('end');
+    // }
+    return WallBoxTransactionBlock(
+      start: start,
+      mvLines: mvs,
+      deviceID: deviceID,
+      stop: stop,
+    );
+  }
+
+  factory WallBoxTransactionBlock.parse(
+    String source, {
+    required String deviceID,
+  }) => tryParse(source, deviceID: deviceID)!;
 
   ///stores data of the transactions beginning
   @override
@@ -37,6 +104,16 @@ class WallBoxTransactionBlock with _$WallBoxTransactionBlock {
   @override
   /// the id of the wallbox
   final String deviceID;
+
+  DateTime get firstDate => start?.timeStamp ?? mvLines.first.timeStamp;
+  DateTime get lastDate => stop?.timeStamp ?? mvLines.last.timeStamp;
+
+  String get source =>
+      '${start != null ? '${start!.source}\n' : ''}${mvLines.fold(
+        '',
+        (previousValue, element) => previousValue + element.source + '\n',
+      )}${stop != null ? '${stop!.source}\n' : ''}';
+
   @override
   String toString() {
     return 'Start: ${start ?? '/'}\n   num mv: ${mvLines.length},\n   Stop: ${stop ?? '/'}\n';
@@ -60,15 +137,17 @@ class WallBoxTransactionBlock with _$WallBoxTransactionBlock {
   /// if this is incomplete, we try to find the matching 'other end' of the block to merge with.
   ///
   /// If it is complete or we successfully merged, we create a new WallBoxTransaction
-  Transaction? get tryGetTransaction {
-    WallBoxTransactionBlock block = _checkForMerge();
+  Future<Transaction?> get tryGetTransaction async {
+    WallBoxTransactionBlock block = await IncompleteBlocksRepo().findMergables(
+      this,
+    );
     return block.isCompleted
         ? Transaction(
             id: generateId(),
-            tagID: start!.tagID,
+            tagID: block.start!.tagID,
             deviceID: deviceID,
-            start: start!.timeStamp,
-            stop: stop!.timeStamp,
+            start: block.start!.timeStamp,
+            stop: block.stop!.timeStamp,
             usage: block.powerUsage,
           )
         : null;
@@ -117,24 +196,6 @@ class WallBoxTransactionBlock with _$WallBoxTransactionBlock {
     return null;
   }
 
-  WallBoxTransactionBlock _checkForMerge() {
-    if (isCompleted) return this;
-    // final incomplete = inCompleteRepo.getAll();
-    // for (int i = 0; i < incomplete.length; i++) {
-    //   WallBoxTransactionBlock? maybeMerged = _tryMerge(incomplete[i]);
-    //   if (maybeMerged != null) return maybeMerged;
-    // }
-    // inCompleteRepo.createOrUpdate(this);
-    return this;
-  }
-
-  ///
-  factory WallBoxTransactionBlock.fromJson(Map<String, Object?> json) =>
-      _$WallBoxTransactionBlockFromJson(json);
-
-  ///
-  Map<String, Object?> toJson() => _$WallBoxTransactionBlockToJson(this);
-
   /// checks if all WB lines are equal
   bool equals(Object other) =>
       other is WallBoxTransactionBlock &&
@@ -154,4 +215,21 @@ class WallBoxTransactionBlock with _$WallBoxTransactionBlock {
     }
     return true;
   }
+}
+
+class TransactionBlockJsonConverter
+    extends JsonConverter<WallBoxTransactionBlock, Map<String, Object?>> {
+  const TransactionBlockJsonConverter();
+  @override
+  WallBoxTransactionBlock fromJson(Map<String, Object?> json) =>
+      WallBoxTransactionBlock.parse(
+        json[IncompleteBlocksColumns.source].toString(),
+        deviceID: json[IncompleteBlocksColumns.device_id].toString(),
+      );
+
+  @override
+  Map<String, String> toJson(WallBoxTransactionBlock object) => {
+    IncompleteBlocksColumns.source: object.source,
+    IncompleteBlocksColumns.device_id: object.deviceID,
+  };
 }
