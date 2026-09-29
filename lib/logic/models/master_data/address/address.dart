@@ -31,7 +31,7 @@ class Address extends MasterData with _$Address {
   final String? addressAdditions;
 
   /// Represents an address
-  Address({
+  const Address({
     @JsonKey(name: AddressColumns.customer_id) required this.customerID,
     @JsonKey(name: AddressColumns.street) this.street,
     @JsonKey(name: AddressColumns.house_number) this.number,

@@ -31,19 +31,26 @@ class CustomerDataPackage extends MasterData with _$CustomerDataPackage {
 
   /// quick access to the person's name
   String? get personalName => personal != null
-      ? '${personal!.prename ?? ''} ${personal!.surname}'
+      ? '${personal!.prename ?? ''} ${personal!.surname}'.trimLeft()
       : null;
 
   /// returns the company name or the personal name or the id (wichever is the first in that order not to be null)
   String get displayName => companyName ?? personalName ?? id;
 
-  CustomerDataPackage._({
+  const CustomerDataPackage._({
     required this.customer,
     required this.address,
     this.contact,
     this.company,
     this.personal,
   });
+
+  /// Placeholder to use in cases where a customer is unknown or not assigned (eg at transactios that couldn't find a matching [TagAssignment])
+  static const CustomerDataPackage unknown = CustomerDataPackage._(
+    customer: Customer(id: 'XXXXXX'),
+    address: Address(customerID: 'XXXXXX'),
+    personal: PersonalData(customerID: 'XXXXXX', surname: 'UNBEKANNT'),
+  );
 
   /// creates a new package.
   ///

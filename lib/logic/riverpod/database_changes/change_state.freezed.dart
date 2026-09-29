@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$DatabaseChangeState {
 
- int get address; int get company; int get contact; int get customer; int get personal; int get priceAssignment; int get tagAssignment; int get transactRepo; int get customerPackage;
+ int get address; int get company; int get contact; int get customer; int get personal; int get priceAssignment; int get tagAssignment; int get transaction; int get customerPackage;
 /// Create a copy of DatabaseChangeState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $DatabaseChangeStateCopyWith<DatabaseChangeState> get copyWith => _$DatabaseChan
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DatabaseChangeState&&(identical(other.address, address) || other.address == address)&&(identical(other.company, company) || other.company == company)&&(identical(other.contact, contact) || other.contact == contact)&&(identical(other.customer, customer) || other.customer == customer)&&(identical(other.personal, personal) || other.personal == personal)&&(identical(other.priceAssignment, priceAssignment) || other.priceAssignment == priceAssignment)&&(identical(other.tagAssignment, tagAssignment) || other.tagAssignment == tagAssignment)&&(identical(other.transactRepo, transactRepo) || other.transactRepo == transactRepo)&&(identical(other.customerPackage, customerPackage) || other.customerPackage == customerPackage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DatabaseChangeState&&(identical(other.address, address) || other.address == address)&&(identical(other.company, company) || other.company == company)&&(identical(other.contact, contact) || other.contact == contact)&&(identical(other.customer, customer) || other.customer == customer)&&(identical(other.personal, personal) || other.personal == personal)&&(identical(other.priceAssignment, priceAssignment) || other.priceAssignment == priceAssignment)&&(identical(other.tagAssignment, tagAssignment) || other.tagAssignment == tagAssignment)&&(identical(other.transaction, transaction) || other.transaction == transaction)&&(identical(other.customerPackage, customerPackage) || other.customerPackage == customerPackage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,address,company,contact,customer,personal,priceAssignment,tagAssignment,transactRepo,customerPackage);
+int get hashCode => Object.hash(runtimeType,address,company,contact,customer,personal,priceAssignment,tagAssignment,transaction,customerPackage);
 
 @override
 String toString() {
-  return 'DatabaseChangeState(address: $address, company: $company, contact: $contact, customer: $customer, personal: $personal, priceAssignment: $priceAssignment, tagAssignment: $tagAssignment, transactRepo: $transactRepo, customerPackage: $customerPackage)';
+  return 'DatabaseChangeState(address: $address, company: $company, contact: $contact, customer: $customer, personal: $personal, priceAssignment: $priceAssignment, tagAssignment: $tagAssignment, transaction: $transaction, customerPackage: $customerPackage)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $DatabaseChangeStateCopyWith<$Res>  {
   factory $DatabaseChangeStateCopyWith(DatabaseChangeState value, $Res Function(DatabaseChangeState) _then) = _$DatabaseChangeStateCopyWithImpl;
 @useResult
 $Res call({
- int address, int company, int contact, int customer, int personal, int priceAssignment, int tagAssignment, int transactRepo
+ int address, int company, int contact, int customer, int personal, int priceAssignment, int tagAssignment, int transaction
 });
 
 
@@ -62,7 +62,7 @@ class _$DatabaseChangeStateCopyWithImpl<$Res>
 
 /// Create a copy of DatabaseChangeState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? address = null,Object? company = null,Object? contact = null,Object? customer = null,Object? personal = null,Object? priceAssignment = null,Object? tagAssignment = null,Object? transactRepo = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? address = null,Object? company = null,Object? contact = null,Object? customer = null,Object? personal = null,Object? priceAssignment = null,Object? tagAssignment = null,Object? transaction = null,}) {
   return _then(DatabaseChangeState(
 address: null == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
 as int,company: null == company ? _self.company : company // ignore: cast_nullable_to_non_nullable
@@ -71,7 +71,7 @@ as int,customer: null == customer ? _self.customer : customer // ignore: cast_nu
 as int,personal: null == personal ? _self.personal : personal // ignore: cast_nullable_to_non_nullable
 as int,priceAssignment: null == priceAssignment ? _self.priceAssignment : priceAssignment // ignore: cast_nullable_to_non_nullable
 as int,tagAssignment: null == tagAssignment ? _self.tagAssignment : tagAssignment // ignore: cast_nullable_to_non_nullable
-as int,transactRepo: null == transactRepo ? _self.transactRepo : transactRepo // ignore: cast_nullable_to_non_nullable
+as int,transaction: null == transaction ? _self.transaction : transaction // ignore: cast_nullable_to_non_nullable
 as int,
   ));
 }

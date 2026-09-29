@@ -1,3 +1,4 @@
+import 'package:wall_box_2/data/repositories/known_logs_repo.dart';
 import 'package:wall_box_2/logic/models/transaction.dart';
 import 'package:wall_box_2/logic/models/logs/wall_box_line/wall_box_line.dart';
 import 'package:wall_box_2/logic/models/logs/wall_box_transaction_block/wall_box_transaction_block.dart';
@@ -103,24 +104,34 @@ class WallBoxLog {
   /// when a line error occurs
   ///
   static Future<WallBoxLog?> fromSource(
-    String source,
-    Future<bool> Function(String) onLineError,
-  ) async {
-    final split = source.split('\n');
-    final head = '${split[0]}\n${split[1]}';
+    String source, {
+    required Future<bool> Function(String) onLineError,
+    required void Function() onLogAlreadyExists,
+  }) async {
+    final individualLines = source.split('\n');
+    final head = '${individualLines[0]}${individualLines[1]}';
+    if ((await KnownLogsRepo(
+      onchanged: () {},
+    ).doesExist(head))) {
+      onLogAlreadyExists();
+      return null;
+    }
     List<WallBoxTransactionBlock> blocks = List.empty(growable: true);
-    for (int i = 2; i < split.length; i++) {
-      if (split[i].isEmpty) continue;
+
+    final prototype = WallBoxLog._([], head);
+    for (int i = 2; i < individualLines.length; i++) {
+      if (individualLines[i].isEmpty) continue;
+
       MainLine? start;
       MainLine? stop;
       final List<MVLine> mvs = List.empty(growable: true);
       int j = i;
-      for (; j < split.length; j++) {
-        if (split[j].isEmpty) continue;
+      for (; j < individualLines.length; j++) {
+        if (individualLines[j].isEmpty) continue;
         bool shouldBreak = false;
-        WallboxLine? parsed = WallboxLine.tryParse(split[j]);
+        WallboxLine? parsed = WallboxLine.tryParse(individualLines[j]);
         if (parsed == null) {
-          if (await onLineError(split[j])) {
+          if (await onLineError(individualLines[j])) {
             return null;
           }
           break;
@@ -142,13 +153,12 @@ class WallBoxLog {
           break;
         }
       }
-      final prototype = WallBoxLog._([], head);
       blocks.add(
         WallBoxTransactionBlock(
           start: start,
           mvLines: mvs,
           stop: stop,
-          deviceID: prototype.deviceID ?? 'ERROR',
+          deviceID: prototype.deviceID ?? 'Device ID not found',
         ),
       );
       i = j;
@@ -166,14 +176,15 @@ class WallBoxLog {
   );
 
   /// converts all possible transactionblocks into actual Transaction instances
-  void createTransactions() {
+  Future<List<Transaction>> createTransactions() async {
     List<Transaction> result = List.empty(growable: true);
     for (final block in blocks) {
-      Transaction? fromBlock = block.tryGetTransaction;
+      Transaction? fromBlock = await block.tryGetTransaction;
       if (fromBlock != null && fromBlock.usage.value != 0) {
         result.add(fromBlock);
       }
     }
+    return result;
   }
 
   @override

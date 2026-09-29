@@ -22,7 +22,7 @@ class CompanyData extends MasterData with _$CompanyData {
   /// represents data for a company
   ///
   /// All fields are required for validation
-  CompanyData({
+  const CompanyData({
     @JsonKey(name: CompanyColumns.customer_id) required this.customerID,
     @JsonKey(name: CompanyColumns.company_name) required this.companyName,
     @JsonKey(name: CompanyColumns.company_addition) this.companyAddition,

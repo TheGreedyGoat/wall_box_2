@@ -59,7 +59,9 @@ class _AddTagAssignmentState extends ConsumerState<AddTagAssignment> {
             onPressed: () {
               _pickDate();
             },
-            child: Text(currentFromDate?.toNiceString() ?? 'DD.MM.YYYY'),
+            child: Text(
+              currentFromDate?.toDynamicString('~DD.~MM.~YYYY') ?? 'DD.MM.YYYY',
+            ),
           ),
           if (noDate)
             Text(

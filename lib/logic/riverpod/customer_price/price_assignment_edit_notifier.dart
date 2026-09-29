@@ -38,44 +38,45 @@ class PriceAssignmentEditNotifier extends Notifier<PriceAssignmentEditState> {
   /// loads the customer's current price assignment (if existant) aswell as the earliest available date for a reassignment into the state.
   ///
   /// if no id is passed, a default state will be passed
-  void load(String? customerID) {
+  Future<void> load(String? customerID) async {
     if (customerID == null) {
       state = _defaultState;
       return;
     }
-    ref.read(priceAssignmentRepoProvider).getActiveAssignment(customerID).then(
-      (value) async {
-        state = PriceAssignmentEditState(
-          price: value?.price,
-          earliestAvailable: await ref
-              .read(priceAssignmentRepoProvider)
-              .getEarliestAvailablePriceassignmentDate(customerID),
-        );
-      },
+    final assignment = await ref
+        .read(priceAssignmentRepoProvider)
+        .getActiveAssignment(customerID);
+
+    state = PriceAssignmentEditState(
+      price: assignment?.price,
+      earliestAvailable: await ref
+          .read(priceAssignmentRepoProvider)
+          .getEarliestAvailablePriceassignmentDate(customerID),
     );
     ref.read(customerEditProvider.notifier).priceChanged = false;
   }
 
   /// saves the state's date into a new assignment, assigning it to the [customerID]
-  Future<void> save(String customerID) async {
+  Future<int> save(String customerID) async {
     // print(state.price);
     // print(state.selectedDate);
-    if (state.price == null || state.selectedDate == null) return;
+    if (state.price == null || state.selectedDate == null) return 0;
     final repo = ref.read(priceAssignmentRepoProvider);
     final active = await repo.getActiveAssignment(customerID);
-
+    int changes = 0;
     if (active != null) {
       // nothing changed
-      if (active.price == state.price) return;
-      await repo.insert(active.copyWith(to: state.selectedDate));
+      if (active.price == state.price) return 0;
+      changes += await repo.insert(active.copyWith(to: state.selectedDate));
     }
-    await repo.insert(
+    changes += await repo.insert(
       PriceAssignment(
         customerID: customerID,
         price: state.price!,
         from: state.selectedDate!,
       ),
     );
+    return changes;
   }
 
   /// set the state's kWh price

@@ -3,8 +3,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:wall_box_2/logic/helpers/units/kilo_watt_hour.dart';
 import 'package:wall_box_2/logic/models/logs/wall_box_log.dart';
-part 'wall_box_line.freezed.dart';
-part 'wall_box_line.g.dart';
 
 const _startTag = 'txstart';
 const _stopTag = 'txstop';
@@ -44,6 +42,30 @@ abstract class WallboxLine {
   /// mv: socket 1, 2026-01-24 07:40:58 ===>2593.341<=== N
   late final KiloWattHour powerLevelWh;
 
+  /// the original line's text as in the log file
+  final String source;
+
+  /// represents the data of a single line within a wallBox log.
+  ///
+  /// There are 3 types of lines:
+  ///
+  /// ### start
+  /// #### example:
+  /// txstart2: id 0xffffffffffffffff, socket 1, 2026-01-24 07:40:58 2593.341kWh 050FE8E3210000 3 2 N
+  ///
+  /// ### stop
+  /// #### example:
+  /// txstop2: id 0xffffffffffffffff, socket 1, 2026-01-24 14:43:49 2593.341kWh 050FE8E3210000 6 5 N
+  ///
+  /// ### mv
+  /// #### example:
+  /// mv: socket 1, 2026-01-24 07:40:58 2593.341 N
+  ///
+  /// because start and stop both have the same pattern use the [MainLine] subclass, mv lines are converted to [MVLine] instances
+  ///
+  /// [source]: nal line's text as in the log file
+  WallboxLine({required this.source});
+
   /// txstart, txstop or mv
   LineType get type;
 
@@ -70,9 +92,9 @@ abstract class WallboxLine {
     final double? pU = double.tryParse(
       powerUsageMatch.toString(),
     );
-    final int? powerUsage = pU != null ? (pU * 1000).floor() : null;
+    final int? powerLevel = pU != null ? (pU * 1000).floor() : null;
 
-    if (powerUsage == null) {
+    if (powerLevel == null) {
       return null;
     }
     // assert(
@@ -81,17 +103,22 @@ abstract class WallboxLine {
     // );
 
     if (isMV) {
-      return MVLine(timeStamp, KiloWattHour(wattHours: powerUsage));
+      return MVLine(
+        timeStamp: timeStamp,
+        powerLevelWh: KiloWattHour(wattHours: powerLevel),
+        source: source,
+      );
     } else if (isStart || isStop) {
       final tagIDMatch = RegExp(DataType.tagID.regExSource).stringMatch(source);
       if (tagIDMatch == null) {
         return null;
       }
       return MainLine(
-        timeStamp,
-        KiloWattHour(wattHours: powerUsage),
-        tagIDMatch,
-        isStart,
+        timeStamp: timeStamp,
+        powerLevelWh: KiloWattHour(wattHours: powerLevel),
+        tagID: tagIDMatch,
+        isStart: isStart,
+        source: source,
       );
     }
     return null;
@@ -121,8 +148,6 @@ abstract class WallboxLine {
 // 88    `888'    88  88,    ,88  88  88       88
 // 88     `8'     88  `"8bbdP"Y8  88  88       88
 
-@freezed
-@JsonSerializable(converters: [KiloWattHourConverter()])
 /// The start &  stop lines in the log. Every complete Transaction starts and aends with a [MainLine]
 ///
 ///
@@ -133,7 +158,7 @@ abstract class WallboxLine {
 /// ### stop
 /// #### example:
 /// txstop2: id 0xffffffffffffffff, socket 1, 2026-01-24 14:43:49 2593.341kWh 050FE8E3210000 6 5 N
-class MainLine extends WallboxLine with _$MainLine {
+class MainLine extends WallboxLine {
   /// The start &  stop lines in the log. Every complete Transaction starts and aends with a [MainLine]
   ///
   ///
@@ -144,12 +169,15 @@ class MainLine extends WallboxLine with _$MainLine {
   /// ### stop
   /// #### example:
   /// txstop2: id 0xffffffffffffffff, socket 1, 2026-01-24 14:43:49 2593.341kWh 050FE8E3210000 6 5 N
-  MainLine(
-    this.timeStamp,
-    @KiloWattHourConverter() @JsonKey(name: 'powerLevel') this.powerLevelWh,
-    this.tagID,
-    this.isStart,
-  );
+  MainLine({
+    required this.timeStamp,
+    @KiloWattHourConverter()
+    @JsonKey(name: 'powerLevel')
+    required this.powerLevelWh,
+    required this.tagID,
+    required this.isStart,
+    required super.source,
+  });
 
   /// The power usage level parsed from the source:
   ///
@@ -162,12 +190,12 @@ class MainLine extends WallboxLine with _$MainLine {
   ///
   /// txstart2: id 0xffffffffffffffff, socket 1, ===>2026-01-24 07:40:58<=== 2593.341kWh 050FE8E3210000 3 2 N
   final DateTime timeStamp;
-  @override
+
   /// The tag-ID parsed from the source:
   ///
   /// txstart2: id 0xffffffffffffffff, socket 1, 2026-01-24 07:40:58 2593.341kWh ===>050FE8E3210000<=== 3 2 N
   final String tagID;
-  @override
+
   /// tells if this is the start or the end of a Transaction
   final bool isStart;
 
@@ -177,13 +205,6 @@ class MainLine extends WallboxLine with _$MainLine {
   String toString() {
     return '${super.toString()}, $tagID';
   }
-
-  /// conversion to a json map
-  factory MainLine.fromJson(Map<String, Object?> json) =>
-      _$MainLineFromJson(json);
-
-  /// creation from a json map
-  Map<String, Object?> toJson() => _$MainLineToJson(this);
 
   @override
   bool equals(Object other) =>
@@ -209,9 +230,7 @@ class MainLine extends WallboxLine with _$MainLine {
 /// ### mv
 /// #### example:
 /// mv: socket 1, 2026-01-24 07:40:58 2593.341 N
-@freezed
-@JsonSerializable(converters: [KiloWattHourConverter()])
-class MVLine extends WallboxLine with _$MVLine {
+class MVLine extends WallboxLine {
   @override
   LineType get type => LineType.mv;
 
@@ -222,21 +241,18 @@ class MVLine extends WallboxLine with _$MVLine {
   /// ### mv
   /// #### example:
   /// mv: socket 1, 2026-01-24 07:40:58 2593.341 N
-  MVLine(
-    this.timeStamp,
-    @KiloWattHourConverter() @JsonKey(name: 'powerLevel') this.powerLevelWh,
-  );
+  MVLine({
+    required this.timeStamp,
+    @KiloWattHourConverter()
+    @JsonKey(name: 'powerLevel')
+    required this.powerLevelWh,
+    required super.source,
+  });
   @override
   late final KiloWattHour powerLevelWh;
 
   @override
   late final DateTime timeStamp;
-
-  ///
-  factory MVLine.fromJson(Map<String, Object?> json) => _$MVLineFromJson(json);
-
-  ///
-  Map<String, Object?> toJson() => _$MVLineToJson(this);
 
   @override
   bool equals(Object other) =>

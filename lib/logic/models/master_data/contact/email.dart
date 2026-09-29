@@ -12,49 +12,36 @@ part 'email.g.dart';
 @freezed
 @JsonSerializable(converters: [EmailJsonConverter()])
 class Email extends MasterData with _$Email {
+  /// Regular expression to match an email address
+  static final regexp = Regexpressions.email;
   @override
-  final String? local;
-  @override
-  final String? subdomain;
-  @override
-  final String? topLevelDomain;
+  /// the full email's text
+  final String data;
+  RegExpMatch? get _matchRegexp => regexp.firstMatch(data);
+
+  /// extracts the local part (before the @) of the email
+  String? get local => _matchRegexp?.group(1);
+
+  /// Extracts the subdomain (eg 'gmail' or 'outlook' etc) from the email address
+  String? get subdomain => _matchRegexp?.group(2);
+
+  /// Extracts the top level domain (eg de, com etc) from the email address
+  String? get topLevelDomain => _matchRegexp?.group(3);
 
   /// represents an email adress
   ///
   /// [local]@[subdomain].[topLevelDomain]
-  Email({
-    this.local,
-    this.subdomain,
-    this.topLevelDomain,
-  });
-
-  /// tries parsing an email address String. returns null if unsuccessful
-  static Email? tryParse(String source) {
-    final match = Regexpressions.email.allMatches(source).firstOrNull;
-    try {
-      return match == null
-          ? null
-          : Email(
-              local: match.group(1),
-              subdomain: match.group(2),
-              topLevelDomain: match.group(3),
-            );
-    } catch (e) {
-      return null;
-    }
-  }
+  const Email({required this.data});
 
   @override
-  String toString() =>
-      '${local ?? 'unknown'}@${subdomain ?? 'unknown'}.${topLevelDomain ?? 'unknown'}';
+  String toString() => data;
 
   @override
   List<DataError?> get validationList => [
-    (local ?? '').isEmpty ? DataError.noEmailLocal : null,
-    (subdomain ?? '').isEmpty ? DataError.noEmailSubdomain : null,
-    (topLevelDomain ?? '').isEmpty ? DataError.noEmailTLD : null,
-    (local ?? '').isNotEmpty && !local!.startsWith(RegExp(r'[a-z]|[A-Z]'))
-        ? DataError.invalidEmailLocal
+    (local ?? '').isEmpty ||
+            (subdomain ?? '').isEmpty ||
+            (topLevelDomain ?? '').isEmpty
+        ? DataError.invalidEmail
         : null,
   ];
 }
@@ -64,7 +51,7 @@ class EmailJsonConverter extends JsonConverter<Email?, String?> {
   /// JSON Converter for Email
   const EmailJsonConverter();
   @override
-  Email? fromJson(String? json) => Email.tryParse(json ?? '');
+  Email? fromJson(String? json) => Email(data: json ?? '');
 
   @override
   String? toJson(email) => email?.toString();

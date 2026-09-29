@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:wall_box_2/logic/helpers/enums/data_error.dart';
-import 'package:wall_box_2/logic/models/master_data/customer/customer_data_package.dart';
+import 'package:wall_box_2/logic/models/data_packs/customer_data_package.dart';
 import 'package:wall_box_2/logic/riverpod/customer_edit/customer_edit_notifier.dart';
 import 'package:wall_box_2/logic/riverpod/customer_edit/customer_edit_validation_notifier.dart';
 import 'package:wall_box_2/logic/riverpod/providers.dart';
@@ -19,7 +19,7 @@ class CustomerAddressFields extends ConsumerStatefulWidget {
 
 class _CustomerAddressState extends ConsumerState<CustomerAddressFields> {
   CustomerEditNotifier get notifier => ref.read(customerEditProvider.notifier);
-  CustomerDataPackage get state => ref.watch(customerEditProvider).data;
+  CustomerDataPackage get state => ref.watch(customerEditProvider);
 
   @override
   Widget build(BuildContext context) {

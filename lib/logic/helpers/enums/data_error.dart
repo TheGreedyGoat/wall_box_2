@@ -20,16 +20,15 @@ enum DataError {
 
   // contact
   noContact,
-  noPhoneOrMobile,
   noNationalCode,
 
   //phone
   noPhoneNumber,
   invalidPhoneNumber,
+  invalidPhone,
+  invalidMobile,
+  invalidFax,
 
   //email
-  noEmailLocal,
-  noEmailSubdomain,
-  noEmailTLD,
-  invalidEmailLocal,
+  invalidEmail,
 }

@@ -16,12 +16,12 @@ class Customer extends MasterData with _$Customer {
   @override
   final String id;
   @override
-  String? taxID;
+  final String? taxID;
 
   /// Stores data for a customer.
   ///
   /// A valid customer needs to have at least one of [company] & [personal] set
-  Customer({
+  const Customer({
     @JsonKey(name: CustomerColumns.id) required this.id,
     @JsonKey(name: CustomerColumns.taxID) this.taxID,
   });

@@ -1,6 +1,6 @@
 import 'package:wall_box_2/data/database/tables/company_table.dart';
 import 'package:wall_box_2/data/database/tables/table_names.dart';
-import 'package:wall_box_2/data/repositories/repository.dart';
+import 'package:wall_box_2/data/database/repository.dart';
 import 'package:wall_box_2/logic/models/master_data/company/company_data.dart';
 
 /// The Reopsitory for all company data
@@ -8,7 +8,8 @@ import 'package:wall_box_2/logic/models/master_data/company/company_data.dart';
 class CompanyRepo extends Repository<CompanyData> {
   /// The Reopsitory for all company data
 
-  CompanyRepo({required super.onchanged});
+  CompanyRepo({required super.onchanged})
+    : super(primaryKeyColumns: [CompanyColumns.customer_id]);
 
   @override
   String get tableName => TableNames.company;

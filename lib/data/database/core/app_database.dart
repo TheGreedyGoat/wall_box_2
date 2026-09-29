@@ -49,6 +49,9 @@ class AppDatabase {
       version: 1,
       onCreate: DatabaseSchema.create,
       onUpgrade: DatabaseSchema.upgrade,
+      onConfigure: (db) async {
+        await db.execute('PRAGMA foreign_keys = ON');
+      },
     );
   }
 
@@ -77,5 +80,6 @@ class AppDatabase {
   Future<void> delete() async {
     final path = join(await getDatabasesPath(), '$databaseName.db');
     if ((await databaseExists(path))) await deleteDatabase(path);
+    _database = null;
   }
 }

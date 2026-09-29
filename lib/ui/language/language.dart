@@ -30,6 +30,8 @@ const german = Language(
     // customer
     DataError.noCompanyOrPersonal: 'Firmen- oder Nachname benötigt',
     DataError.idTaken: 'Kundenkennung existiert bereits',
+    DataError.invalidEmail: 'Ungültige Email-Addresse',
+    DataError.noCountry: 'erforderlich', DataError.noCity: 'erforderlich',
   },
   save: 'Speichern',
   discard: 'Verwerfen',
@@ -127,5 +129,5 @@ class Language {
   final String isRequired;
 
   String getDataErrorMsg(DataError error) =>
-      dataErrorMessages[error] ?? isRequired;
+      dataErrorMessages[error] ?? 'unassigned error message';
 }

@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'wall_box_transaction_block.dart';
+part of 'transaction_page_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -11,38 +11,41 @@ part of 'wall_box_transaction_block.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
-
 /// @nodoc
-mixin _$WallBoxTransactionBlock {
+mixin _$TransactionPageState {
 
- MainLine? get start; List<MVLine> get mvLines; set mvLines(List<MVLine> value); MainLine? get stop; String get deviceID;
-/// Create a copy of WallBoxTransactionBlock
+ List<Transaction> get transactions;
+/// Create a copy of TransactionPageState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$WallBoxTransactionBlockCopyWith<WallBoxTransactionBlock> get copyWith => _$WallBoxTransactionBlockCopyWithImpl<WallBoxTransactionBlock>(this as WallBoxTransactionBlock, _$identity);
+$TransactionPageStateCopyWith<TransactionPageState> get copyWith => _$TransactionPageStateCopyWithImpl<TransactionPageState>(this as TransactionPageState, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is WallBoxTransactionBlock&&(identical(other.start, start) || other.start == start)&&const DeepCollectionEquality().equals(other.mvLines, mvLines)&&(identical(other.stop, stop) || other.stop == stop)&&(identical(other.deviceID, deviceID) || other.deviceID == deviceID));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TransactionPageState&&const DeepCollectionEquality().equals(other.transactions, transactions));
 }
 
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,start,const DeepCollectionEquality().hash(mvLines),stop,deviceID);
 
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(transactions));
+
+@override
+String toString() {
+  return 'TransactionPageState(transactions: $transactions)';
+}
 
 
 }
 
 /// @nodoc
-abstract mixin class $WallBoxTransactionBlockCopyWith<$Res>  {
-  factory $WallBoxTransactionBlockCopyWith(WallBoxTransactionBlock value, $Res Function(WallBoxTransactionBlock) _then) = _$WallBoxTransactionBlockCopyWithImpl;
+abstract mixin class $TransactionPageStateCopyWith<$Res>  {
+  factory $TransactionPageStateCopyWith(TransactionPageState value, $Res Function(TransactionPageState) _then) = _$TransactionPageStateCopyWithImpl;
 @useResult
 $Res call({
- MainLine? start, List<MVLine> mvLines, MainLine? stop, String deviceID
+ List<Transaction> transactions
 });
 
 
@@ -50,30 +53,27 @@ $Res call({
 
 }
 /// @nodoc
-class _$WallBoxTransactionBlockCopyWithImpl<$Res>
-    implements $WallBoxTransactionBlockCopyWith<$Res> {
-  _$WallBoxTransactionBlockCopyWithImpl(this._self, this._then);
+class _$TransactionPageStateCopyWithImpl<$Res>
+    implements $TransactionPageStateCopyWith<$Res> {
+  _$TransactionPageStateCopyWithImpl(this._self, this._then);
 
-  final WallBoxTransactionBlock _self;
-  final $Res Function(WallBoxTransactionBlock) _then;
+  final TransactionPageState _self;
+  final $Res Function(TransactionPageState) _then;
 
-/// Create a copy of WallBoxTransactionBlock
+/// Create a copy of TransactionPageState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? start = freezed,Object? mvLines = null,Object? stop = freezed,Object? deviceID = null,}) {
-  return _then(WallBoxTransactionBlock(
-start: freezed == start ? _self.start : start // ignore: cast_nullable_to_non_nullable
-as MainLine?,mvLines: null == mvLines ? _self.mvLines : mvLines // ignore: cast_nullable_to_non_nullable
-as List<MVLine>,stop: freezed == stop ? _self.stop : stop // ignore: cast_nullable_to_non_nullable
-as MainLine?,deviceID: null == deviceID ? _self.deviceID : deviceID // ignore: cast_nullable_to_non_nullable
-as String,
+@pragma('vm:prefer-inline') @override $Res call({Object? transactions = null,}) {
+  return _then(TransactionPageState(
+transactions: null == transactions ? _self.transactions : transactions // ignore: cast_nullable_to_non_nullable
+as List<Transaction>,
   ));
 }
 
 }
 
 
-/// Adds pattern-matching-related methods to [WallBoxTransactionBlock].
-extension WallBoxTransactionBlockPatterns on WallBoxTransactionBlock {
+/// Adds pattern-matching-related methods to [TransactionPageState].
+extension TransactionPageStatePatterns on TransactionPageState {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:

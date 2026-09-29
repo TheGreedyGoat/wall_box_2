@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wall_box_2/logic/models/master_data/customer/customer_data_package.dart';
+import 'package:wall_box_2/logic/models/data_packs/customer_data_package.dart';
 import 'package:wall_box_2/logic/riverpod/providers.dart';
 import 'package:wall_box_2/ui/language/language.dart';
 import 'package:wall_box_2/ui/widgets/customer_view/master_data/customer_master_data.dart';
 import 'package:wall_box_2/ui/widgets/customer_view/tag_assignments/customer_tag_assignments.dart';
-
-/// triggers all relevant notifiers to fetch the data they need corresponding to the customer
-///
-/// All values on the page will change to match, what is currently saved in the database or to be empty if no data package is passed
-void _loadCustomerEditData(WidgetRef ref, CustomerDataPackage? data) {
-  ref.read(customerEditProvider.notifier).load(data?.id);
-}
 
 /// The core page to create or edit customer data.
 class EnterCustomerData extends ConsumerStatefulWidget {
@@ -23,6 +16,8 @@ class EnterCustomerData extends ConsumerStatefulWidget {
 }
 
 class _EnterCustomerDataState extends ConsumerState<EnterCustomerData> {
+  CustomerDataPackage? get original => ref.watch(selectedCustomerDataProvider);
+
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -31,9 +26,9 @@ class _EnterCustomerDataState extends ConsumerState<EnterCustomerData> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          (customerState.originalCustomerID?.trim() ?? '').isEmpty
+          (original?.id.trim() ?? '').isEmpty
               ? 'Neuer Kunde'
-              : customerState.data.displayName,
+              : customerState.displayName,
         ),
       ),
       body: Form(
@@ -54,7 +49,7 @@ class _EnterCustomerDataState extends ConsumerState<EnterCustomerData> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       CustomerMasterData(
-                        key: ValueKey(customerState.originalCustomerID),
+                        key: ValueKey(original),
                       ),
                       CustomerTagAssignments(),
                     ],
@@ -91,7 +86,7 @@ class _EnterCustomerDataState extends ConsumerState<EnterCustomerData> {
           ElevatedButton(
             onPressed: () {
               _formKey.currentState?.reset();
-              ref.read(customerEditProvider.notifier).reload();
+              ref.read(customerEditProvider.notifier).load();
             },
             child: Row(
               spacing: 4.0,

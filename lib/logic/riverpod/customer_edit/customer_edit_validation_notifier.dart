@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wall_box_2/logic/helpers/enums/data_error.dart';
+import 'package:wall_box_2/logic/models/data_packs/customer_data_package.dart';
 import 'package:wall_box_2/logic/riverpod/providers.dart';
 import 'package:wall_box_2/ui/language/language.dart';
 
@@ -33,17 +34,22 @@ class CustomerEditValidationNotifier extends Notifier<CustomerEditErrorState> {
   @override
   CustomerEditErrorState build() => CustomerEditErrorState(errors: []);
 
+  /// quick access to the currently selected customer
+  CustomerDataPackage? get original => ref.watch(selectedCustomerDataProvider);
+
   /// requests a validation from the current customer edit state.
   ///
   /// Any errors the notifier finds will be stored in the state
   ///
-  Future<bool> validate() async {
-    final data = ref.read(customerEditProvider).data;
+  Future<List<DataError>> validate() async {
+    final data = ref.read(customerEditProvider);
     final errors = data.validate();
-    if ((await ref.read(customerRepoProvider).checkID(data.id))) {
+    if (original == null && // only check if we try to create new
+        (await ref.read(customerRepoProvider).checkID(data.id))) {
       errors.add(DataError.idTaken);
     }
-    return errors.isEmpty;
+    state = CustomerEditErrorState(errors: errors);
+    return errors;
   }
 
   /// clears all errors

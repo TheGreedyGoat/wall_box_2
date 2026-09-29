@@ -1,12 +1,13 @@
 import 'package:wall_box_2/data/database/tables/customer_table.dart';
 import 'package:wall_box_2/data/database/tables/table_names.dart';
-import 'package:wall_box_2/data/repositories/repository.dart';
+import 'package:wall_box_2/data/database/repository.dart';
 import 'package:wall_box_2/logic/models/master_data/customer/customer.dart';
 
 /// Repository for Customers
 class CustomerRepo extends Repository<Customer> {
   /// Repository for Customers
-  CustomerRepo({required super.onchanged});
+  CustomerRepo({required super.onchanged})
+    : super(primaryKeyColumns: [CustomerColumns.id]);
 
   @override
   String get tableName => TableNames.customer;

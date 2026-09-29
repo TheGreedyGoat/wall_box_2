@@ -10,6 +10,9 @@ class DateButton extends StatefulWidget {
   /// The latest date to pick
   final DateTime lastDate;
 
+  /// The date initially selected
+  final DateTime? initialDate;
+
   /// what to do with the selected date?
   final void Function(DateTime date) onSelected;
 
@@ -30,6 +33,7 @@ class DateButton extends StatefulWidget {
     required this.onSelected,
     this.notSelectedLabel,
     this.enabled = true,
+    this.initialDate,
   });
 
   @override
@@ -50,18 +54,23 @@ class _DateButtonState extends State<DateButton> {
       onPressed: widget.enabled
           ? () async {
               final date = await showDatePicker(
+                initialDate: widget.initialDate,
                 context: context,
                 firstDate: widget.firstDate,
                 lastDate: widget.lastDate,
               );
               if (date != null) {
+                setState(() {
+                  selected = date;
+                });
                 widget.onSelected(date);
-                selected = date;
               }
             }
           : null,
       child: Text(
-        selected?.toNiceString() ?? widget.notSelectedLabel ?? 'DD.MM.YYYY',
+        selected?.toDynamicString('~DD.~MM.~YYYY') ??
+            widget.notSelectedLabel ??
+            'DD.MM.YYYY',
       ),
     );
   }

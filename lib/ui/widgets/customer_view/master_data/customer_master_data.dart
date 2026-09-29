@@ -5,6 +5,7 @@ import 'package:wall_box_2/ui/widgets/customer_view/master_data/customer_company
 import 'package:wall_box_2/ui/widgets/customer_view/master_data/customer_contact_fields.dart';
 import 'package:wall_box_2/ui/widgets/customer_view/master_data/customer_id_field.dart';
 import 'package:wall_box_2/ui/widgets/customer_view/master_data/customer_personals_field.dart';
+import 'package:wall_box_2/ui/widgets/predecorated/background_card.dart';
 
 /// Root widget to display and edit all Data of a customer
 class CustomerMasterData extends ConsumerStatefulWidget {
@@ -18,7 +19,7 @@ class CustomerMasterData extends ConsumerStatefulWidget {
 class _CustomerMasterDataState extends ConsumerState<CustomerMasterData> {
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return BackgroundCard(
       child: SizedBox(
         width: 1000,
         child: Padding(

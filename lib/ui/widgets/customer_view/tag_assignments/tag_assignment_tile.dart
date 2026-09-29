@@ -16,7 +16,7 @@ class TagAssignmentTile extends ConsumerWidget {
 
   /// displays one TagAssignment
   const TagAssignmentTile({
-    super.key,
+    required super.key,
     required this.assignment,
     this.modification = DataModificationType.unmodified,
   });
@@ -40,10 +40,10 @@ class TagAssignmentTile extends ConsumerWidget {
                   style: TextStyle(fontSize: 12),
                 ),
               ),
-              SelectableText(assignment.from.toNiceString()),
+              SelectableText(assignment.from.toDynamicString('~DD.~MM.~YYYY')),
               assignment.to != null
                   ? SelectableText(
-                      assignment.to!.toNiceString(),
+                      assignment.to!.toDynamicString('~DD.~MM.~YYYY'),
                     )
                   : DateButton(
                       firstDate: assignment.from.add(Duration(days: 1)),
@@ -51,7 +51,11 @@ class TagAssignmentTile extends ConsumerWidget {
                       onSelected: (date) {
                         ref
                             .read(tagAssignmenteditProvider.notifier)
-                            .setAssignmentEnd(assignment.tagID, date);
+                            .setAssignmentEnd(
+                              assignment.tagID,
+                              assignment.from,
+                              date,
+                            );
                       },
                       enabled: modification != DataModificationType.removed,
                       notSelectedLabel: 'aktuell',

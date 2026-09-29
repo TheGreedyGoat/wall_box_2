@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Email {
 
- String? get local; String? get subdomain; String? get topLevelDomain;
+ String get data;
 /// Create a copy of Email
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,12 +25,12 @@ $EmailCopyWith<Email> get copyWith => _$EmailCopyWithImpl<Email>(this as Email, 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Email&&(identical(other.local, local) || other.local == local)&&(identical(other.subdomain, subdomain) || other.subdomain == subdomain)&&(identical(other.topLevelDomain, topLevelDomain) || other.topLevelDomain == topLevelDomain));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Email&&(identical(other.data, data) || other.data == data));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,local,subdomain,topLevelDomain);
+int get hashCode => Object.hash(runtimeType,data);
 
 
 
@@ -41,7 +41,7 @@ abstract mixin class $EmailCopyWith<$Res>  {
   factory $EmailCopyWith(Email value, $Res Function(Email) _then) = _$EmailCopyWithImpl;
 @useResult
 $Res call({
- String? local, String? subdomain, String? topLevelDomain
+ String data
 });
 
 
@@ -58,12 +58,10 @@ class _$EmailCopyWithImpl<$Res>
 
 /// Create a copy of Email
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? local = freezed,Object? subdomain = freezed,Object? topLevelDomain = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? data = null,}) {
   return _then(Email(
-local: freezed == local ? _self.local : local // ignore: cast_nullable_to_non_nullable
-as String?,subdomain: freezed == subdomain ? _self.subdomain : subdomain // ignore: cast_nullable_to_non_nullable
-as String?,topLevelDomain: freezed == topLevelDomain ? _self.topLevelDomain : topLevelDomain // ignore: cast_nullable_to_non_nullable
-as String?,
+data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 

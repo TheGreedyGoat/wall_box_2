@@ -5,6 +5,7 @@ import 'package:wall_box_2/logic/riverpod/providers.dart';
 import 'package:wall_box_2/ui/widgets/customer_view/customer_price_display.dart';
 import 'package:wall_box_2/ui/widgets/customer_view/tag_assignments/add_tag_assignment.dart';
 import 'package:wall_box_2/ui/widgets/customer_view/tag_assignments/tag_assignment_tile.dart';
+import 'package:wall_box_2/ui/widgets/predecorated/background_card.dart';
 
 /// widget to edit a customer's tag assignments
 ///
@@ -27,7 +28,7 @@ class _TagAssigningState extends ConsumerState<CustomerTagAssignments> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 600,
-      child: Card(
+      child: BackgroundCard(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -63,7 +64,7 @@ class _TagAssigningState extends ConsumerState<CustomerTagAssignments> {
 
             SizedBox(
               height: 390,
-              child: _newAssignmentDisplay(),
+              child: _tagAssignmentDisplay(),
             ),
             const AddTagAssignment(),
             CustomerPriceDisplay(),
@@ -73,7 +74,7 @@ class _TagAssigningState extends ConsumerState<CustomerTagAssignments> {
     );
   }
 
-  Widget _newAssignmentDisplay() {
+  Widget _tagAssignmentDisplay() {
     final assignmentState = ref.watch(tagAssignmenteditProvider);
     var unmodified = assignmentState.unmodified;
     if (hideOld) {
@@ -86,28 +87,41 @@ class _TagAssigningState extends ConsumerState<CustomerTagAssignments> {
     final modified = assignmentState.modified;
     final added = assignmentState.added;
     final removed = assignmentState.removed;
+
     return ListView(
       children: [
         ...modified.map(
           (e) => TagAssignmentTile(
-            assignment: e,
+            key: ValueKey(
+              '${e.change!.tagID}_${e.change!.from.toIso8601String()}',
+            ),
+            assignment: e.change!,
             modification: DataModificationType.modified,
           ),
         ),
         ...added.map(
           (e) => TagAssignmentTile(
+            key: ValueKey(
+              '${e.tagID}_${e.from.toIso8601String()}',
+            ),
             assignment: e,
             modification: DataModificationType.added,
           ),
         ),
         ...unmodified.map(
           (e) => TagAssignmentTile(
+            key: ValueKey(
+              '${e.tagID}_${e.from.toIso8601String()}',
+            ),
             assignment: e,
             modification: DataModificationType.unmodified,
           ),
         ),
         ...removed.map(
           (e) => TagAssignmentTile(
+            key: ValueKey(
+              '${e.tagID}_${e.from.toIso8601String()}',
+            ),
             assignment: e,
             modification: DataModificationType.removed,
           ),

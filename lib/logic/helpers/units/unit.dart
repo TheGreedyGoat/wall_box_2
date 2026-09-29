@@ -23,7 +23,7 @@ abstract class Unit {
   /// defines how to display the value.
   ///
   /// [precision] defines the number of digits after the.
-  String toStringAsFixed(int precision, [bool showSymbol = true]) =>
+  String toStringAsFixed(int precision, [bool showSymbol = false]) =>
       '${factoredValue.toStringAsFixed(precision)}${showSymbol ? ' $symbol' : ''}';
 
   @override
