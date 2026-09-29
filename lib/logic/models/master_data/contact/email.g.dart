@@ -6,14 +6,9 @@ part of 'email.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Email _$EmailFromJson(Map<String, dynamic> json) => Email(
-  local: json['local'] as String?,
-  subdomain: json['subdomain'] as String?,
-  topLevelDomain: json['topLevelDomain'] as String?,
-);
+Email _$EmailFromJson(Map<String, dynamic> json) =>
+    Email(data: json['data'] as String);
 
 Map<String, dynamic> _$EmailToJson(Email instance) => <String, dynamic>{
-  'local': instance.local,
-  'subdomain': instance.subdomain,
-  'topLevelDomain': instance.topLevelDomain,
+  'data': instance.data,
 };

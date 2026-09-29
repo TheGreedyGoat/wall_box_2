@@ -5,5 +5,7 @@ class SelectedCustomerNotifier extends Notifier<CustomerDataPackage?> {
   @override
   CustomerDataPackage? build() => null;
 
-  set data(CustomerDataPackage? data) => state = data;
+  set data(CustomerDataPackage? data) {
+    state = data;
+  }
 }

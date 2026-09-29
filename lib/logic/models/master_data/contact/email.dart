@@ -12,49 +12,29 @@ part 'email.g.dart';
 @freezed
 @JsonSerializable(converters: [EmailJsonConverter()])
 class Email extends MasterData with _$Email {
-  @override
-  final String? local;
-  @override
-  final String? subdomain;
-  @override
-  final String? topLevelDomain;
+  final String data;
+  static final regexp = Regexpressions.email;
+  RegExpMatch? get _matchRegexp => regexp.firstMatch(data);
+  String? get local => _matchRegexp?.group(1);
+
+  String? get subdomain => _matchRegexp?.group(2);
+
+  String? get topLevelDomain => _matchRegexp?.group(3);
 
   /// represents an email adress
   ///
   /// [local]@[subdomain].[topLevelDomain]
-  const Email({
-    this.local,
-    this.subdomain,
-    this.topLevelDomain,
-  });
-
-  /// tries parsing an email address String. returns null if unsuccessful
-  static Email? tryParse(String source) {
-    final match = Regexpressions.email.allMatches(source).firstOrNull;
-    try {
-      return match == null
-          ? null
-          : Email(
-              local: match.group(1),
-              subdomain: match.group(2),
-              topLevelDomain: match.group(3),
-            );
-    } catch (e) {
-      return null;
-    }
-  }
+  const Email({required this.data});
 
   @override
-  String toString() =>
-      '${local ?? 'unknown'}@${subdomain ?? 'unknown'}.${topLevelDomain ?? 'unknown'}';
+  String toString() => data;
 
   @override
   List<DataError?> get validationList => [
-    (local ?? '').isEmpty ? DataError.noEmailLocal : null,
-    (subdomain ?? '').isEmpty ? DataError.noEmailSubdomain : null,
-    (topLevelDomain ?? '').isEmpty ? DataError.noEmailTLD : null,
-    (local ?? '').isNotEmpty && !local!.startsWith(RegExp(r'[a-z]|[A-Z]'))
-        ? DataError.invalidEmailLocal
+    (local ?? '').isEmpty ||
+            (subdomain ?? '').isEmpty ||
+            (topLevelDomain ?? '').isEmpty
+        ? DataError.invalidEmail
         : null,
   ];
 }
@@ -64,7 +44,7 @@ class EmailJsonConverter extends JsonConverter<Email?, String?> {
   /// JSON Converter for Email
   const EmailJsonConverter();
   @override
-  Email? fromJson(String? json) => Email.tryParse(json ?? '');
+  Email? fromJson(String? json) => Email(data: json ?? '');
 
   @override
   String? toJson(email) => email?.toString();

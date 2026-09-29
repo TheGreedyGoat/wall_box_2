@@ -21,7 +21,7 @@ class _CustomerCompanyState extends ConsumerState<CustomerCompanyFields> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.read(customerEditProvider).data;
+    final state = ref.read(customerEditProvider);
     final CustomerEditErrorState errorState = ref.watch(customerErrorProvider);
     return Column(
       spacing: 8.0,

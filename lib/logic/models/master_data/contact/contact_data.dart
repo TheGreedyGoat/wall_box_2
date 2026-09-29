@@ -42,12 +42,29 @@ class ContactData extends MasterData with _$ContactData {
   });
 
   @override
-  get validationList => [
-    phone == null && mobile == null ? DataError.noPhoneOrMobile : null,
-    if (mobile != null) ...mobile!.validate(),
-    if (phone != null) ...phone!.validate(),
-    if (email != null) ...email!.validate(),
-  ];
+  get validationList {
+    return [
+      if (mobile != null)
+        ...mobile!.validate().map(
+          (error) => error == DataError.invalidPhoneNumber
+              ? DataError.invalidMobile
+              : error,
+        ),
+      if (phone != null)
+        ...phone!.validate().map(
+          (error) => error == DataError.invalidPhoneNumber
+              ? DataError.invalidPhone
+              : error,
+        ),
+      if (fax != null)
+        ...fax!.validate().map(
+          (error) => error == DataError.invalidPhoneNumber
+              ? DataError.invalidFax
+              : error,
+        ),
+      if (email != null) ...email!.validate(),
+    ];
+  }
 }
 
 /// JSON Converter for ContactData

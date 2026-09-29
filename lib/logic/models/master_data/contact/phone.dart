@@ -7,48 +7,19 @@ part 'phone.g.dart';
 
 @freezed
 @JsonSerializable()
-/// represents a phone number, the national code is stored seperately
+/// represents a phone number
 class Phone extends MasterData with _$Phone {
-  @override
-  final String? nationalCode;
-  @override
-  final String? number;
+  ///
+  final String data;
 
   @override
-  String toString() => '$nationalCode $number';
+  String toString() => data;
 
-  /// represents a phone number, the national code is stored seperately
-  const Phone({
-    this.nationalCode,
-    this.number,
-  });
-
-  /// expects the number as a String. The national code has to be seperated by a whitespace
-  static Phone? tryParse(String source) {
-    final split = source.split(' ');
-    if (split.length < 2) return null;
-
-    final result = Phone(
-      nationalCode: split[0],
-      number: split.getRange(1, split.length).fold(
-        '',
-        (previousValue, element) {
-          return '$previousValue $element';
-        },
-      ).trimLeft(),
-    );
-    return result;
-  }
+  /// represents a phone number
+  const Phone({required this.data});
 
   @override
-  get validationList => [
-    (nationalCode ?? '').isEmpty ? DataError.noNationalCode : null,
-    (number ?? '').isEmpty
-        ? DataError.noPhoneNumber
-        : int.tryParse(number!.replaceAll(' ', '')) == null
-        ? DataError.invalidPhoneNumber
-        : null,
-  ];
+  get validationList => [];
 }
 
 /// JSON Converter for Phone
@@ -56,7 +27,7 @@ class PhoneJsonConverter extends JsonConverter<Phone?, String?> {
   /// JSON Converter for Phone
   const PhoneJsonConverter();
   @override
-  Phone? fromJson(String? json) => Phone.tryParse(json ?? '');
+  Phone? fromJson(String? json) => json is String ? Phone(data: json) : null;
 
   @override
   String? toJson(Phone? phone) => phone?.toString();

@@ -19,45 +19,15 @@ class CustomerEditChangeNotifier extends Notifier<bool> {
   void set(bool value) => state = value;
 }
 
-/// Stores, what is currently entered on a customer's page
-///
-class CustomerEditState {
-  /// the customer's data
-  final CustomerDataPackage data;
-
-  /// The originally loaded customer's id
-  ///
-  /// only != data.id if a new customer is being created and the input field is edited
-  final CustomerDataPackage? original;
-
-  /// Stores, what is currently entered on a customer's page
-  ///
-  CustomerEditState({
-    CustomerDataPackage? data,
-    this.original,
-  }) : this.data = data ?? CustomerDataPackage.empty;
-
-  /// returns a new instance with the old [original] and a new datapack
-  CustomerEditState updateData(CustomerDataPackage newData) =>
-      CustomerEditState(data: newData, original: original);
-
-  /// quick access to the customer id
-  String get id => data.id;
-
-  /// shortcut for
-  /// ```dart
-  ///   originalCustomerID == null;
-  /// ```
-  bool get isCreation => original == null;
-}
-
 // class IDEditingEnabledNotifier extends Notifier<bool>{}
 
 /// Core Notifier for creating and editing Customer data profiles
 ///
 /// stores all changes made. Changes are only updated when save() is called
-class CustomerEditNotifier extends Notifier<CustomerEditState> {
+class CustomerEditNotifier extends Notifier<CustomerDataPackage> {
   bool _mainChanged = false, _tagsChanged = false, _priceChanged = false;
+  CustomerDataPackage? get original => ref.read(selectedCustomerDataProvider);
+
   set mainChanged(bool value) {
     _mainChanged = value;
     checkChanges();
@@ -73,20 +43,22 @@ class CustomerEditNotifier extends Notifier<CustomerEditState> {
     checkChanges();
   }
 
-  /// shortcut to the state's data package
-  CustomerDataPackage get data => state.data;
-
   @override
-  CustomerEditState build() => CustomerEditState(
-    data: CustomerDataPackage.empty,
-    original: null,
-  );
+  CustomerDataPackage build() {
+    final selected = ref.read(selectedCustomerDataProvider);
+    ref.listen(
+      selectedCustomerDataProvider,
+      (previous, next) => load(next),
+    );
+    return selected ?? CustomerDataPackage.empty;
+  }
 
   CustomerEditChangeNotifier get _changeNotifier =>
       ref.read(customerEditChangeProvider.notifier);
 
-  void _setCustomer(CustomerDataPackage? data) =>
-      state = CustomerEditState(data: data, original: data);
+  void _setCustomer(CustomerDataPackage data) {
+    state = data;
+  }
 
   /// updates the changenotifier to be true there is currently any change active
   void checkChanges() => ref
@@ -96,40 +68,25 @@ class CustomerEditNotifier extends Notifier<CustomerEditState> {
   /// loads the current database state of the corresponding customer into the notifier
   ///
   /// Also triggers the tag- and priceAssignemnt notifier to fetch from the database
-  Future<void> load(String? customerID) async {
-    if (customerID == null) {
-      _setCustomer(null);
-    } else {
-      final packs = await ref.read(customerPackageProvider.future);
-      _setCustomer(
-        packs
-            .where(
-              (pack) => pack.id == customerID,
-            )
-            .firstOrNull,
-      );
-    }
-    await ref.read(tagAssignmenteditProvider.notifier).load(customerID);
-    await ref.read(priceAssignmentEditProvider.notifier).load(customerID);
-    ref.read(customerEditChangeProvider.notifier).set(false);
-  }
+  Future<void> load([CustomerDataPackage? customer]) async {
+    final data = customer ?? CustomerDataPackage.empty;
 
-  /// resets the state to show the original data
-  Future<void> reload() async {
-    await load(state.original?.id);
+    _setCustomer(data);
+
+    await ref.read(tagAssignmenteditProvider.notifier).load(data.id);
+    await ref.read(priceAssignmentEditProvider.notifier).load(data.id);
+    ref.read(customerEditChangeProvider.notifier).set(false);
   }
 
   /// update the customerID consistently
   void setId(String id) {
-    final data = state.data;
-    state = state.updateData(
-      data.copyWith(
-        customer: data.customer.copyWith(id: id),
-        address: data.address.copyWith(customerID: id),
-        contact: data.contact?.copyWith(customerID: id),
-        company: data.company?.copyWith(customerID: id),
-        personal: data.personal?.copyWith(customerID: id),
-      ),
+    final data = state;
+    state = data.copyWith(
+      customer: data.customer.copyWith(id: id),
+      address: data.address.copyWith(customerID: id),
+      contact: data.contact?.copyWith(customerID: id),
+      company: data.company?.copyWith(customerID: id),
+      personal: data.personal?.copyWith(customerID: id),
     );
 
     ref.read(tagAssignmenteditProvider.notifier).setCustomerID(id);
@@ -144,7 +101,7 @@ class CustomerEditNotifier extends Notifier<CustomerEditState> {
   void update({
     required CustomerDataPackage Function(CustomerDataPackage state) updater,
   }) {
-    state = state.updateData(updater(state.data));
+    state = updater(state);
     _changeNotifier.set(true);
   }
 
@@ -204,7 +161,11 @@ class CustomerEditNotifier extends Notifier<CustomerEditState> {
     required void Function(Object?) onError,
   }) async {
     try {
-      if (!(await ref.read(customerErrorProvider.notifier).validate())) return;
+      final errors = await ref.read(customerErrorProvider.notifier).validate();
+      if (errors.isNotEmpty) {
+        print(errors);
+        return;
+      }
       final customerRepo = ref.read(customerRepoProvider);
       final addressRepo = ref.read(addressRepoProvider);
 
@@ -215,51 +176,53 @@ class CustomerEditNotifier extends Notifier<CustomerEditState> {
       // ignore: unused_local_variable
       int changes = 0;
 
-      if (state.original == null) {
+      if (original == null) {
+        print('new insert');
         // => new customer => insert
-        changes += await customerRepo.insert(state.data.customer);
-        changes += await addressRepo.insert(state.data.address);
+        changes += await customerRepo.insert(state.customer);
+        changes += await addressRepo.insert(state.address);
 
-        if (state.data.company != null) {
-          changes += await companyRepo.insert(state.data.company!);
+        if (state.company != null) {
+          changes += await companyRepo.insert(state.company!);
         }
-        if (state.data.personal != null) {
-          changes += await personalRepo.insert(state.data.personal!);
+        if (state.personal != null) {
+          changes += await personalRepo.insert(state.personal!);
         }
 
-        if (state.data.contact != null) {
-          changes += await contactRepo.insert(state.data.contact!);
+        if (state.contact != null) {
+          changes += await contactRepo.insert(state.contact!);
         }
       } else {
+        print(state.contact);
         //=> edit => update
         changes += await customerRepo.update(
-          state.original!.customer,
-          state.data.customer,
+          original!.customer,
+          state.customer,
         );
         changes += await addressRepo.update(
-          state.original!.address,
-          state.data.address,
+          original!.address,
+          state.address,
         );
         changes += await companyRepo.update(
-          state.original!.company!,
-          state.data.company!,
+          original!.company!,
+          state.company!,
         );
         changes += await personalRepo.update(
-          state.original!.personal,
-          state.data.personal,
+          original!.personal,
+          state.personal,
         );
         changes += await contactRepo.update(
-          state.original!.contact,
-          state.data.contact,
+          original!.contact,
+          state.contact,
         );
       }
 
       changes += await ref
           .read(tagAssignmenteditProvider.notifier)
-          .saveChanges(data.id);
+          .saveChanges(state.id);
       changes += await ref
           .read(priceAssignmentEditProvider.notifier)
-          .save(data.id);
+          .save(state.id);
 
       _mainChanged = false;
       _tagsChanged = false;
@@ -267,6 +230,7 @@ class CustomerEditNotifier extends Notifier<CustomerEditState> {
       onSuccess();
     } catch (e) {
       onError(e);
+      rethrow;
     }
   }
 }

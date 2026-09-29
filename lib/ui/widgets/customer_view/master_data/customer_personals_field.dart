@@ -22,7 +22,7 @@ class _CustomerPersonalsState extends ConsumerState<CustomerPersonalsFields> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(customerEditProvider).data;
+    final state = ref.watch(customerEditProvider);
     final errorState = ref.watch(customerErrorProvider);
     return Column(
       spacing: 8.0,

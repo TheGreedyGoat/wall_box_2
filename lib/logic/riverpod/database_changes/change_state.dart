@@ -65,6 +65,7 @@ class DatabaseChangeState with _$DatabaseChangeState {
 class DatabaseChangeNotifier extends Notifier<DatabaseChangeState> {
   @override
   DatabaseChangeState build() => DatabaseChangeState.init();
+  void reset() => state = build();
 
   void addressChanged() => state = state.copyWith(address: state.address + 1);
 

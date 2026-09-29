@@ -1,9 +1,10 @@
-import 'package:json_annotation/src/json_converter.dart';
 import 'package:wall_box_2/data/database/repository.dart';
 import 'package:wall_box_2/data/database/tables/incomplete_blocks_table.dart';
 import 'package:wall_box_2/logic/models/logs/wall_box_transaction_block/wall_box_transaction_block.dart';
 
+/// Repository for log- transaction blocks that are spit between log files
 class IncompleteBlocksRepo extends Repository<WallBoxTransactionBlock> {
+  /// Repository for log- transaction blocks that are spit between log files
   IncompleteBlocksRepo()
     : super(
         primaryKeyColumns: [
@@ -20,6 +21,11 @@ class IncompleteBlocksRepo extends Repository<WallBoxTransactionBlock> {
   @override
   String get tableName => IncompleteBlocksTable.tableName;
 
+  /// Searches for matching ta-block parts in the database
+  ///
+  /// If a part is found, they get merged and the saved part is deleted.
+  ///
+  /// If the passed block is still incomplete at the end, it gets saved to the database
   Future<WallBoxTransactionBlock> findMergables(
     WallBoxTransactionBlock block,
   ) async {

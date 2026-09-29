@@ -34,13 +34,7 @@ void main() async {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
   }
-  await _purgeDB();
-
   runApp(ProviderScope(child: MainApp()));
-}
-
-Future<void> _purgeDB() async {
-  await AppDatabase.instance.delete();
 }
 
 ///
@@ -51,6 +45,7 @@ class MainApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
+      theme: ref.watch(themeProvider).themeData,
       home: WidgetTreeRoot(),
     );
   }

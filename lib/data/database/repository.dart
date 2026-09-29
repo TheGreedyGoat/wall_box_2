@@ -41,9 +41,10 @@ abstract class Repository<T> {
   /// directly pass your database changes here to trigger the change callback if change > 0
   ///
   /// returns the changes (in = out)
-  int checkChange(int change) {
-    if (change != 0) onchanged!.call();
-    return change;
+  int checkChange(int changeCount) {
+    print(changeCount);
+    if (changeCount != 0) onchanged!.call();
+    return changeCount;
   }
 
   void ensureWritePermission() {
@@ -117,19 +118,12 @@ abstract class Repository<T> {
     if (original == null) {
       return insertOnNoOriginal ? await insert(changed) : 0;
     }
-    //   // print(await query());
-    //   // print(
-    //   //   converter.toJson(changed).map(
-    //   //     (key, value) {
-    //   //       return MapEntry(key, '${value.runtimeType} $value');
-    //   //     },
-    //   //   ),
-    //   // );
-    // }
+
+    // print('changing \n$original\nto\n$changed');
 
     final changes = getUpdates(original, changed);
-
     if (changes.isEmpty) return 0;
+    // print('changes: $changes');
     final db = await database;
     return checkChange(
       await db.update(
@@ -157,12 +151,17 @@ abstract class Repository<T> {
         return previousValue && originalJson[pk] == changedJson[pk];
       },
     );
-    if (!samePK) return {};
-    return Map.fromEntries(
+    if (!samePK) {
+      return {};
+    }
+    final result = Map.fromEntries(
       changedJson.entries.where(
-        (entry) => changedJson[entry.key] != entry.value,
+        (entry) {
+          return originalJson[entry.key] != entry.value;
+        },
       ),
     );
+    return result;
   }
 
   /// Deletes the row with the same PK value(s) as [object]

@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Phone {
 
- String? get nationalCode; String? get number;
+ String get data;
 /// Create a copy of Phone
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,12 +25,12 @@ $PhoneCopyWith<Phone> get copyWith => _$PhoneCopyWithImpl<Phone>(this as Phone, 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Phone&&(identical(other.nationalCode, nationalCode) || other.nationalCode == nationalCode)&&(identical(other.number, number) || other.number == number));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Phone&&(identical(other.data, data) || other.data == data));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,nationalCode,number);
+int get hashCode => Object.hash(runtimeType,data);
 
 
 
@@ -41,7 +41,7 @@ abstract mixin class $PhoneCopyWith<$Res>  {
   factory $PhoneCopyWith(Phone value, $Res Function(Phone) _then) = _$PhoneCopyWithImpl;
 @useResult
 $Res call({
- String? nationalCode, String? number
+ String data
 });
 
 
@@ -58,11 +58,10 @@ class _$PhoneCopyWithImpl<$Res>
 
 /// Create a copy of Phone
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? nationalCode = freezed,Object? number = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? data = null,}) {
   return _then(Phone(
-nationalCode: freezed == nationalCode ? _self.nationalCode : nationalCode // ignore: cast_nullable_to_non_nullable
-as String?,number: freezed == number ? _self.number : number // ignore: cast_nullable_to_non_nullable
-as String?,
+data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as String,
   ));
 }
 

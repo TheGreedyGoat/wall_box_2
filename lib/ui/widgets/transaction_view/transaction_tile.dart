@@ -73,7 +73,7 @@ class TransactionTile extends ConsumerWidget {
                                 );
                                 await ref
                                     .read(customerEditProvider.notifier)
-                                    .reload();
+                                    .load();
                               },
                               child: Text('Tag zuweisen'),
                             ),

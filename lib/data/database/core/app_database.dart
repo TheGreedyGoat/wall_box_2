@@ -80,5 +80,6 @@ class AppDatabase {
   Future<void> delete() async {
     final path = join(await getDatabasesPath(), '$databaseName.db');
     if ((await databaseExists(path))) await deleteDatabase(path);
+    _database = null;
   }
 }

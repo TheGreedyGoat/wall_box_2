@@ -19,7 +19,7 @@ class CustomerAddressFields extends ConsumerStatefulWidget {
 
 class _CustomerAddressState extends ConsumerState<CustomerAddressFields> {
   CustomerEditNotifier get notifier => ref.read(customerEditProvider.notifier);
-  CustomerDataPackage get state => ref.watch(customerEditProvider).data;
+  CustomerDataPackage get state => ref.watch(customerEditProvider);
 
   @override
   Widget build(BuildContext context) {

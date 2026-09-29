@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wall_box_2/logic/helpers/enums/data_error.dart';
+import 'package:wall_box_2/logic/models/data_packs/customer_data_package.dart';
 import 'package:wall_box_2/logic/riverpod/customer_edit/customer_edit_notifier.dart';
 import 'package:wall_box_2/logic/riverpod/providers.dart';
 import 'package:wall_box_2/logic/services/global.dart';
@@ -22,8 +23,11 @@ class CustomerIDField extends ConsumerStatefulWidget {
 
 class _CustomerGeneralsState extends ConsumerState<CustomerIDField> {
   CustomerEditNotifier get notifier => ref.read(customerEditProvider.notifier);
-  CustomerEditState get state => ref.watch(customerEditProvider);
+  CustomerDataPackage get state => ref.watch(customerEditProvider);
+
   final TextEditingController idController = TextEditingController();
+
+  bool get isCreation => ref.watch(selectedCustomerDataProvider) == null;
 
   @override
   void initState() {
@@ -52,13 +56,13 @@ class _CustomerGeneralsState extends ConsumerState<CustomerIDField> {
           children: [
             Expanded(
               child: TextFormField(
-                readOnly: !state.isCreation,
+                readOnly: isCreation,
                 controller: idController,
                 decoration: textFieldDecoration.copyWith(
-                  hoverColor: state.isCreation ? null : Colors.white,
+                  hoverColor: isCreation ? null : Colors.white,
                   label: Text(currentLanguage.customerID),
                   // fillColor: state.isCreation ? null : Colors.grey,
-                  border: state.isCreation ? null : InputBorder.none,
+                  border: isCreation ? null : InputBorder.none,
                   errorText:
                       errorState.getMessage(DataError.noID) ??
                       errorState.getMessage(DataError.idTaken),
@@ -66,7 +70,7 @@ class _CustomerGeneralsState extends ConsumerState<CustomerIDField> {
                 onChanged: (value) => notifier.setId(value),
               ),
             ),
-            if (state.isCreation)
+            if (isCreation)
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [

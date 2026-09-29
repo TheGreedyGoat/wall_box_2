@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:wall_box_2/ui/widgets/predecorated/background_card.dart';
 
 class SplitPage extends StatelessWidget {
   final Widget left;
   final Widget right;
-  const SplitPage({super.key, required this.left, required this.right});
+  const SplitPage({
+    super.key,
+    required this.left,
+    required this.right,
+  });
 
   @override
   Widget build(BuildContext context) {

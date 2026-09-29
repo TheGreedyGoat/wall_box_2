@@ -5,6 +5,7 @@ import 'package:wall_box_2/logic/riverpod/providers.dart';
 import 'package:wall_box_2/ui/widgets/customer_view/customer_price_display.dart';
 import 'package:wall_box_2/ui/widgets/customer_view/tag_assignments/add_tag_assignment.dart';
 import 'package:wall_box_2/ui/widgets/customer_view/tag_assignments/tag_assignment_tile.dart';
+import 'package:wall_box_2/ui/widgets/predecorated/background_card.dart';
 
 /// widget to edit a customer's tag assignments
 ///
@@ -27,7 +28,7 @@ class _TagAssigningState extends ConsumerState<CustomerTagAssignments> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 600,
-      child: Card(
+      child: BackgroundCard(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,

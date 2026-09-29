@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wall_box_2/logic/models/data_packs/customer_data_package.dart';
 import 'package:wall_box_2/logic/riverpod/providers.dart';
 import 'package:wall_box_2/ui/widgets/customer_view/master_data/customer_master_data.dart';
+import 'package:wall_box_2/ui/widgets/predecorated/background_card.dart';
 import 'package:wall_box_2/ui/widgets/transaction_view/transaction_tile.dart';
 
 class TransactionsTableCard extends ConsumerStatefulWidget {
@@ -18,7 +19,7 @@ class _TransactionsTableCardState extends ConsumerState<TransactionsTableCard> {
   Widget build(BuildContext context) {
     final transactionFutures = ref.watch(transactionDataPackageProvider.future);
     final customerData = ref.watch(selectedCustomerDataProvider);
-    return Card(
+    return BackgroundCard(
       child: FutureBuilder(
         future: transactionFutures,
         builder: (context, snapshot) {
