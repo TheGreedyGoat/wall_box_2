@@ -1,12 +1,9 @@
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:wall_box_2/data/repositories/address_repo.dart';
 import 'package:wall_box_2/data/repositories/company_repo.dart';
 import 'package:wall_box_2/data/repositories/contact_repo.dart';
 import 'package:wall_box_2/data/repositories/customer_repo.dart';
-import 'package:wall_box_2/data/repositories/known_logs_repo.dart';
 import 'package:wall_box_2/data/repositories/personal_repo.dart';
 import 'package:wall_box_2/data/repositories/price_assignment_repo.dart';
 import 'package:wall_box_2/data/repositories/tag_assignment_repo.dart';
@@ -23,7 +20,6 @@ import 'package:wall_box_2/logic/riverpod/selected_customer_notifier.dart';
 import 'package:wall_box_2/logic/riverpod/tag_assignment_edit/tag_assignment_edit_notifier.dart';
 import 'package:wall_box_2/logic/riverpod/theme/theme_notifier.dart';
 import 'package:wall_box_2/logic/riverpod/transaction_page/transaction_page_notifier.dart';
-import 'package:wall_box_2/logic/services/parser/wall_box_parser.dart';
 
 // 8888888888     888 d8b 888
 // 888            888 Y8P 888
@@ -138,7 +134,6 @@ final transactionDataPackageProvider = FutureProvider((ref) async {
             ? customers[assignment]
             : CustomerDataPackage.unknown,
       );
-      if (pack.customerData == null) print(pack.tagAssignment);
       return pack;
     },
   ).toList();
@@ -249,14 +244,19 @@ final transactionRepoProvider = Provider(
   },
 );
 
+/// loads and holds all transactions from the [transactionRepoProvider]
 final transactionPageProvider = NotifierProvider(
   () => TransactionPageNotifier(),
 );
 
+/// Keeps track on wich Customer is selected atm eg in customer overview
 final selectedCustomerDataProvider = NotifierProvider(
   () => SelectedCustomerNotifier(),
 );
 
+/// provides, well, a theme.
+///
+/// Theme System is still heavily WIP
 final themeProvider = ChangeNotifierProvider(
   (ref) => ThemeNotifier(),
 );

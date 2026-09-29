@@ -6,7 +6,6 @@ import 'package:wall_box_2/logic/riverpod/providers.dart';
 import 'package:wall_box_2/ui/confirm_action_dialog.dart';
 import 'package:wall_box_2/ui/language/language.dart';
 import 'package:wall_box_2/ui/pages/split_page.dart';
-import 'package:wall_box_2/ui/widgets/customer_tiles/customer_overview_tile.dart';
 import 'package:wall_box_2/ui/widgets/customer_view/customer_overview.dart';
 import 'package:wall_box_2/ui/widgets/customer_view/master_data/enter_customer_data.dart';
 

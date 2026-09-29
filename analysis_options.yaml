@@ -12,7 +12,7 @@ linter:
   # `// ignore_for_file: name_of_lint` syntax on the line or in the file
   # producing the lint.
   rules:
-    avoid_print: false # Uncomment to disable the `avoid_print` rule
+    avoid_print: true # Uncomment to disable the `avoid_print` rule
     prefer_single_quotes: true # Uncomment to enable the `prefer_single_quotes` rule
     public_member_api_docs: true
     unawaited_futures: true
@@ -21,7 +21,6 @@ formatter:
   trailing_commas: preserve
 analyzer:
   errors:
-    avoid_print: ignore
     overridden_fields: ignore
     prefer_interpolation_to_compose_strings: ignore
     unnecessary_string_interpolations: ignore

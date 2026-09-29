@@ -35,6 +35,7 @@ class TagAssignment extends Assignment with _$TagAssignment {
     @JsonKey(name: TagAssignmentColumns.to) this.to,
   });
 
+  /// checks if the passed [transaction] has the same tagID as this
   bool matchTransaction(Transaction transaction) {
     return tagID == transaction.tagID &&
         interval.containsDate(transaction.start);

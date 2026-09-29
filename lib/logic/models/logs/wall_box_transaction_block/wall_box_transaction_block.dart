@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:wall_box_2/data/database/tables/incomplete_blocks_table.dart';
 import 'package:wall_box_2/data/repositories/incomplete_blocks_repo.dart';
+import 'package:wall_box_2/logic/helpers/logger/logger.dart';
 import 'package:wall_box_2/logic/helpers/units/kilo_watt_hour.dart';
 import 'package:wall_box_2/logic/models/logs/wall_box_log.dart';
 import 'package:wall_box_2/logic/models/transaction.dart';
@@ -23,91 +23,104 @@ class WallBoxTransactionBlock {
     required this.deviceID,
   });
 
+  /// expects a single transaction log block and extraxcts it's data
+  ///
+  /// Does not create a transaction yet
+  ///
+  /// Always ensure passing the whole available source text, including all mv lines, otherwise they may not be mergable in the end
+  ///
+  /// returns null if [source] is invalid
+  ///
   static WallBoxTransactionBlock? tryParse(
     String source, {
     String deviceID = 'Unknown device',
   }) {
-    print('==============PARSING NEW BLOCK=============');
-    MainLine? start;
-    MainLine? stop;
-    List<MVLine> mvs = List.empty(growable: true);
-    final lines = source.split('\n');
-    print(lines.length);
+    final logger = Logger(WallBoxTransactionBlock, 'tryParse');
+    try {
+      logger.call('==============PARSING NEW BLOCK=============', 0, false);
+      MainLine? start;
+      MainLine? stop;
+      List<MVLine> mvs = List.empty(growable: true);
+      final lines = source.split('\n');
+      logger.call(lines.length);
 
-    for (final line in lines) {
-      print('     ==============PARSING NEW LINE=============');
-      print('THIS IS ONE LINE: (($line))');
-      if (line.trim().isEmpty) {
-        continue;
+      for (final line in lines) {
+        logger.call('     ==============PARSING NEW LINE=============');
+        logger.call('THIS IS ONE LINE: (($line))');
+        if (line.trim().isEmpty) {
+          continue;
+        }
+        final parsedLine = WallboxLine.tryParse(line);
+        assert(
+          parsedLine != null,
+          'Failed Assertion: $parsedLine is not a valid WB line',
+        );
+
+        final type = parsedLine!.type;
+        logger.call(type);
+        switch (type) {
+          case LineType.start:
+            assert(
+              start == null,
+              'Failed assertion: Found two start lines in one block. source: \n $source',
+            );
+            start = parsedLine as MainLine;
+            break;
+          case LineType.mv:
+            assert(
+              stop == null,
+              'Found stop line after mv line. source: \n $source',
+            );
+            mvs.add(parsedLine as MVLine);
+            break;
+          case LineType.stop:
+            assert(
+              stop == null,
+              'Found second stop line. source: \n $source',
+            );
+            stop = parsedLine as MainLine;
+            break;
+        }
       }
-      final parsedLine = WallboxLine.tryParse(line);
-      assert(
-        parsedLine != null,
-        'Failed Assertion: $parsedLine is not a valid WB line',
+      return WallBoxTransactionBlock(
+        start: start,
+        mvLines: mvs,
+        deviceID: deviceID,
+        stop: stop,
       );
-
-      final type = parsedLine!.type;
-      print(type);
-      switch (type) {
-        case LineType.start:
-          assert(
-            start == null,
-            'Failed assertion: Found two start lines in one block. source: \n $source',
-          );
-          start = parsedLine as MainLine;
-          break;
-        case LineType.mv:
-          assert(
-            stop == null,
-            'Found stop line after mv line. source: \n $source',
-          );
-          mvs.add(parsedLine as MVLine);
-          break;
-        case LineType.stop:
-          assert(
-            stop == null,
-            'Found second stop line. source: \n $source',
-          );
-          stop = parsedLine as MainLine;
-          break;
-      }
+    } catch (e) {
+      logger.call(e.toString(), 2, false);
+      return null;
     }
-    // if (mvs.isEmpty) {
-    //   print(source);
-    //   print('end');
-    // }
-    return WallBoxTransactionBlock(
-      start: start,
-      mvLines: mvs,
-      deviceID: deviceID,
-      stop: stop,
-    );
   }
 
+  /// parses a Wallbox block String. Passing an invalid String throws n Nullcheck Exception
   factory WallBoxTransactionBlock.parse(
     String source, {
     required String deviceID,
   }) => tryParse(source, deviceID: deviceID)!;
 
   ///stores data of the transactions beginning
-  @override
   final MainLine? start;
 
   /// The interim log lines
-  @override
+
   List<MVLine> mvLines;
 
   /// stores data of the transactions ending
-  @override
+
   final MainLine? stop;
 
-  @override
   /// the id of the wallbox
   final String deviceID;
 
+  /// The topmost found date in this log block
   DateTime get firstDate => start?.timeStamp ?? mvLines.first.timeStamp;
+
+  /// The bottommost found date in this log block
   DateTime get lastDate => stop?.timeStamp ?? mvLines.last.timeStamp;
 
+  /// Rebuilds the source String as it had been in the logFile
   String get source =>
       '${start != null ? '${start!.source}\n' : ''}${mvLines.fold(
         '',
@@ -171,31 +184,6 @@ class WallBoxTransactionBlock {
         Duration(minutes: 16);
   }
 
-  WallBoxTransactionBlock? _tryMerge(WallBoxTransactionBlock other) {
-    // if (_canMergeAtStart(other)) {
-    //   inCompleteRepo.delete(
-    //     other.repoKey,
-    //     () async => true,
-    //   );
-    //   return WallBoxTransactionBlock(
-    //     start: other.start,
-    //     mvLines: [...other.mvLines, ...mvLines],
-    //     stop: stop,
-    //   );
-    // } else if (_canMergeAtEnd(other)) {
-    //   inCompleteRepo.delete(
-    //     other.repoKey,
-    //     () async => true,
-    //   );
-    //   return WallBoxTransactionBlock(
-    //     start: start,
-    //     mvLines: [...mvLines, ...other.mvLines],
-    //     stop: other.stop,
-    //   );
-    // }
-    return null;
-  }
-
   /// checks if all WB lines are equal
   bool equals(Object other) =>
       other is WallBoxTransactionBlock &&
@@ -217,8 +205,10 @@ class WallBoxTransactionBlock {
   }
 }
 
+/// Json Converter for Transaction blocks. saves the source string and device ID
 class TransactionBlockJsonConverter
     extends JsonConverter<WallBoxTransactionBlock, Map<String, Object?>> {
+  /// Json Converter for Transaction blocks. saves the source string and device ID
   const TransactionBlockJsonConverter();
   @override
   WallBoxTransactionBlock fromJson(Map<String, Object?> json) =>

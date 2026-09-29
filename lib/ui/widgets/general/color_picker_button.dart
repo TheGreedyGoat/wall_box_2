@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
+/// A button that opens a color picker
 class ColorPickerButton extends StatefulWidget {
-  void Function(Color color) onSubmit;
+  /// Thell the opicker what to do with the selected color
+  final void Function(Color color) onSubmit;
+
+  /// set an optional initial color value
   final Color? initialColor;
-  ColorPickerButton({super.key, required this.onSubmit, this.initialColor});
+
+  /// A button that opens a color picker
+  const ColorPickerButton({
+    super.key,
+    required this.onSubmit,
+    this.initialColor,
+  });
 
   @override
   State<ColorPickerButton> createState() => _ColorPickerButtonState();

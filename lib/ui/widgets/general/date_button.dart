@@ -10,6 +10,7 @@ class DateButton extends StatefulWidget {
   /// The latest date to pick
   final DateTime lastDate;
 
+  /// The date initially selected
   final DateTime? initialDate;
 
   /// what to do with the selected date?
@@ -67,7 +68,9 @@ class _DateButtonState extends State<DateButton> {
             }
           : null,
       child: Text(
-        selected?.toDateOnlyString() ?? widget.notSelectedLabel ?? 'DD.MM.YYYY',
+        selected?.toDynamicString('~DD.~MM.~YYYY') ??
+            widget.notSelectedLabel ??
+            'DD.MM.YYYY',
       ),
     );
   }

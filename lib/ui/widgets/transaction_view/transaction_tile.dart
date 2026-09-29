@@ -81,10 +81,10 @@ class TransactionTile extends ConsumerWidget {
                     _tile(
                       context,
                       title: SelectableText(
-                        data.transaction.start.toDynamicString('DD.MM.YY'),
+                        data.transaction.start.toDynamicString('~DD.~MM.~YY'),
                       ),
                       subtitle: SelectableText(
-                        '${data.transaction.start.toDynamicString('hh:mm')} - ${data.transaction.stop.toDynamicString('hh:mm')}',
+                        '${data.transaction.start.toDynamicString('~hh:~mm')} - ${data.transaction.stop.toDynamicString('~hh:~mm')}',
                       ),
                     ),
                     _tile(

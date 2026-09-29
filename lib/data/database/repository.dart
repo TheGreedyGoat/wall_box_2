@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sqflite/sqlite_api.dart';
 import 'package:wall_box_2/data/database/core/app_database.dart';
+import 'package:wall_box_2/logic/helpers/logger/logger.dart';
 
 /// Base class for model repositories
 ///
@@ -20,6 +21,7 @@ abstract class Repository<T> {
   /// quick access to the corresponding databes table's name
   String get tableName;
 
+  /// The naimes of the columns wich are primary keys
   final List<String> primaryKeyColumns;
 
   /// Logic to invoke whenever this repo updates it's content.
@@ -42,16 +44,20 @@ abstract class Repository<T> {
   ///
   /// returns the changes (in = out)
   int checkChange(int changeCount) {
-    print(changeCount);
     if (changeCount != 0) onchanged!.call();
     return changeCount;
   }
 
-  void ensureWritePermission() {
-    assert(
-      onchanged != null,
-      'Tried writing on readonly instance of ${this.runtimeType}',
-    );
+  /// Ensures we only write if [onchanged] is set, so notifiers get updated
+  bool get writeAllowed {
+    final allowed = onchanged != null;
+    if (!allowed) {
+      Logger(
+        this.runtimeType,
+        'writeAllowed',
+      ).call('Tried Writing a readonly Repositiory!', 2, false);
+    }
+    return allowed;
   }
   //  #     #
   //  #  #  # #####  # ##### ######
@@ -68,7 +74,7 @@ abstract class Repository<T> {
     T value, [
     ConflictAlgorithm onConflict = ConflictAlgorithm.replace,
   ]) async {
-    ensureWritePermission();
+    if (!writeAllowed) return 0;
     final db = await database;
     return checkChange(
       await db.insert(
@@ -86,7 +92,7 @@ abstract class Repository<T> {
     List<T> values, [
     ConflictAlgorithm onConflict = ConflictAlgorithm.replace,
   ]) async {
-    ensureWritePermission();
+    if (!writeAllowed) return 0;
     final db = await database;
     int changes = 0;
     for (final v in values) {
@@ -111,7 +117,7 @@ abstract class Repository<T> {
     T? changed, [
     bool insertOnNoOriginal = true,
   ]) async {
-    ensureWritePermission();
+    if (!writeAllowed) return 0;
     // no changes provided => leave immediately
     if (changed == null) return 0;
     // no original => insert new
@@ -168,7 +174,7 @@ abstract class Repository<T> {
   ///
   /// returns the number of changes made to the database
   Future<int> deleteByPrimaries(T object) async {
-    ensureWritePermission();
+    if (!writeAllowed) return 0;
     String where = '';
     final whereArgs = <String>[];
     final pks = getPrimaryKeys(object).entries.toList();
@@ -191,7 +197,7 @@ abstract class Repository<T> {
   ///
   /// Returns the number of changes made to the database
   Future<int> delete({String? where, List<String>? whereArgs}) async {
-    ensureWritePermission();
+    if (!writeAllowed) return 0;
     final db = await database;
 
     return checkChange(

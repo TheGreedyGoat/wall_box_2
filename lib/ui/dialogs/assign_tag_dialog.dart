@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:wall_box_2/logic/models/assignments/tag_assignment.dart';
 import 'package:wall_box_2/logic/models/data_packs/customer_data_package.dart';
 import 'package:wall_box_2/logic/riverpod/providers.dart';
-import 'package:wall_box_2/ui/widgets/general/date_button.dart';
 
+/// Shows a dialog to assign a given tag ID to a customer
 Future<void> showAssignmentDialog(
   BuildContext context,
   String tagID, {
@@ -16,7 +16,7 @@ Future<void> showAssignmentDialog(
       child: SizedBox(
         width: 500,
         height: 500,
-        child: AssignTagDialog(
+        child: _AssignTagDialog(
           tagID: tagID,
           initialDate: initialDate,
         ),
@@ -25,16 +25,16 @@ Future<void> showAssignmentDialog(
   );
 }
 
-class AssignTagDialog extends ConsumerStatefulWidget {
+class _AssignTagDialog extends ConsumerStatefulWidget {
   final String tagID;
   final DateTime? initialDate;
-  const AssignTagDialog({super.key, required this.tagID, this.initialDate});
+  const _AssignTagDialog({required this.tagID, this.initialDate});
 
   @override
-  ConsumerState<AssignTagDialog> createState() => _AssignTagDialogState();
+  ConsumerState<_AssignTagDialog> createState() => _AssignTagDialogState();
 }
 
-class _AssignTagDialogState extends ConsumerState<AssignTagDialog> {
+class _AssignTagDialogState extends ConsumerState<_AssignTagDialog> {
   late DateTime earliest;
   late DateTime? selectedStartDate;
   CustomerDataPackage? selectedCustomer;

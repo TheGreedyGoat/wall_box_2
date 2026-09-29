@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:wall_box_2/logic/helpers/enums/data_error.dart';
 import 'package:wall_box_2/logic/models/master_data/master_data.dart';
 
 part 'phone.freezed.dart';
@@ -9,7 +8,10 @@ part 'phone.g.dart';
 @JsonSerializable()
 /// represents a phone number
 class Phone extends MasterData with _$Phone {
+  @override
+  /// simply the number as as String,
   ///
+  /// maybe later this is replaced by national and local code of the number
   final String data;
 
   @override

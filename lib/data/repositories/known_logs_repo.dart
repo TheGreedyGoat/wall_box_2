@@ -2,7 +2,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:wall_box_2/data/database/tables/known_logs_table.dart';
 import 'package:wall_box_2/data/database/repository.dart';
 
+/// Saves the heads of log files we already scanned to avoid reading the same file twice
 class KnownLogsRepo extends Repository<String> {
+  /// Saves the heads of log files we already scanned to avoid reading the same file twice
   KnownLogsRepo({required super.onchanged})
     : super(primaryKeyColumns: [KnownLogsColumns.head]);
 
@@ -13,6 +15,7 @@ class KnownLogsRepo extends Repository<String> {
   @override
   String get tableName => KnownLogsTable.name;
 
+  /// pass a log dile head (first two lines, consisting of device id and generation date)
   Future<bool> doesExist(String head) async => (await query(
     where: '${KnownLogsColumns.head} = ?',
     whereArgs: [head],

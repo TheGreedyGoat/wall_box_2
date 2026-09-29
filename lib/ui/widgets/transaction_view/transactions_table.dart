@@ -2,19 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wall_box_2/logic/models/data_packs/customer_data_package.dart';
 import 'package:wall_box_2/logic/riverpod/providers.dart';
-import 'package:wall_box_2/ui/widgets/customer_view/master_data/customer_master_data.dart';
 import 'package:wall_box_2/ui/widgets/predecorated/background_card.dart';
 import 'package:wall_box_2/ui/widgets/transaction_view/transaction_tile.dart';
 
-class TransactionsTableCard extends ConsumerStatefulWidget {
-  const TransactionsTableCard({super.key});
+/// Displays transactions from the database
+class TransactionsTable extends ConsumerStatefulWidget {
+  /// Displays transactions from the database
+  const TransactionsTable({super.key});
 
   @override
-  ConsumerState<TransactionsTableCard> createState() =>
+  ConsumerState<TransactionsTable> createState() =>
       _TransactionsTableCardState();
 }
 
-class _TransactionsTableCardState extends ConsumerState<TransactionsTableCard> {
+class _TransactionsTableCardState extends ConsumerState<TransactionsTable> {
   @override
   Widget build(BuildContext context) {
     final transactionFutures = ref.watch(transactionDataPackageProvider.future);

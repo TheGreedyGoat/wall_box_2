@@ -42,8 +42,28 @@ abstract class WallboxLine {
   /// mv: socket 1, 2026-01-24 07:40:58 ===>2593.341<=== N
   late final KiloWattHour powerLevelWh;
 
+  /// the original line's text as in the log file
   final String source;
 
+  /// represents the data of a single line within a wallBox log.
+  ///
+  /// There are 3 types of lines:
+  ///
+  /// ### start
+  /// #### example:
+  /// txstart2: id 0xffffffffffffffff, socket 1, 2026-01-24 07:40:58 2593.341kWh 050FE8E3210000 3 2 N
+  ///
+  /// ### stop
+  /// #### example:
+  /// txstop2: id 0xffffffffffffffff, socket 1, 2026-01-24 14:43:49 2593.341kWh 050FE8E3210000 6 5 N
+  ///
+  /// ### mv
+  /// #### example:
+  /// mv: socket 1, 2026-01-24 07:40:58 2593.341 N
+  ///
+  /// because start and stop both have the same pattern use the [MainLine] subclass, mv lines are converted to [MVLine] instances
+  ///
+  /// [source]: nal line's text as in the log file
   WallboxLine({required this.source});
 
   /// txstart, txstop or mv
@@ -170,12 +190,12 @@ class MainLine extends WallboxLine {
   ///
   /// txstart2: id 0xffffffffffffffff, socket 1, ===>2026-01-24 07:40:58<=== 2593.341kWh 050FE8E3210000 3 2 N
   final DateTime timeStamp;
-  @override
+
   /// The tag-ID parsed from the source:
   ///
   /// txstart2: id 0xffffffffffffffff, socket 1, 2026-01-24 07:40:58 2593.341kWh ===>050FE8E3210000<=== 3 2 N
   final String tagID;
-  @override
+
   /// tells if this is the start or the end of a Transaction
   final bool isStart;
 

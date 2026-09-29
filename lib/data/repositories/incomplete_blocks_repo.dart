@@ -97,7 +97,6 @@ class IncompleteBlocksRepo extends Repository<WallBoxTransactionBlock> {
               return block.lastDate.difference(dbBlock.firstDate) <=
                   Duration(minutes: 16);
             } catch (_) {
-              print('line 98');
               return false;
             }
           },

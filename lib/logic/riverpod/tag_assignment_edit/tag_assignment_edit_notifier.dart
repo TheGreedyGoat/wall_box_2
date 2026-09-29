@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:wall_box_2/data/repositories/tag_assignment_repo.dart';
+import 'package:wall_box_2/logic/helpers/logger/logger.dart';
 import 'package:wall_box_2/logic/models/assignments/tag_assignment.dart';
 import 'package:wall_box_2/logic/riverpod/providers.dart';
 
@@ -132,12 +133,14 @@ class TagAssignmentEditNotifier extends Notifier<TagAssignmentEditState> {
   );
   @override
   set state(TagAssignmentEditState value) {
+    final logger = Logger(TagAssignmentEditNotifier, 'state(set)', false);
     for (final mod in state.modifiedAssignments) {
-      print(mod.change);
+      logger.call(mod.change);
     }
     super.state = value;
   }
 
+  /// quick access to the [TagAssignmentRepo]
   TagAssignmentRepo get repo => ref.read(tagAssignmentRepoProvider);
 
   /// Sets the id only if it's not set yet

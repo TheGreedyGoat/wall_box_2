@@ -33,6 +33,8 @@ class CustomerEditErrorState {
 class CustomerEditValidationNotifier extends Notifier<CustomerEditErrorState> {
   @override
   CustomerEditErrorState build() => CustomerEditErrorState(errors: []);
+
+  /// quick access to the currently selected customer
   CustomerDataPackage? get original => ref.watch(selectedCustomerDataProvider);
 
   /// requests a validation from the current customer edit state.

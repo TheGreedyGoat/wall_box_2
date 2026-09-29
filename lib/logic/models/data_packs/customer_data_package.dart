@@ -45,6 +45,7 @@ class CustomerDataPackage extends MasterData with _$CustomerDataPackage {
     this.personal,
   });
 
+  /// Placeholder to use in cases where a customer is unknown or not assigned (eg at transactios that couldn't find a matching [TagAssignment])
   static const CustomerDataPackage unknown = CustomerDataPackage._(
     customer: Customer(id: 'XXXXXX'),
     address: Address(customerID: 'XXXXXX'),

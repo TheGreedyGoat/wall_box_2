@@ -10,6 +10,7 @@ import 'package:wall_box_2/data/repositories/transaction_repo.dart';
 import 'package:wall_box_2/logic/helpers/date_timeextension.dart';
 import 'package:wall_box_2/logic/models/assignments/tag_assignment.dart';
 import 'package:wall_box_2/logic/models/data_packs/customer_data_package.dart';
+import 'package:wall_box_2/logic/models/logs/wall_box_transaction_block/wall_box_transaction_block.dart';
 import 'package:wall_box_2/logic/models/master_data/customer/customer.dart';
 import 'package:wall_box_2/logic/models/master_data/address/address.dart';
 import 'package:wall_box_2/logic/models/master_data/company/company_data.dart';
@@ -34,6 +35,7 @@ void main() async {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
   }
+  WallBoxTransactionBlock.tryParse('abcdefd');
   runApp(ProviderScope(child: MainApp()));
 }
 

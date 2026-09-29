@@ -12,13 +12,20 @@ part 'email.g.dart';
 @freezed
 @JsonSerializable(converters: [EmailJsonConverter()])
 class Email extends MasterData with _$Email {
-  final String data;
+  /// Regular expression to match an email address
   static final regexp = Regexpressions.email;
+  @override
+  /// the full email's text
+  final String data;
   RegExpMatch? get _matchRegexp => regexp.firstMatch(data);
+
+  /// extracts the local part (before the @) of the email
   String? get local => _matchRegexp?.group(1);
 
+  /// Extracts the subdomain (eg 'gmail' or 'outlook' etc) from the email address
   String? get subdomain => _matchRegexp?.group(2);
 
+  /// Extracts the top level domain (eg de, com etc) from the email address
   String? get topLevelDomain => _matchRegexp?.group(3);
 
   /// represents an email adress

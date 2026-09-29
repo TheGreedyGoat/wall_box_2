@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wall_box_2/logic/helpers/logger/logger.dart';
 import 'package:wall_box_2/logic/models/data_packs/customer_data_package.dart';
 import 'package:wall_box_2/logic/models/master_data/address/address.dart';
 import 'package:wall_box_2/logic/models/master_data/company/company_data.dart';
@@ -26,6 +27,10 @@ class CustomerEditChangeNotifier extends Notifier<bool> {
 /// stores all changes made. Changes are only updated when save() is called
 class CustomerEditNotifier extends Notifier<CustomerDataPackage> {
   bool _mainChanged = false, _tagsChanged = false, _priceChanged = false;
+
+  /// Quick read access to the value of [selectedCustomerDataProvider]
+  ///
+  /// Represents the customer being added right now (or if a new one is being created if value = null)
   CustomerDataPackage? get original => ref.read(selectedCustomerDataProvider);
 
   set mainChanged(bool value) {
@@ -160,10 +165,11 @@ class CustomerEditNotifier extends Notifier<CustomerDataPackage> {
     required void Function() onSuccess,
     required void Function(Object?) onError,
   }) async {
+    final logger = Logger(CustomerEditChangeNotifier, 'validateAndTrySave');
     try {
       final errors = await ref.read(customerErrorProvider.notifier).validate();
       if (errors.isNotEmpty) {
-        print(errors);
+        logger.call(errors, 1, false);
         return;
       }
       final customerRepo = ref.read(customerRepoProvider);
@@ -177,7 +183,6 @@ class CustomerEditNotifier extends Notifier<CustomerDataPackage> {
       int changes = 0;
 
       if (original == null) {
-        print('new insert');
         // => new customer => insert
         changes += await customerRepo.insert(state.customer);
         changes += await addressRepo.insert(state.address);
@@ -193,7 +198,6 @@ class CustomerEditNotifier extends Notifier<CustomerDataPackage> {
           changes += await contactRepo.insert(state.contact!);
         }
       } else {
-        print(state.contact);
         //=> edit => update
         changes += await customerRepo.update(
           original!.customer,
@@ -230,7 +234,7 @@ class CustomerEditNotifier extends Notifier<CustomerDataPackage> {
       onSuccess();
     } catch (e) {
       onError(e);
-      rethrow;
+      logger.call(e, 2, false);
     }
   }
 }
