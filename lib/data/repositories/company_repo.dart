@@ -18,6 +18,6 @@ class CompanyRepo extends Repository<CompanyData> {
   CompanyDataJsonConverter get converter => CompanyDataJsonConverter();
 
   /// Returns a customer's company data if they have any
-  Future<CompanyData?> getById(String customerID) async =>
+  Future<CompanyData?> getByID(String customerID) async =>
       await get('${CompanyColumns.customer_id} = ?', [customerID]);
 }

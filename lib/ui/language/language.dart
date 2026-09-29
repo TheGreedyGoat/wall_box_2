@@ -32,6 +32,7 @@ const german = Language(
     DataError.idTaken: 'Kundenkennung existiert bereits',
     DataError.invalidEmail: 'Ungültige Email-Addresse',
     DataError.noCountry: 'erforderlich', DataError.noCity: 'erforderlich',
+    DataError.invalidVatID: 'Ungültige USt ID',
   },
   save: 'Speichern',
   discard: 'Verwerfen',
@@ -43,6 +44,7 @@ const german = Language(
   assignedTags: 'Zugewiesene Tags:',
   cancel: 'abbrechen',
   confirm: 'fortfahren',
+  vatID: 'Umsatzsteuer-ID',
 );
 
 /// The currently displayed language
@@ -93,6 +95,7 @@ class Language {
     required this.assignedTags,
     required this.cancel,
     required this.confirm,
+    required this.vatID,
   });
 
   final String assignedTags;
@@ -127,6 +130,8 @@ class Language {
 
   final Map<DataError, String> dataErrorMessages;
   final String isRequired;
+
+  final String vatID;
 
   String getDataErrorMsg(DataError error) =>
       dataErrorMessages[error] ?? 'unassigned error message';

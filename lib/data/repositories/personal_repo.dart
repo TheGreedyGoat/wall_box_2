@@ -16,6 +16,6 @@ class PersonalRepo extends Repository<PersonalData> {
   PersonalDataJsonConverter get converter => PersonalDataJsonConverter();
 
   ///
-  Future<PersonalData?> getById(String customerID) async =>
+  Future<PersonalData?> getByID(String customerID) async =>
       await get('${PersonalColumns.customer_id} = ?', [customerID]);
 }

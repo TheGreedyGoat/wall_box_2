@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wall_box_2/logic/helpers/date_timeextension.dart';
+import 'package:my_utils/utility/class_extensions/custom_date_string.dart';
 import 'package:wall_box_2/logic/models/data_packs/customer_data_package.dart';
 import 'package:wall_box_2/logic/models/data_packs/transaction_data_pack.dart';
 import 'package:wall_box_2/logic/riverpod/providers.dart';
@@ -25,7 +25,6 @@ class TransactionTile extends ConsumerWidget {
       child: SizedBox(
         height: 60,
         child: Row(
-          spacing: 16,
           children:
               [
                     _tile(
@@ -95,7 +94,7 @@ class TransactionTile extends ConsumerWidget {
                   ]
                   .map(
                     (e) => SizedBox(
-                      width: 300,
+                      width: 200,
                       child: e,
                     ),
                   )

@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:my_utils/utility/logger/logger.dart';
 import 'package:wall_box_2/data/database/tables/incomplete_blocks_table.dart';
 import 'package:wall_box_2/data/repositories/incomplete_blocks_repo.dart';
-import 'package:wall_box_2/logic/helpers/logger/logger.dart';
 import 'package:wall_box_2/logic/helpers/units/kilo_watt_hour.dart';
 import 'package:wall_box_2/logic/models/logs/wall_box_log.dart';
 import 'package:wall_box_2/logic/models/transaction.dart';

@@ -25,6 +25,7 @@ class _EnterCustomerDataState extends ConsumerState<EnterCustomerData> {
     final activeChanges = ref.watch(customerEditChangeProvider);
     return Scaffold(
       appBar: AppBar(
+        elevation: 10,
         title: Text(
           (original?.id.trim() ?? '').isEmpty
               ? 'Neuer Kunde'
@@ -106,10 +107,12 @@ class _EnterCustomerDataState extends ConsumerState<EnterCustomerData> {
     ref
         .read(customerEditProvider.notifier)
         .validateAndTrySave(
-          onSuccess: () => _snackBar(
-            context,
-            currentLanguage.saveSuccessful,
-          ),
+          onSuccess: () {
+            _snackBar(
+              context,
+              currentLanguage.saveSuccessful,
+            );
+          },
           onError: (p0) {
             print(p0.toString());
             _snackBar(

@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:my_utils/utility/logger/logger.dart';
 import 'package:wall_box_2/data/repositories/tag_assignment_repo.dart';
-import 'package:wall_box_2/logic/helpers/logger/logger.dart';
 import 'package:wall_box_2/logic/models/assignments/tag_assignment.dart';
 import 'package:wall_box_2/logic/riverpod/providers.dart';
 
@@ -26,7 +26,9 @@ class TagAssignmentEditState with _$TagAssignmentEditState {
       .where(
         (original) => modifiedAssignments
             .where(
-              (mod) => mod.original?.tagID == original.tagID,
+              (mod) =>
+                  mod.original?.tagID == original.tagID &&
+                  mod.original?.from == original.from,
             )
             .isEmpty,
       )
@@ -248,15 +250,18 @@ class TagAssignmentEditNotifier extends Notifier<TagAssignmentEditState> {
   void setDeletion(String tagID, DateTime from) {
     final original = state.originals
         .where(
-          (element) => element.tagID == tagID,
+          (element) => element.tagID == tagID && element.from == from,
         )
         .firstOrNull;
     if (original == null) return;
     final mods = state.modifiedAssignments.toList();
+    print(mods);
     mods.removeWhere(
       (element) => element.tagID == tagID && element.original!.from == from,
     );
     mods.add(TagAssignmentModification(original: original, change: null));
+    print(mods);
+    print(state.unmodified);
     state = state.copyWith(modifiedAssignments: mods);
     changed();
   }

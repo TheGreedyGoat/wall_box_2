@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:my_utils/utility/logger/logger.dart';
 import 'package:sqflite/sqlite_api.dart';
 import 'package:wall_box_2/data/database/core/app_database.dart';
-import 'package:wall_box_2/logic/helpers/logger/logger.dart';
 
 /// Base class for model repositories
 ///

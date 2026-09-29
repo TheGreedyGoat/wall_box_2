@@ -10,7 +10,7 @@ class Percent {
   /// Represents, well, a percentage.
   ///
   /// Uses an int [permille] as internal data
-  Percent(this.permille);
+  const Percent(this.permille);
 
   /// returns [target], multiplied by this percentage
   num apply(num target) {

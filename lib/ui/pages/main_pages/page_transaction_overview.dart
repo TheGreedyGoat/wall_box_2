@@ -6,7 +6,7 @@ import 'package:wall_box_2/logic/riverpod/providers.dart';
 import 'package:wall_box_2/ui/pages/split_page.dart';
 import 'package:wall_box_2/ui/widgets/customer_view/customer_overview.dart';
 import 'package:wall_box_2/ui/widgets/transaction_view/import_file_button.dart';
-import 'package:wall_box_2/ui/widgets/transaction_view/transactions_table.dart';
+import 'package:wall_box_2/ui/pages/content_pages/transactions_table.dart';
 
 class PageTransactionOverview extends ConsumerWidget {
   const PageTransactionOverview({super.key});

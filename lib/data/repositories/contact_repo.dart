@@ -16,6 +16,6 @@ class ContactRepo extends Repository<ContactData> {
   ContactDataJsonConverter get converter => ContactDataJsonConverter();
 
   /// get the customer's contact data
-  Future<ContactData?> getById(String customerID) async =>
+  Future<ContactData?> getByID(String customerID) async =>
       await get('${ContactColumns.customer_id} = ?', [customerID]);
 }

@@ -37,9 +37,7 @@ class PersonalData extends MasterData with _$PersonalData {
   });
 
   @override
-  List<DataError?> get validationList => [
-    (surname ?? '').isEmpty ? DataError.noSurname : null,
-  ];
+  List<DataError?> get validationList => [];
 }
 
 ///

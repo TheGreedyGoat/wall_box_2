@@ -32,6 +32,7 @@ class CustomerOverview extends ConsumerWidget {
     final snapShot = ref.watch(customerPackageProvider);
     return Scaffold(
       appBar: AppBar(
+        elevation: 10,
         title: appBarTitle,
         actions: appBarActions,
       ),

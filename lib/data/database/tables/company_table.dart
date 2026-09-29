@@ -12,6 +12,7 @@ abstract final class CompanyTable {
       ${CompanyColumns.customer_id} TEXT NOT NULL,
       ${CompanyColumns.company_name} TEXT NOT NULL, 
       ${CompanyColumns.company_addition} TEXT,
+      ${CompanyColumns.vat_id} TEXT,
       PRIMARY KEY (${CompanyColumns.customer_id}),
       FOREIGN KEY(${CompanyColumns.customer_id})
       REFERENCES ${CustomerTable.name}(${CustomerColumns.id})
@@ -24,4 +25,5 @@ abstract final class CompanyColumns {
   static const customer_id = 'customer_id';
   static const company_name = 'company_name';
   static const company_addition = 'company_addition';
+  static const vat_id = 'vat_id';
 }

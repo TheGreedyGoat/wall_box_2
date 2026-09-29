@@ -3,4 +3,7 @@ abstract class Regexpressions {
   ///
   static RegExp get email =>
       RegExp(r'([a-zA-Z][a-zA-Z0-9._%+-]*)@([a-zA-Z0-9-]+)\.([a-zA-Z]{2,})');
+
+  /// Umsatzsteuer ID
+  static RegExp get vatID => RegExp(r'^DE[0-9]{9}');
 }

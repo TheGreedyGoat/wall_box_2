@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:wall_box_2/data/database/tables/company_table.dart';
 import 'package:wall_box_2/logic/helpers/enums/data_error.dart';
+import 'package:wall_box_2/logic/helpers/regexpressions.dart';
 import 'package:wall_box_2/logic/models/master_data/master_data.dart';
 
 part 'company_data.freezed.dart';
@@ -18,6 +19,8 @@ class CompanyData extends MasterData with _$CompanyData {
   final String? companyName;
   @override
   final String? companyAddition;
+  @override
+  final String? vatID;
 
   /// represents data for a company
   ///
@@ -26,11 +29,15 @@ class CompanyData extends MasterData with _$CompanyData {
     @JsonKey(name: CompanyColumns.customer_id) required this.customerID,
     @JsonKey(name: CompanyColumns.company_name) required this.companyName,
     @JsonKey(name: CompanyColumns.company_addition) this.companyAddition,
+    @JsonKey(name: CompanyColumns.vat_id) this.vatID,
   });
 
   @override
   List<DataError?> get validationList => [
     (companyName ?? '').isEmpty ? DataError.noCompanyName : null,
+    (vatID ?? '').isNotEmpty && !Regexpressions.vatID.hasMatch(vatID!)
+        ? DataError.invalidVatID
+        : null,
   ];
 }
 

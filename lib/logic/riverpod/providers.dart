@@ -90,9 +90,9 @@ final customerPackageProvider = FutureProvider<List<CustomerDataPackage>>(
         CustomerDataPackage(
           customer: customer,
           address: address,
-          contact: await ref.watch(contactRepoProvider).getById(customer.id),
-          company: await ref.watch(companyRepoProvider).getById(customer.id),
-          personal: await ref.watch(personalRepoProvider).getById(customer.id),
+          contact: await ref.watch(contactRepoProvider).getByID(customer.id),
+          company: await ref.watch(companyRepoProvider).getByID(customer.id),
+          personal: await ref.watch(personalRepoProvider).getByID(customer.id),
         ),
       );
     }

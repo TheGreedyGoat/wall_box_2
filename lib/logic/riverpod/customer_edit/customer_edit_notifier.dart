@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wall_box_2/logic/helpers/logger/logger.dart';
+import 'package:my_utils/utility/logger/logger.dart';
 import 'package:wall_box_2/logic/models/data_packs/customer_data_package.dart';
 import 'package:wall_box_2/logic/models/master_data/address/address.dart';
 import 'package:wall_box_2/logic/models/master_data/company/company_data.dart';
@@ -232,6 +232,7 @@ class CustomerEditNotifier extends Notifier<CustomerDataPackage> {
       _tagsChanged = false;
       _priceChanged = false;
       onSuccess();
+      ref.read(selectedCustomerDataProvider.notifier).data = state;
     } catch (e) {
       onError(e);
       logger.call(e, 2, false);

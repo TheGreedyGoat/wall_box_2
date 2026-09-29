@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wall_box_2/logic/helpers/date_timeextension.dart';
+import 'package:my_utils/utility/class_extensions/custom_date_string.dart';
 
 /// Just a button that opens the date picker.
 /// passes the selected date to onSelected()

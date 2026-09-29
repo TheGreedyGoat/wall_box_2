@@ -10,6 +10,7 @@ CompanyData _$CompanyDataFromJson(Map<String, dynamic> json) => CompanyData(
   customerID: json['customer_id'] as String,
   companyName: json['company_name'] as String?,
   companyAddition: json['company_addition'] as String?,
+  vatID: json['vat_id'] as String?,
 );
 
 Map<String, dynamic> _$CompanyDataToJson(CompanyData instance) =>
@@ -17,4 +18,5 @@ Map<String, dynamic> _$CompanyDataToJson(CompanyData instance) =>
       'customer_id': instance.customerID,
       'company_name': instance.companyName,
       'company_addition': instance.companyAddition,
+      'vat_id': instance.vatID,
     };

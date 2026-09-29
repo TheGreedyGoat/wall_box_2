@@ -9,6 +9,7 @@ Future<void> showAssignmentDialog(
   BuildContext context,
   String tagID, {
   DateTime? initialDate,
+  CustomerDataPackage? customer,
 }) async {
   await showDialog(
     context: context,
@@ -19,6 +20,7 @@ Future<void> showAssignmentDialog(
         child: _AssignTagDialog(
           tagID: tagID,
           initialDate: initialDate,
+          customer: customer,
         ),
       ),
     ),
@@ -28,20 +30,27 @@ Future<void> showAssignmentDialog(
 class _AssignTagDialog extends ConsumerStatefulWidget {
   final String tagID;
   final DateTime? initialDate;
-  const _AssignTagDialog({required this.tagID, this.initialDate});
+  final CustomerDataPackage? customer;
+  const _AssignTagDialog({
+    required this.tagID,
+    this.initialDate,
+    this.customer,
+  });
 
   @override
   ConsumerState<_AssignTagDialog> createState() => _AssignTagDialogState();
 }
 
 class _AssignTagDialogState extends ConsumerState<_AssignTagDialog> {
-  late DateTime earliest;
-  late DateTime? selectedStartDate;
+  DateTime earliest = DateTime.now();
+  DateTime? selectedStartDate;
   CustomerDataPackage? selectedCustomer;
 
   @override
   void initState() {
     super.initState();
+    selectedStartDate = widget.initialDate;
+    selectedCustomer = widget.customer;
     WidgetsBinding.instance.addPostFrameCallback(
       (_) async {
         final earliestDate = await ref
@@ -50,7 +59,6 @@ class _AssignTagDialogState extends ConsumerState<_AssignTagDialog> {
         setState(() {
           earliest =
               earliestDate ?? DateTime.now().subtract(Duration(days: 365));
-          selectedStartDate = widget.initialDate;
         });
       },
     );
@@ -74,33 +82,37 @@ class _AssignTagDialogState extends ConsumerState<_AssignTagDialog> {
               Expanded(
                 child: Row(
                   children: [
-                    Expanded(
-                      child: ListView(
-                        padding: EdgeInsetsDirectional.symmetric(vertical: 16),
-                        children: [
-                          ...customers.map(
-                            (cust) => Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadiusGeometry.circular(
-                                  8.0,
+                    if (widget.customer == null)
+                      Expanded(
+                        child: ListView(
+                          padding: EdgeInsetsDirectional.symmetric(
+                            vertical: 16,
+                          ),
+                          children: [
+                            ...customers.map(
+                              (cust) => Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadiusGeometry.circular(
+                                    8.0,
+                                  ),
+                                  side: selectedCustomer == cust
+                                      ? BorderSide()
+                                      : BorderSide.none,
                                 ),
-                                side: selectedCustomer == cust
-                                    ? BorderSide()
-                                    : BorderSide.none,
-                              ),
-                              child: ListTile(
-                                onTap: () {
-                                  setState(() {
-                                    selectedCustomer = cust;
-                                  });
-                                },
-                                title: Text(cust.displayName),
+                                child: ListTile(
+                                  onTap: () {
+                                    setState(() {
+                                      selectedCustomer = cust;
+                                    });
+                                  },
+                                  title: Text(cust.displayName),
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
+                    //end if
                     SizedBox(
                       width: 300,
                       child: CalendarDatePicker(

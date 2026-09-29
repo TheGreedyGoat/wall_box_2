@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:wall_box_2/data/database/tables/customer_table.dart';
 import 'package:wall_box_2/logic/models/data_packs/customer_data_package.dart';
 import 'package:wall_box_2/logic/riverpod/providers.dart';
-import 'package:wall_box_2/ui/confirm_action_dialog.dart';
+import 'package:wall_box_2/ui/dialogs/confirm_action_dialog.dart';
 import 'package:wall_box_2/ui/language/language.dart';
 import 'package:wall_box_2/ui/pages/split_page.dart';
 import 'package:wall_box_2/ui/widgets/customer_view/customer_overview.dart';
-import 'package:wall_box_2/ui/widgets/customer_view/master_data/enter_customer_data.dart';
+import 'package:wall_box_2/ui/pages/content_pages/enter_customer_data.dart';
 
 /// Main page for the customer view
 class PageCustomerDetails extends ConsumerWidget {
@@ -80,12 +80,10 @@ class PageCustomerDetails extends ConsumerWidget {
     showConfirmationDialog(
       context: context,
       onConfirm: () {
-        ref
-            .read(customerRepoProvider)
-            .delete(
-              where: '${CustomerColumns.id} = ?',
-              whereArgs: [data.id],
-            );
+        ref.read(customerRepoProvider).deleteByPrimaries(data.customer);
+        if (ref.read(selectedCustomerDataProvider) == data) {
+          ref.read(selectedCustomerDataProvider.notifier).data = null;
+        }
       },
       onCancel: () {},
       content: Text(

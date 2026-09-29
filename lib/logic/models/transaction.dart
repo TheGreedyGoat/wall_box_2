@@ -48,8 +48,8 @@ class Transaction with _$Transaction {
 
   // Euro? get basePrice => tagAssignment?.customer.;
 
-  /// Returns the [Interval] when this Transaction took place
-  Interval get interval => Interval(from: start, to: stop);
+  /// Returns the [TimeInterval] when this Transaction took place
+  TimeInterval get interval => TimeInterval(from: start, to: stop);
 
   /// Describes one transaction at a wallbox
   const Transaction({

@@ -16,5 +16,5 @@ abstract class Assignment {
   DateTime get toOrNow => to ?? DateTime.now();
 
   /// converts the dates into an interval object
-  Interval get interval => Interval(from: from, to: toOrNow);
+  TimeInterval get interval => TimeInterval(from: from, to: toOrNow);
 }

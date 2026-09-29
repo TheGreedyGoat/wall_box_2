@@ -49,6 +49,17 @@ class _CustomerCompanyState extends ConsumerState<CustomerCompanyFields> {
                 companyData.copyWith(companyAddition: value),
           ),
         ),
+        TextFormField(
+          initialValue: state.company?.vatID,
+          decoration: textFieldDecoration.copyWith(
+            label: Text(currentLanguage.vatID),
+            errorText: errorState.getMessage(DataError.invalidVatID),
+          ),
+          onChanged: (value) => notifier.updateCompany(
+            changes: (companyData) =>
+                companyData.copyWith(vatID: value.replaceAll(' ', '')),
+          ),
+        ),
       ],
     );
   }

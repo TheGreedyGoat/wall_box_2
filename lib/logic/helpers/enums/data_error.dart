@@ -6,10 +6,13 @@ enum DataError {
   idTaken,
   // customer
   noCompanyOrPersonal,
-  // company, personal
+  // company
   noCompanyName,
+  invalidVatID,
+  // personal
   noPrename,
   noSurname,
+
   //address
   noAddress,
   noStreet,
