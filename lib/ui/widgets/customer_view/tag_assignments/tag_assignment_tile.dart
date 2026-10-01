@@ -5,7 +5,7 @@ import 'package:my_utils/utility/logger/logger.dart';
 import 'package:wall_box_2/logic/helpers/enums/data_modification_type.dart';
 import 'package:wall_box_2/logic/models/assignments/tag_assignment.dart';
 import 'package:wall_box_2/logic/riverpod/providers.dart';
-import 'package:wall_box_2/ui/widgets/general/date_button.dart';
+import 'package:wall_box_2/ui/widgets/general/buttons/date_button.dart';
 
 /// displays one TagAssignment
 class TagAssignmentTile extends ConsumerWidget {

@@ -244,7 +244,7 @@ abstract class Repository<T> {
   ///
   /// PAssing null to where & whereArgs returns the whole table
   Future<List<T>> getMultiple({String? where, List<String>? whereArgs}) async {
-    final qu = await query(where: where, whereArgs: whereArgs);
+    final qu = await queryAsJson(where: where, whereArgs: whereArgs);
     return qu
         .map(
           (e) => converter.fromJson(e),
@@ -253,7 +253,7 @@ abstract class Repository<T> {
   }
 
   /// send a query to the table
-  Future<List<Map<String, Object?>>> query({
+  Future<List<Map<String, Object?>>> queryAsJson({
     String? where,
     List<String>? whereArgs,
     List<String>? columns,
@@ -271,6 +271,30 @@ abstract class Repository<T> {
       groupBy: groupBy,
       having: having,
     );
+  }
+
+  Future<List<T>> queryAsObjects({
+    String? where,
+    List<String>? whereArgs,
+    List<String>? columns,
+    String? groupBy,
+    String? having,
+    bool? distinct,
+  }) async {
+    final qu = await queryAsJson(
+      where: where,
+      whereArgs: whereArgs,
+      columns: columns,
+      groupBy: groupBy,
+      having: having,
+      distinct: distinct,
+    );
+
+    return qu.map(
+      (e) {
+        return converter.fromJson(e);
+      },
+    ).toList();
   }
 
   /// extracts only the primary keys from the objects json

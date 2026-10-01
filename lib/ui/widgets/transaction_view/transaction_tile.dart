@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_utils/utility/class_extensions/custom_date_string.dart';
+import 'package:wall_box_2/logic/helpers/enums/billing_status.dart';
 import 'package:wall_box_2/logic/models/data_packs/customer_data_package.dart';
 import 'package:wall_box_2/logic/models/data_packs/transaction_data_pack.dart';
 import 'package:wall_box_2/logic/riverpod/providers.dart';
 import 'package:wall_box_2/ui/dialogs/assign_tag_dialog.dart';
+import 'package:wall_box_2/ui/widgets/general/buttons/copy_button.dart';
+import 'package:wall_box_2/ui/widgets/general/list_tile_row.dart';
 
 /// A tile to display a single transaction's basic data
 ///
@@ -21,86 +24,87 @@ class TransactionTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Card(
-      child: SizedBox(
-        height: 60,
-        child: Row(
-          children:
-              [
-                    _tile(
-                      context,
-                      subtitle: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SelectableText(data.transaction.tagID),
-                          SizedBox.square(
-                            dimension: 20,
-                            child: IconButton(
-                              onPressed: () async {
-                                await Clipboard.setData(
-                                  ClipboardData(text: data.transaction.tagID),
-                                );
-                                if (!context.mounted) return;
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    duration: Duration(seconds: 1),
-                                    content: Text('Tag-ID kopiert'),
-                                  ),
-                                );
-                              },
-                              icon: Icon(Icons.copy),
-                              padding: const EdgeInsets.all(0),
-                              iconSize: 15,
-                              tooltip: 'Tag-ID kopieren',
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    _tile(
-                      context,
-                      title: SelectableText(data.customerName),
-                      subtitle: data.customerData != CustomerDataPackage.unknown
-                          ? SelectableText(data.customerData!.id)
-                          // this one
-                          : TextButton(
-                              onPressed: () async {
-                                await showAssignmentDialog(
-                                  context,
-                                  data.tagID,
-                                  initialDate: data.transaction.start,
-                                );
-                                await ref
-                                    .read(customerEditProvider.notifier)
-                                    .load();
-                              },
-                              child: Text('Tag zuweisen'),
-                            ),
-                    ),
-                    _tile(
-                      context,
-                      title: SelectableText(
-                        data.transaction.start.toDynamicString('~DD.~MM.~YY'),
-                      ),
-                      subtitle: SelectableText(
-                        '${data.transaction.start.toDynamicString('~hh:~mm')} - ${data.transaction.stop.toDynamicString('~hh:~mm')}',
-                      ),
-                    ),
-                    _tile(
-                      context,
-                      title: SelectableText(data.transaction.usage.toString()),
-                      subtitle: Text('kWh'),
-                    ),
-                  ]
-                  .map(
-                    (e) => SizedBox(
-                      width: 200,
-                      child: e,
-                    ),
-                  )
-                  .toList(),
+    return ListTileRow(
+      entries: [
+        ListTileRowEntry(
+          title: SelectableText(data.customerName),
         ),
-      ),
+        ListTileRowEntry(
+          title: SelectableText(
+            data.transaction.start.toDynamicString('~DD.~MM.~YY'),
+          ),
+          subtitle: SelectableText(
+            '${data.transaction.start.toDynamicString('~hh:~mm')} - ${data.transaction.stop.toDynamicString('~hh:~mm')}',
+          ),
+        ),
+        ListTileRowEntry(
+          title: SelectableText(data.transaction.usage.toString()),
+          subtitle: Text('kWh'),
+        ),
+        ListTileRowEntry(
+          title: () {
+            final status = data.transaction.status;
+            return Card(
+              color: Color.lerp(
+                Colors.white,
+                status.baseColor,
+                0.55,
+              ),
+              // decoration: BoxDecoration(
+              // ),
+              shape: StadiumBorder(),
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 4.0,
+                  ),
+                  child: Text(
+                    switch (data.transaction.status) {
+                      BillingStatus.open => 'offen',
+                      BillingStatus.billed => 'fertig',
+                    },
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: status.foreGroundColor,
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }(),
+        ),
+        ListTileRowEntry(
+          title: data.customerData == CustomerDataPackage.unknown
+              ? TextButton(
+                  onPressed: () async {
+                    await showAssignmentDialog(
+                      context,
+                      data.tagID,
+                      initialDate: data.transaction.start,
+                    );
+                    await ref.read(customerEditProvider.notifier).load();
+                  },
+                  child: Text('Tag zuweisen'),
+                )
+              : null,
+          subtitle: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SelectableText(data.transaction.tagID),
+              SizedBox.square(
+                dimension: 20,
+                child: CopyButton(
+                  size: 20,
+                  getData: () => data.transaction.tagID,
+                  dataDescription: 'Tag-ID',
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+      widthPerTile: 200,
     );
   }
 

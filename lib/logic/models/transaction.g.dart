@@ -19,6 +19,7 @@ Transaction _$TransactionFromJson(Map<String, dynamic> json) => Transaction(
   usage: const KiloWattHourConverter().fromJson(
     (json['power_usage'] as num).toInt(),
   ),
+  status: $enumDecode(_$BillingStatusEnumMap, json['billing_status']),
 );
 
 Map<String, dynamic> _$TransactionToJson(Transaction instance) =>
@@ -33,12 +34,18 @@ Map<String, dynamic> _$TransactionToJson(Transaction instance) =>
         instance.discount,
         const PercentJSONConverter().toJson,
       ),
+      'billing_status': _$BillingStatusEnumMap[instance.status]!,
     };
 
 Value? _$JsonConverterFromJson<Json, Value>(
   Object? json,
   Value? Function(Json json) fromJson,
 ) => json == null ? null : fromJson(json as Json);
+
+const _$BillingStatusEnumMap = {
+  BillingStatus.open: 'open',
+  BillingStatus.billed: 'billed',
+};
 
 Json? _$JsonConverterToJson<Json, Value>(
   Value? value,

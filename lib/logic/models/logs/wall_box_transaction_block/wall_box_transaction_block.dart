@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:my_utils/utility/logger/logger.dart';
 import 'package:wall_box_2/data/database/tables/incomplete_blocks_table.dart';
 import 'package:wall_box_2/data/repositories/incomplete_blocks_repo.dart';
+import 'package:wall_box_2/logic/helpers/enums/billing_status.dart';
 import 'package:wall_box_2/logic/helpers/units/kilo_watt_hour.dart';
 import 'package:wall_box_2/logic/models/logs/wall_box_log.dart';
 import 'package:wall_box_2/logic/models/transaction.dart';
@@ -9,8 +10,7 @@ import 'package:wall_box_2/logic/models/logs/wall_box_line/wall_box_line.dart';
 import 'package:wall_box_2/logic/services/global.dart';
 
 /// Represents  either a full charging process with a start and an end or an incomplete one (when it got interrupted by an end of the log file)
-@freezed
-@JsonSerializable()
+
 class WallBoxTransactionBlock {
   /// Represents  either a full charging process with a start and an end or an incomplete one (when it got interrupted by an end of the log file)
   /// - [start] :  stores data of the transactions beginning
@@ -162,6 +162,7 @@ class WallBoxTransactionBlock {
             start: block.start!.timeStamp,
             stop: block.stop!.timeStamp,
             usage: block.powerUsage,
+            status: BillingStatus.open,
           )
         : null;
   }

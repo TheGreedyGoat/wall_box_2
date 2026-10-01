@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:wall_box_2/ui/widgets/general/list_tile_row.dart';
 import 'package:wall_box_2/ui/widgets/transaction_view/import_file_button.dart';
 
 class TransactionHeadCard extends StatefulWidget {
@@ -13,22 +13,27 @@ class _TransactionHeadCardState extends State<TransactionHeadCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Tooltip(
-              message: 'Transaktionen suchen',
-              child: SearchBar(
-                constraints: BoxConstraints(maxWidth: 300, minHeight: 50),
-                trailing: [
-                  IconButton(onPressed: () {}, icon: Icon(Icons.search)),
-                ],
-              ),
-            ),
+      child: ListTileRow(
+        entries: [
+          ListTileRowEntry(
+            title: Text('Kunde'),
+            subtitle: Text('Kundenkennung'),
           ),
-          ImportFileButton(),
+          ListTileRowEntry(
+            title: Text('Datum'),
+            subtitle: Text('Uhrzeit von-bis'),
+          ),
+          ListTileRowEntry(
+            title: Text('Verbrauch'),
+          ),
+          ListTileRowEntry(
+            title: Text('Status'),
+          ),
+          ListTileRowEntry(
+            title: Text('Tag ID'),
+          ),
         ],
+        widthPerTile: 200,
       ),
     );
   }

@@ -4,7 +4,7 @@ import 'package:wall_box_2/logic/helpers/input_formatters/decimal_input_formatte
 import 'package:wall_box_2/logic/riverpod/customer_price/price_assignment_edit_notifier.dart';
 import 'package:wall_box_2/logic/riverpod/providers.dart';
 import 'package:wall_box_2/ui/decorators/text_field_decoration.dart';
-import 'package:wall_box_2/ui/widgets/general/date_button.dart';
+import 'package:wall_box_2/ui/widgets/general/buttons/date_button.dart';
 
 /// displays and enables changing tghe customer's individual price
 class CustomerPriceDisplay extends ConsumerStatefulWidget {

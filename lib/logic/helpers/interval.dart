@@ -1,4 +1,4 @@
-import 'package:my_utils/utility/enums/months.dart';
+import 'package:my_utils/utility/class_extensions/custom_date_string.dart';
 
 /// Describes a time interval in between two DateTimes
 class TimeInterval {
@@ -49,6 +49,11 @@ class TimeInterval {
 
   /// returns true, if this is a subInterval of [other] (so i'ts the reverse of [contains])
   bool isSubInterval(TimeInterval other) => other.contains(this);
+
+  @override
+  String toString() {
+    return '${from.toDynamicString('~DD.~MM.~YY')}- ${to.toDynamicString('~DD.~MM.~YY')}';
+  }
 
   @override
   bool operator ==(Object other) =>

@@ -14,7 +14,8 @@ abstract final class TransactionTable {
   ${TransactionColumns.start}  TEXT NOT NULL,
   ${TransactionColumns.stop}  TEXT NOT NULL,
   ${TransactionColumns.power_usage}  INT NOT NULL,
-  ${TransactionColumns.discount}  INT,
+  ${TransactionColumns.discount}  INT DEFAULT 0 NOT NULL,
+  ${TransactionColumns.billing_status} INT DEFAULT 0 NOT NULL,
   PRIMARY KEY (${TransactionColumns.id})
   )
 ''';
@@ -28,4 +29,5 @@ abstract final class TransactionColumns {
   static const stop = 'stop';
   static const power_usage = 'power_usage';
   static const discount = 'discount';
+  static const billing_status = 'billing_status';
 }

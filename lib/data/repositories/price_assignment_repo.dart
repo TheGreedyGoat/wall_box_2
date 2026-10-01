@@ -24,7 +24,7 @@ class PriceAssignmentRepo extends Repository<PriceAssignment> {
   ///
   /// If there is a [PriceAssignment] that is active right now, it gets returned
   Future<PriceAssignment?> getActiveAssignment(String customerID) async {
-    final qu = await query(
+    final qu = await queryAsJson(
       where:
           '''
     ${PriceAssignmentColumns.customer_id} = ?
@@ -45,7 +45,7 @@ class PriceAssignmentRepo extends Repository<PriceAssignment> {
     required DateTime date,
   }) async {
     final dateString = date.toIso8601String();
-    final rows = await query(
+    final rows = await queryAsJson(
       where:
           '''
       ${PriceAssignmentColumns.customer_id} = ?

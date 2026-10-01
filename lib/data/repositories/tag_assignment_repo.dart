@@ -38,7 +38,7 @@ class TagAssignmentRepo extends Repository<TagAssignment> {
     required DateTime date,
   }) async {
     final dateString = date.toIso8601String();
-    final rows = await query(
+    final rows = await queryAsJson(
       where:
           '''
       $tagIDColumn = ?
@@ -54,10 +54,13 @@ class TagAssignmentRepo extends Repository<TagAssignment> {
   /// returns all assigments of a customer
   Future<List<TagAssignment>> assignmentsByCustomer({
     required String customerID,
+    String? where,
+    List<String>? whereArgs,
   }) async {
-    final rows = await query(
-      where: '$customerColumn = ?',
-      whereArgs: [customerID],
+    final extraWhere = where == null ? '' : 'AND $where';
+    final rows = await queryAsJson(
+      where: '$customerColumn = ? $extraWhere',
+      whereArgs: [customerID, ...?whereArgs],
     );
     return rows
         .map(
@@ -73,7 +76,10 @@ class TagAssignmentRepo extends Repository<TagAssignment> {
   /// - the end of the last assignment (if none is active right now)
   /// - today - 1 year, if there aren't any assignments for this tagID yet
   Future<DateTime?> earliestAvailableDate(String tagID) async {
-    final rows = await query(where: '$tagIDColumn = ?', whereArgs: [tagID]);
+    final rows = await queryAsJson(
+      where: '$tagIDColumn = ?',
+      whereArgs: [tagID],
+    );
     if (rows
         .where(
           // is still assigned atm

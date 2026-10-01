@@ -31,7 +31,7 @@ class IncompleteBlocksRepo extends Repository<WallBoxTransactionBlock> {
   ) async {
     if (block.isCompleted) return block;
     final sameDevice =
-        (await query(
+        (await queryAsJson(
               where:
                   '''
                 ${IncompleteBlocksColumns.device_id} = ?

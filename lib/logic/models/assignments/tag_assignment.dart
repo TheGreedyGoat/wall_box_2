@@ -18,6 +18,9 @@ class TagAssignment extends Assignment with _$TagAssignment {
   final DateTime? to;
 
   @override
+  DateTime get toOrNow => to ?? DateTime.now();
+
+  @override
   /// The assigned tag's id
   final String tagID;
 

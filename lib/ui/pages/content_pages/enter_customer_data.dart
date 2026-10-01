@@ -23,43 +23,33 @@ class _EnterCustomerDataState extends ConsumerState<EnterCustomerData> {
   Widget build(BuildContext context) {
     final customerState = ref.watch(customerEditProvider);
     final activeChanges = ref.watch(customerEditChangeProvider);
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 10,
-        title: Text(
-          (original?.id.trim() ?? '').isEmpty
-              ? 'Neuer Kunde'
-              : customerState.displayName,
-        ),
-      ),
-      body: Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (activeChanges) _headRow(),
-            Scrollbar(
-              thumbVisibility: true,
-              trackVisibility: true,
-              child: SingleChildScrollView(
-                primary: true,
-                scrollDirection: Axis.horizontal,
-                child: SizedBox(
-                  height: 650,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      CustomerMasterData(
-                        key: ValueKey(original),
-                      ),
-                      CustomerTagAssignments(),
-                    ],
-                  ),
+    return Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (activeChanges) _headRow(),
+          Scrollbar(
+            thumbVisibility: true,
+            trackVisibility: true,
+            child: SingleChildScrollView(
+              primary: true,
+              scrollDirection: Axis.horizontal,
+              child: SizedBox(
+                height: 650,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    CustomerMasterData(
+                      key: ValueKey(original),
+                    ),
+                    CustomerTagAssignments(),
+                  ],
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

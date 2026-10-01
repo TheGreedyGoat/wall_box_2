@@ -58,8 +58,6 @@ class PriceAssignmentEditNotifier extends Notifier<PriceAssignmentEditState> {
 
   /// saves the state's date into a new assignment, assigning it to the [customerID]
   Future<int> save(String customerID) async {
-    // print(state.price);
-    // print(state.selectedDate);
     if (state.price == null || state.selectedDate == null) return 0;
     final repo = ref.read(priceAssignmentRepoProvider);
     final active = await repo.getActiveAssignment(customerID);

@@ -31,43 +31,61 @@ class CustomerOverview extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final snapShot = ref.watch(customerPackageProvider);
     return Scaffold(
-      appBar: AppBar(
-        elevation: 10,
-        title: appBarTitle,
-        actions: appBarActions,
-      ),
-      body: BackgroundCard(
-        child: Center(
-          child: snapShot.when(
-            data: (customerDataList) {
-              final copy = customerDataList.toList();
-              copy.sort(
-                (a, b) => a.displayName.compareTo(b.displayName),
-              );
-              if (showUnknown) {
-                copy.add(CustomerDataPackage.unknown);
-              }
-
-              return copy.isEmpty
-                  ? noCustomerWidget
-                  : ListView(
-                      children: [
-                        ...copy.map(
-                          (e) => CustomerTile(
-                            customerData: e,
-                            onTap: () {
-                              onTileTap(e);
-                            },
-                            actions: actionsBuilder(e),
-                          ),
-                        ),
-                      ],
-                    );
-            },
-            error: (error, stackTrace) => Text(error.toString()),
-            loading: () => CircularProgressIndicator(),
+      backgroundColor: Colors.transparent,
+      // appBar: AppBar(
+      //   elevation: 10,
+      //   title: appBarTitle,
+      //   actions: appBarActions,
+      // ),
+      body: Column(
+        children: [
+          SizedBox(
+            width: double.infinity,
+            height: 100,
+            child: BackgroundCard(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Kunden'),
+                  ...?appBarActions,
+                ],
+              ),
+            ),
           ),
-        ),
+          Expanded(
+            child: BackgroundCard(
+              child: snapShot.when(
+                data: (customerDataList) {
+                  final copy = customerDataList.toList();
+                  copy.sort(
+                    (a, b) => a.displayName.compareTo(b.displayName),
+                  );
+                  if (showUnknown) {
+                    copy.add(CustomerDataPackage.unknown);
+                  }
+
+                  return copy.isEmpty
+                      ? noCustomerWidget
+                      : ListView(
+                          children: [
+                            ...copy.map(
+                              (e) => CustomerTile(
+                                customerData: e,
+                                onTap: () {
+                                  onTileTap(e);
+                                },
+                                actions: actionsBuilder(e),
+                              ),
+                            ),
+                          ],
+                        );
+                },
+                error: (error, stackTrace) => Text(error.toString()),
+                loading: () => CircularProgressIndicator(),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -1,30 +1,29 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ThemeNotifier extends ChangeNotifier {
-  Brightness _brightness = Brightness.dark;
-  Color _seedColor = Colors.red;
+class ThemeNotifier extends Notifier<ThemeData> {
+  Color _colorSeed = Colors.blue;
+  @override
+  ThemeData build() => ThemeData(colorSchemeSeed: _colorSeed);
 
   /// The currently used Color seed
-  Color get colorSeed => _seedColor;
-
-  ThemeData get themeData => ThemeData(
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: _seedColor,
-      brightness: _brightness,
-    ),
-  );
 
   /// toggles darkmode on & off
   void toggleDarkMode(bool darkmode) {
-    _brightness = darkmode ? Brightness.dark : Brightness.light;
-    notifyListeners();
+    state = state.copyWith(
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: _colorSeed,
+        brightness: darkmode ? Brightness.dark : Brightness.light,
+      ),
+    );
+    // _brightness = darkmode ? Brightness.dark : Brightness.light;
   }
 
   /// set the color seed
   void setColorSeed(Color seed) {
-    _seedColor = seed;
-    notifyListeners();
+    _colorSeed = seed;
+    state = state.copyWith(colorScheme: ColorScheme.fromSeed(seedColor: seed));
   }
 }

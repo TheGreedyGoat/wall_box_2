@@ -49,7 +49,7 @@ class _ColorPickerButtonState extends State<ColorPickerButton> {
                             border: Border.all(width: 1.0),
                           ),
                           child: ColorPicker(
-                            pickerColor: Colors.red,
+                            pickerColor: selectedColor,
                             onColorChanged: (value) {
                               setState(() {
                                 selectedColor = value;

@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:wall_box_2/data/database/tables/transaction_table.dart';
+import 'package:wall_box_2/logic/helpers/enums/billing_status.dart';
 import 'package:wall_box_2/logic/helpers/interval.dart';
 import 'package:wall_box_2/logic/helpers/percent.dart';
 import 'package:wall_box_2/logic/helpers/units/kilo_watt_hour.dart';
@@ -46,6 +47,8 @@ class Transaction with _$Transaction {
   /// An optional discount to give on this particular transaction. Will be reduced from the base price
   final Percent? discount;
 
+  final BillingStatus status;
+
   // Euro? get basePrice => tagAssignment?.customer.;
 
   /// Returns the [TimeInterval] when this Transaction took place
@@ -63,7 +66,10 @@ class Transaction with _$Transaction {
     this.discount,
     @KiloWattHourConverter()
     @JsonKey(name: TransactionColumns.power_usage)
+    @PercentJSONConverter()
+    @JsonKey(name: TransactionColumns.discount)
     required this.usage,
+    @JsonKey(name: TransactionColumns.billing_status) required this.status,
   });
 }
 

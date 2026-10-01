@@ -257,6 +257,6 @@ final selectedCustomerDataProvider = NotifierProvider(
 /// provides, well, a theme.
 ///
 /// Theme System is still heavily WIP
-final themeProvider = ChangeNotifierProvider(
-  (ref) => ThemeNotifier(),
+final themeProvider = NotifierProvider(
+  () => ThemeNotifier(),
 );

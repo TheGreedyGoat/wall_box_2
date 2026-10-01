@@ -1,75 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wall_box_2/ui/pages/main_pages/page_customer_details.dart';
+import 'package:wall_box_2/ui/pages/root/navigation_item.dart';
 import 'package:wall_box_2/ui/pages/root/navigation_notifier.dart';
+import 'package:wall_box_2/ui/pages/root/navigator_view.dart';
 
 class LeftNavigationBar extends ConsumerStatefulWidget {
-  const LeftNavigationBar({super.key});
+  final List<NavigationItem> items;
+  const LeftNavigationBar({super.key, required this.items});
 
   @override
   ConsumerState<LeftNavigationBar> createState() => _LeftNavigationBarState();
 }
 
 class _LeftNavigationBarState extends ConsumerState<LeftNavigationBar> {
-  bool expanded = true;
-
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(child: _button(-1, Icons.javascript, 'einklappen')),
-        SizedBox(
-          height: 10,
-        ),
-        Column(
-          children: [
-            _button(0, Icons.person, 'Kunden'),
-            _button(1, Icons.power, 'Transaktionen'),
-          ],
-        ),
-      ],
-    );
-  }
+    final selectedIndex = ref.watch(navigationProvider);
+    return SizedBox(
+      width: 200,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: NavigatorView(
+              items: widget.items,
+              itemBuilder: (context, item) {
+                bool isSelected = widget.items.indexOf(item) == selectedIndex;
+                return ListTile(
+                  mouseCursor: SystemMouseCursors.click,
 
-  Widget _button(int index, IconData icon, String label) => InkWell(
-    onTap: () => _setPage(index),
-    child: Container(
-      color: ref.watch(navigationProvider) == index ? Colors.blue : null,
-      child: SizedBox(
-        width: expanded ? 200 : 80,
-        height: 60,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Icon(
-              icon,
-              size: 35,
+                  tileColor: isSelected ? Colors.indigo : null,
+                  leading: item.icon,
+                  title: Text(item.title),
+                );
+              },
+              viewBuilder: (context, itemWidgets) {
+                return ListView(children: itemWidgets);
+              },
+
+              onTap: (item) {
+                ref
+                    .read(navigationProvider.notifier)
+                    .setState(widget.items.indexOf(item));
+              },
             ),
-            ?(expanded
-                ? Text(
-                    label,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  )
-                : null),
-          ],
-        ),
+          ),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text('Einstellungen'),
+            onTap: () {},
+          ),
+        ],
       ),
-    ),
-  );
-  // ElevatedButton(
-  //   onPressed: () => _setPage(1),
-  //   child: Row(
-  //     mainAxisSize: MainAxisSize.min,
-  //     children: [Icon(icon), Text(label)],
-  //   ),
-  // );
-
-  void _setPage(int index) {
-    if (index < 0) {
-      setState(() {
-        expanded = !expanded;
-      });
-      return;
-    }
-    ref.watch(navigationProvider.notifier).setState(index);
+    );
   }
 }

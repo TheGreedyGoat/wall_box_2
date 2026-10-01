@@ -16,7 +16,7 @@ class KnownLogsRepo extends Repository<String> {
   String get tableName => KnownLogsTable.name;
 
   /// pass a log dile head (first two lines, consisting of device id and generation date)
-  Future<bool> doesExist(String head) async => (await query(
+  Future<bool> doesExist(String head) async => (await queryAsJson(
     where: '${KnownLogsColumns.head} = ?',
     whereArgs: [head],
   )).isNotEmpty;
