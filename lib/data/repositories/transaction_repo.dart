@@ -66,6 +66,6 @@ ${TransactionColumns.start} BETWEEN ? AND ?
       );
     }
 
-    return [];
+    return result;
   }
 }

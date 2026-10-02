@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs
 
+import 'package:my_utils/utility/enums/months.dart';
 import 'package:wall_box_2/logic/helpers/enums/data_error.dart';
 
 /// Deutsch Sprach
@@ -45,10 +46,24 @@ const german = Language(
   cancel: 'abbrechen',
   confirm: 'fortfahren',
   vatID: 'Umsatzsteuer-ID',
+  monthNames: {
+    Month.january: 'Januar',
+    Month.february: 'Februar',
+    Month.march: 'März',
+    Month.april: 'April',
+    Month.may: 'Mai',
+    Month.june: 'Juni',
+    Month.july: 'Juli',
+    Month.august: 'August',
+    Month.september: 'September',
+    Month.october: 'Oktober',
+    Month.november: 'November',
+    Month.december: 'Dezember',
+  },
 );
 
 /// The currently displayed language
-var currentLanguage = german;
+Language currentLanguage = german;
 
 /// Language pack
 ///
@@ -96,6 +111,7 @@ class Language {
     required this.cancel,
     required this.confirm,
     required this.vatID,
+    required this.monthNames,
   });
 
   final String assignedTags;
@@ -103,11 +119,13 @@ class Language {
   final String company;
   final String companyAddition;
   final String customerID;
+  final Map<DataError, String> dataErrorMessages;
   final String edit;
   final String delete;
   final String discard;
   final String generate;
 
+  final Map<Month, String> monthNames;
   final String mrs;
   final String mr;
   final String prename, surname;
@@ -128,7 +146,6 @@ class Language {
   final String saveSuccessful;
   final String errorOccured;
 
-  final Map<DataError, String> dataErrorMessages;
   final String isRequired;
 
   final String vatID;

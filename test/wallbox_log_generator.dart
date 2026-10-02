@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 // ignore: depend_on_referenced_packages
-import 'package:my_utils/utility/class_extensions/custom_date_string.dart';
+import 'package:my_utils/utility/class_extensions/date_time_extensions.dart';
 import 'package:path/path.dart' as path;
 
 class WallboxLogGenerator {
@@ -29,7 +29,6 @@ class WallboxLogGenerator {
       maxDuration,
     ).split('\n');
     DateTime generationDate = startDate;
-    print(content.length);
 
     int firstLine = 0;
     for (int i = 0; i < numFiles - 1; i++) {

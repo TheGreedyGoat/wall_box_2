@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_utils/utility/class_extensions/custom_date_string.dart';
+import 'package:my_utils/my_utils.dart';
 
 /// Just a button that opens the date picker.
 /// passes the selected date to onSelected()
@@ -24,6 +24,8 @@ class DateButton extends StatefulWidget {
   /// enable/ disable this button
   final bool enabled;
 
+  final String? tooltip;
+
   /// Just a button that opens the date picker.
   /// passes the selected date to onSelected()
   const DateButton({
@@ -34,6 +36,7 @@ class DateButton extends StatefulWidget {
     this.notSelectedLabel,
     this.enabled = true,
     this.initialDate,
+    this.tooltip,
   });
 
   @override
@@ -72,6 +75,14 @@ class _DateButtonState extends State<DateButton> {
             widget.notSelectedLabel ??
             'DD.MM.YYYY',
       ),
+    ).wrapIf(
+      widget.tooltip != null,
+      (child) {
+        return Tooltip(
+          message: widget.tooltip,
+          child: child,
+        );
+      },
     );
   }
 }

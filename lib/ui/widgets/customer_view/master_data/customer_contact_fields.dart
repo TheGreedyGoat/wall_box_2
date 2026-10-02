@@ -6,6 +6,7 @@ import 'package:wall_box_2/logic/models/master_data/contact/phone.dart';
 import 'package:wall_box_2/logic/riverpod/providers.dart';
 import 'package:wall_box_2/ui/decorators/text_field_decoration.dart';
 import 'package:wall_box_2/ui/language/language.dart';
+import 'package:wall_box_2/ui/widgets/general/text_form_fields/text_form_field_digits.dart';
 
 /// Subwidget for a customer's page to display and edit contact data
 class CustomerContactFields extends ConsumerWidget {
@@ -19,22 +20,20 @@ class CustomerContactFields extends ConsumerWidget {
     return Column(
       spacing: 8.0,
       children: [
-        TextFormField(
-          initialValue: contact?.email.toString(),
-          decoration: textFieldDecoration.copyWith(
-            label: Text(currentLanguage.email),
-            errorText: errorState.getMessage(DataError.invalidEmail),
-          ),
+        MyTextFormField<Email>(
+          parser: (text) => text != null ? Email.new(data: text) : null,
           onChanged: (value) {
-            editNotifier.updateContact(
-              changes: (contact) {
-                return contact.copyWith(email: Email(data: value));
-              },
-            );
+            if (value != null) {
+              editNotifier.updateContact(
+                changes: (contact) => contact.copyWith(email: value),
+              );
+            }
           },
+          label: currentLanguage.email,
+          errorText: errorState.getMessage(DataError.invalidEmail),
         ),
         TextFormField(
-          initialValue: contact?.phone.toString(),
+          initialValue: (contact?.phone ?? '').toString(),
 
           decoration: textFieldDecoration.copyWith(
             label: Text(currentLanguage.phone),
@@ -49,7 +48,7 @@ class CustomerContactFields extends ConsumerWidget {
           },
         ),
         TextFormField(
-          initialValue: contact?.mobile.toString(),
+          initialValue: (contact?.mobile ?? '').toString(),
 
           decoration: textFieldDecoration.copyWith(
             label: Text(currentLanguage.mobile),
@@ -62,7 +61,7 @@ class CustomerContactFields extends ConsumerWidget {
           },
         ),
         TextFormField(
-          initialValue: contact?.fax.toString(),
+          initialValue: (contact?.fax ?? '').toString(),
           decoration: textFieldDecoration.copyWith(
             label: Text(currentLanguage.fax),
           ),
@@ -72,17 +71,26 @@ class CustomerContactFields extends ConsumerWidget {
             );
           },
         ),
-        TextFormField(
-          initialValue: contact?.website,
-          decoration: textFieldDecoration.copyWith(
-            label: Text(currentLanguage.website),
-          ),
+        MyTextFormField.text(
+          initialValue: (contact?.website ?? ''),
           onChanged: (value) {
             editNotifier.updateContact(
               changes: (contact) => contact.copyWith(website: value),
             );
           },
+          label: currentLanguage.website,
         ),
+        // TextFormField(
+        //   initialValue: (contact?.website ?? ''),
+        //   decoration: textFieldDecoration.copyWith(
+        //     label: Text(currentLanguage.website),
+        //   ),
+        //   onChanged: (value) {
+        //     editNotifier.updateContact(
+        //       changes: (contact) => contact.copyWith(website: value),
+        //     );
+        //   },
+        // ),
       ],
     );
   }

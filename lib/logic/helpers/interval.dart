@@ -1,4 +1,4 @@
-import 'package:my_utils/utility/class_extensions/custom_date_string.dart';
+import 'package:my_utils/utility/class_extensions/date_time_extensions.dart';
 
 /// Describes a time interval in between two DateTimes
 class TimeInterval {
@@ -36,8 +36,14 @@ class TimeInterval {
   /// (similar to the norm as the length of a vector)
   Duration get duration => to.difference(from);
 
-  /// returns true, if [date] is within the interval (exclusive bounds)
-  bool containsDate(DateTime date) => date.isAfter(from) && date.isBefore(to);
+  List<DateTime> get days => [
+    for (var date = from; date.isBefore(to); date = date.add(Duration(days: 1)))
+      date.dateOnly(),
+  ];
+
+  /// returns true, if [date] is within the interval (inclusive bounds)
+  bool containsDate(DateTime date) =>
+      date.isAfterOrSame(from) && date.isBeforeOrSame(to);
 
   /// returns true, if the two Interval overlap each other (<=> they share at least one point in time)
   bool intersects(TimeInterval other) =>
@@ -49,6 +55,14 @@ class TimeInterval {
 
   /// returns true, if this is a subInterval of [other] (so i'ts the reverse of [contains])
   bool isSubInterval(TimeInterval other) => other.contains(this);
+
+  TimeInterval? intersection(TimeInterval other) {
+    if (!intersects(other)) return null;
+    // take the latest from/ earliest to from each
+    final from = this.from.isAfter(other.from) ? this.from : other.from;
+    final to = this.from.isBefore(other.to) ? this.to : other.to;
+    return TimeInterval(from: from, to: to);
+  }
 
   @override
   String toString() {

@@ -2,7 +2,7 @@
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:my_utils/utility/class_extensions/custom_date_string.dart';
+import 'package:my_utils/utility/class_extensions/date_time_extensions.dart';
 import 'package:wall_box_2/logic/helpers/enums/assignment_error.dart';
 import 'package:wall_box_2/logic/models/assignments/tag_assignment.dart';
 import 'package:wall_box_2/logic/riverpod/providers.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:my_utils/utility/class_extensions/custom_date_string.dart';
+import 'package:my_utils/utility/class_extensions/date_time_extensions.dart';
 import 'package:my_utils/utility/logger/logger.dart';
 import 'package:wall_box_2/logic/helpers/enums/data_modification_type.dart';
 import 'package:wall_box_2/logic/models/assignments/tag_assignment.dart';

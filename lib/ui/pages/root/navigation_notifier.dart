@@ -25,7 +25,7 @@ final List<NavigationItem> pageMainDestinations = [
 
 class NavigationNotifier extends Notifier<int> {
   @override
-  int build() => 0;
+  int build() => 2;
 
   setState(int value) => state = value % pageMainDestinations.length;
 }

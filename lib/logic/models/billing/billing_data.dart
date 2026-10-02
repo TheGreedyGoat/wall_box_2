@@ -10,30 +10,13 @@ import 'package:wall_box_2/logic/models/transaction.dart';
 import 'package:wall_box_2/ui/widgets/customer_view/master_data/customer_master_data.dart';
 
 class BillingData {
-  final CustomerDataPackage customer;
-  final TimeInterval interval;
-  final List<Transaction> transactions;
-  final Percent discount;
-
-  const BillingData({
-    required this.customer,
-    required this.interval,
-    required this.transactions,
-    this.discount = const Percent(0),
-  });
-
-  String get name => customer.displayName;
-  Address? get address => customer.address;
-}
-
-class BillingData2 {
   final CompanyData? company;
   final PersonalData? personals;
   final Address address;
   final List<Transaction> transactions;
   final Percent discount;
 
-  BillingData2({
+  BillingData({
     this.company,
     this.personals,
     required this.address,
@@ -41,7 +24,7 @@ class BillingData2 {
     required this.discount,
   });
 
-  BillingData2.fromCustomer({
+  BillingData.fromCustomer({
     required CustomerDataPackage customer,
     required this.transactions,
     this.discount = const Percent(0),
